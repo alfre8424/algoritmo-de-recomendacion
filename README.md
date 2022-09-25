@@ -6,3 +6,6 @@
 4. Habrá dos perfiles: cliente e invitado.  
 5. La canasta se calculará dependiendo de qué tan frecuente sea el producto en canastas adquiridas, considerando la valoración de dicha canasta y parámetros definidos por el usuario.  
 6. Habrá varias recomendaciones (cada una con un tipo distinto de enfoque).  
+7. Se considerará la distancia.  
+8. El perfil de cliente servirá para decodificar patrones.  
+
