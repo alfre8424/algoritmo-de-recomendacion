@@ -1,0 +1,57 @@
+version: "3.7"
+services:
+  clan_del_dragon_mysql:
+    image: mysql:8.0.30-debian
+    # NOTE: use of "mysql_native_password" is not recommended:
+    # https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: clan_del_dragon_mysql
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      # All the data will be persisted at ./db/data on the host 
+      - ./db/data/:/var/lib/mysql
+      # executing a first set of SQL code to initialize the database
+      - "./api/db/init.sql:/docker-entrypoint-initdb.d/init.sql"
+    environment:
+      # Password for the root user
+      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_DATABASE: clan_del_dragon
+  clan_del_dragon_client:
+    image: clan_del_dragon_client
+    container_name: clan_del_dragon_client
+    ports:
+      - 3000:3000
+    networks:
+      - app-network
+    tty: true
+    volumes:
+      - ./client/:/frontend/
+    depends_on:
+      - clan_del_dragon_api
+    environment:
+      REACT_APP_NG_API_HOST: http://${clan_del_dragon_api}:8000
+  clan_del_dragon_api:
+    image: clan_del_dragon_api
+    container_name: clan_del_dragon_api
+    tty: true
+    ports:
+      - 8000:8000
+    networks:
+      - app-network
+    volumes:
+      - ./api/:/backend/
+    depends_on:
+      - clan_del_dragon_mysql
+    environment:
+      DB_HOST: clan_del_dragon_mysql
+      DB_NAME: clan_del_dragon
+      DB_PORT: 3306
+      DB_USERNAME: root
+      DB_PASSWORD: 12345678
+
+networks:
+  app-network:
+    driver: bridge
