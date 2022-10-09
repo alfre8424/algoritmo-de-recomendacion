@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS commerce(
 	updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 )engine=InnoDB;
 
+
 CREATE TABLE IF NOT EXISTS commerce_phones(
 	id char(36) PRIMARY KEY,
 	phone varchar(15) NOT NULL,

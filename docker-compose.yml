@@ -13,6 +13,7 @@ services:
     volumes:
       # All the data will be persisted at ./db/data on the host 
       - ./db/data/:/var/lib/mysql
+      - ./api/scripts/:/scripts/
       # executing a first set of SQL code to initialize the database
       - ./api/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
