@@ -14,7 +14,7 @@ services:
       # All the data will be persisted at ./db/data on the host 
       - ./db/data/:/var/lib/mysql
       # executing a first set of SQL code to initialize the database
-      - "./api/db/init.sql:/docker-entrypoint-initdb.d/init.sql"
+      - ./api/scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       # Password for the root user
       MYSQL_ROOT_PASSWORD: 12345678

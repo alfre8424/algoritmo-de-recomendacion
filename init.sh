@@ -22,3 +22,5 @@ echo "Starting images"
 docker-compose up -d
 
 docker exec -d clan_del_dragon_client npm start
+
+docker exec clan_del_dragon_api pip install -r requirements.txt
