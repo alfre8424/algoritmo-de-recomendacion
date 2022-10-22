@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Signika:wght@300;400;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Declarando variable de colores */
+:root {
+	/* Colores */
+	--accent-color: rgb(148 163 184);
+	/* formas */
+	--border-radius: 0.5rem;
+}
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
