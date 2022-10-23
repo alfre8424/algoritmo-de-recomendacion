@@ -1,9 +1,15 @@
-import AppNavbar from "core/shared_components/component.navbar";
+import AppSimpleDialog from "core/shared_components/component.dialog";
+import React from "react";
 import type {ReactElement} from "react"
+import AppNavbar from "core/shared_components/component.navbar";
 import {RecommendSettings} from "./components/component.recommend_settings";
 import {AppSearch} from "./components/component.search";
+import ListView from "core/shared_components/component.listview";
 
 export function Home(): ReactElement {
+
+	const [showAlert, setShowAlert] = React.useState(false);
+
 	return (
 		<div className="flex flex-col overflow-x-hidden">
 			<div
@@ -18,24 +24,30 @@ export function Home(): ReactElement {
 					<AppNavbar />
 				</div>
 			</div>
-			<main id="body" className="w-screen">
+			<div id="body" className="w-screen">
 				<h1 className="margin-auto my-4 text-center text-2xl font-bold">
 					Clan del Dragón
 				</h1>
 				<div
-					className="m-2 flex flex-col items-center p-4 lg:flex-row lg:justify-center"
-					style={{
-						boxSizing: "border-box",
-					}}
+					className="m-2 flex flex-col items-center p-4 lg:flex-row lg:justify-between lg:items-stretch"
 				>
-					<div className="w-full lg:w-[40vw]">
+					<div className="w-full lg:w-[40vw] h-full">
 						<RecommendSettings />
 					</div>
-					<div className="w-full">
-						<AppSearch />
+					<div className="lg:w-[1rem]"></div>
+					<div className="w-full h-full">
+						<AppSearch 
+							onSearch={() => setShowAlert(true)}
+						/>
 					</div>
 				</div>
-			</main>
+			</div>
+			<AppSimpleDialog 
+				isOpen={showAlert}
+				title="Funcionalidad no disponible"
+				content={<p>Esta funcionalidad aún no está disponible.</p>}
+				onClose={() => setShowAlert(false)}
+			/>
 		</div>
 	);
 }
