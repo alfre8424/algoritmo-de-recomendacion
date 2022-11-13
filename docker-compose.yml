@@ -27,7 +27,6 @@ services:
       - 3000:3000
     networks:
       - app-network
-    tty: true
     volumes:
       - ./client/:/frontend/
     depends_on:
@@ -37,7 +36,6 @@ services:
   clan_del_dragon_api:
     image: clan_del_dragon_api
     container_name: clan_del_dragon_api
-    tty: true
     ports:
       - 8000:8000
     networks:
