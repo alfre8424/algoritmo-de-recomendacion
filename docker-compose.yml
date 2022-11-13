@@ -23,6 +23,7 @@ services:
   clan_del_dragon_client:
     image: clan_del_dragon_client
     container_name: clan_del_dragon_client
+    tty: true
     ports:
       - 3000:3000
     networks:
@@ -36,6 +37,7 @@ services:
   clan_del_dragon_api:
     image: clan_del_dragon_api
     container_name: clan_del_dragon_api
+    tty: true
     ports:
       - 8000:8000
     networks:
