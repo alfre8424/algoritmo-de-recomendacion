@@ -4,8 +4,7 @@
  * redirigido a la ruta de inicio de sesion o al home.
  */
 enum PublicRoutes {
-	Login = '/login',
-	SignUp = '/registro',
+	Login = '/auth',
 	RecoverPassword = '/recuperar-contrasena',
 }
 

@@ -1,4 +1,5 @@
 import mysql.connector
+from src.data.local.mysql_connector import MySQLConn
 
 class ETL:
     '''
@@ -9,13 +10,7 @@ class ETL:
     del comercio a registrar.
     '''
     def __init__(self, host, user, password, database, target_table, commerce_name):
-        self.db = mysql.connector.connect(
-            host=host,
-            user=user,
-            password=password,
-            database=database
-        )
-
+        self.conn = MySQLConn(host, user, password, database)
         # tabla a realizar el ETL
         self.table_name = target_table
 
