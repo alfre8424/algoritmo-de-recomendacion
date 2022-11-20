@@ -3,6 +3,7 @@
  */
 enum PrivateRoutes {
 	Profile = '/perfil',
+	RecommendationEngine = '/motor-de-recomendacion',
 }
 
 export default PrivateRoutes;

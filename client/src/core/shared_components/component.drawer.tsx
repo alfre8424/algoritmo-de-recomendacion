@@ -9,15 +9,20 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from '@mui/icons-material/Menu';
 import type {ReactElement} from "react"
+import PrivateRoutes from "presentation/routes/private_routes";
 
 interface DrawerProps {
 	isOpen: boolean;
+	activeRoute: PrivateRoutes;
 	onClose: () => void;
+	onActiveRouteChange: (route: PrivateRoutes) => void;
 }
 
 export default function DrawerComponent({
 	isOpen,
-	onClose
+	onClose,
+	activeRoute,
+	onActiveRouteChange
 }: DrawerProps): ReactElement {
 	return <>
 		<Drawer
@@ -39,41 +44,59 @@ export default function DrawerComponent({
 						sx={{
 							backgroundColor: "var(--accent-color)",
 							top: 0,
-							padding: "0.5rem 0"
+							padding: "0.5rem 0",
 						}}
 					>
 						<ListItemIcon>
 							<Button onClick={() => onClose()} sx={{padding: 0}}>
-								<MenuIcon 
+								<MenuIcon
 									sx={{color: "white"}}
 								/>
 							</Button>
 						</ListItemIcon>
 						<ListItemText primary="Perfil de usuario" />
 					</ListItem>
-					<ListItem disablePadding>
-						<ListItemButton>
-							<ListItemIcon>
-								<Person></Person>
-							</ListItemIcon>
-							<ListItemText
-								sx={{color: "var(--accent-color)"}}
-								primary="Perfil"
-								secondary="Editar información personal"
-							/>
-						</ListItemButton>
+					<ListItem
+						disablePadding
+						component="div"
+						sx={{
+							border: activeRoute === PrivateRoutes.Profile ? "8px 0 0 0 solid var(--accent-color)" : "",
+						}}
+					>
+						<Button onClick={() => onActiveRouteChange(PrivateRoutes.Profile)} sx={{padding: 0}}>
+							<ListItemButton component="button">
+								<ListItemIcon>
+									<Person sx={{color: activeRoute === PrivateRoutes.Profile? "var(--accent-color)":""}}>
+									</Person>
+								</ListItemIcon>
+								<ListItemText
+									sx={{color: "var(--accent-color)"}}
+									primary="Perfil"
+									secondary="Editar información personal"
+								/>
+							</ListItemButton>
+						</Button>
 					</ListItem>
-					<ListItem disablePadding>
-						<ListItemButton>
-							<ListItemIcon>
-								<SettingsInputComposite></SettingsInputComposite>
-							</ListItemIcon>
-							<ListItemText
-								sx={{color: "var(--accent-color)"}}
-								primary="Motor de recomendación"
-								secondary="Configurar preferencias de recomendación"
-							/>
-						</ListItemButton>
+					<ListItem
+						disablePadding
+						sx={{
+							border: activeRoute === PrivateRoutes.RecommendationEngine ? "8px 0 0 0 solid var(--accent-color)" : "",
+						}}
+					>
+						<Button onClick={() => onActiveRouteChange(PrivateRoutes.RecommendationEngine)} sx={{padding: 0}}>
+							<ListItemButton>
+								<ListItemIcon
+									sx={{color: activeRoute === PrivateRoutes.RecommendationEngine? "var(--accent-color)":""}}
+								>
+									<SettingsInputComposite></SettingsInputComposite>
+								</ListItemIcon>
+								<ListItemText
+									sx={{color: "var(--accent-color)"}}
+									primary="Motor de recomendación"
+									secondary="Configurar preferencias de recomendación"
+								/>
+							</ListItemButton>
+						</Button>
 					</ListItem>
 				</List>
 			</Box>

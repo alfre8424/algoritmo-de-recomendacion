@@ -20,13 +20,17 @@ interface AppNavbarProps {
 	roundedBorders?: boolean;
 	showDrawerButton?: boolean;
 	showHomeButton?: boolean;
+	activeRoute?: PrivateRoutes;
+	onActiveRouteChange?: (route: PrivateRoutes) => void;
 	title?: string;
 }
 
 function AppNavbar({
+	activeRoute,
 	roundedBorders = true,
 	showDrawerButton = false,
 	showHomeButton = false,
+	onActiveRouteChange,
 	title = ""
 
 }: AppNavbarProps): JSX.Element {
@@ -41,6 +45,10 @@ function AppNavbar({
 		setAnchorElUser(null);
 	};
 
+	if(!activeRoute && showDrawerButton) {
+		throw new Error("activeRoute is required when showDrawerButton is true");
+	}
+
 	return (
 		<AppBar position="static"
 			style={{
@@ -54,9 +62,7 @@ function AppNavbar({
 					<>
 						<div className="flex flex-row w-full justify-start items-center">
 							<Button onClick={() => setOpenDrawer(!openDrawer)}>
-								<MenuIcon
-									sx={{color: "white"}}
-								/>
+								<MenuIcon sx={{color: "white"}} />
 							</Button>
 							{
 								showHomeButton &&
@@ -70,7 +76,9 @@ function AppNavbar({
 							</div>
 						</div>
 						<DrawerComponent
+							activeRoute={activeRoute!}
 							isOpen={openDrawer}
+							onActiveRouteChange={onActiveRouteChange!}
 							onClose={() => setOpenDrawer(false)}
 						/>
 					</>
