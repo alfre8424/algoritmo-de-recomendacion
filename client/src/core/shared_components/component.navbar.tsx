@@ -14,7 +14,8 @@ import DrawerComponent from './component.drawer';
 import {Link} from 'react-router-dom';
 import PrivateRoutes from 'presentation/routes/private_routes';
 import GeneralRoutes from 'presentation/routes/general_routes';
-import {Home} from '@mui/icons-material';
+import {ExitToApp, Home, Person} from '@mui/icons-material';
+import PublicRoutes from 'presentation/routes/public_routes';
 
 interface AppNavbarProps {
 	roundedBorders?: boolean;
@@ -45,7 +46,7 @@ function AppNavbar({
 		setAnchorElUser(null);
 	};
 
-	if(!activeRoute && showDrawerButton) {
+	if (!activeRoute && showDrawerButton) {
 		throw new Error("activeRoute is required when showDrawerButton is true");
 	}
 
@@ -67,9 +68,9 @@ function AppNavbar({
 							{
 								showHomeButton &&
 								<Link to={GeneralRoutes.Home}>
-									<img 
-									src="/assets/images/Logoclan2.png"
-									alt="logo"
+									<img
+										src="/assets/images/Logoclan2.png"
+										alt="logo"
 										className="w-[40px] h-[40px] ml-2"
 									/>
 								</Link>
@@ -99,7 +100,7 @@ function AppNavbar({
 							</IconButton>
 						</Tooltip>
 						<Menu
-							sx={{mt: '45px'}}
+							sx={{mt: '45px', paddingX: 4}}
 							id="menu-appbar"
 							anchorEl={anchorElUser}
 							anchorOrigin={{
@@ -114,15 +115,39 @@ function AppNavbar({
 							open={Boolean(anchorElUser)}
 							onClose={handleCloseUserMenu}
 						>
-							<Link
-								onClick={handleCloseUserMenu}
-								to={PrivateRoutes.Profile}
-							>
-								<Typography textAlign="center">Perfil</Typography>
-							</Link>
-							<MenuItem onClick={handleCloseUserMenu}>
-								<Typography textAlign="center">Cerrar Sesión</Typography>
-							</MenuItem>
+							<div className="px-6 flex flex-col items-start">
+								<Link
+									onClick={handleCloseUserMenu}
+									className="flex flex-row items-center"
+									to={GeneralRoutes.Home}
+								>
+									<Home />
+									&nbsp;
+									<Typography textAlign="center">Home</Typography>
+								</Link>
+								<br />
+
+								<Link
+									onClick={handleCloseUserMenu}
+									to={PrivateRoutes.Profile}
+									className="flex flex-row items-center"
+								>
+									<Person />
+									&nbsp;
+									<Typography textAlign="center">Perfil</Typography>
+								</Link>
+								<br />
+
+								<Link
+									onClick={handleCloseUserMenu}
+									to={PublicRoutes.Login}
+									className="flex flex-row items-center"
+								>
+									<ExitToApp />
+									&nbsp;
+									<Typography textAlign="center">Cerrar Sesión</Typography>
+								</Link>
+							</div>
 						</Menu>
 					</Box>
 				</Toolbar>
