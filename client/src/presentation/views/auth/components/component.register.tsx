@@ -5,8 +5,7 @@ import type {ReactElement} from "react"
 function RegisterComponent(): ReactElement {
 	return <>
 		<div
-			className="flex flex-col p-4 h-screen justify-center w-full items-center"
-			style={{backgroundColor: "var(--accent-color)"}}
+			className="flex flex-col bg-gray-200 p-4 h-screen justify-center w-full items-center"
 		>
 			<h1 className="text-xl font-semibold py-4">
 				Registro de cuenta
@@ -15,7 +14,10 @@ function RegisterComponent(): ReactElement {
 				className="flex flex-col p-4 items-center w-full"
 			>
 				<div className="flex flex-col md:flex-row md:justify-evenly items-center w-full">
-					<TextField label="Nombre de usuario" variant="filled" />
+					<TextField 
+						label="Nombre de usuario"
+						variant="filled" 
+					/>
 					<TextField label="Correo electronico" variant="filled" />
 				</div>
 				<div className="flex flex-col md:flex-row md:justify-evenly items-center w-full">
