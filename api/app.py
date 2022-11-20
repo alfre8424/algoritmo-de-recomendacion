@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-from src.data.local.main_database import MainDatabaseConn
+from src.data.datasources.local.main_database import MainDatabaseConn
 
 # TODO: remove test code
 from src.core.equations import EngineEquations
