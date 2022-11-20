@@ -1,13 +1,15 @@
 import AppNavbar from "core/shared_components/component.navbar";
 import PrivateRoutes from "presentation/routes/private_routes";
-import { ReactElement, useState } from "react"
+import {ReactElement, useState} from "react"
+import {EngineSettingsComponent} from "./components/component.engine";
+import ProfileComponent from "./components/component.profile";
 
 export default function ProfileScreen(): ReactElement {
 	const [activeRoute, setActiveRoute] = useState<PrivateRoutes>(PrivateRoutes.Profile);
 
 	return <>
 		<div id="navbar">
-			<AppNavbar 
+			<AppNavbar
 				showDrawerButton={true}
 				roundedBorders={false}
 				title="Perfil de usuario"
@@ -16,10 +18,12 @@ export default function ProfileScreen(): ReactElement {
 				onActiveRouteChange={setActiveRoute}
 			/>
 			{
-				activeRoute === PrivateRoutes.Profile && <span>Perfil de usuario</span>
+				activeRoute === PrivateRoutes.Profile &&
+				<ProfileComponent />
 			}
 			{
-				activeRoute === PrivateRoutes.RecommendationEngine && <span>Motor de recomendación</span>
+				activeRoute === PrivateRoutes.RecommendationEngine &&
+				<EngineSettingsComponent />
 			}
 		</div>
 	</>;
