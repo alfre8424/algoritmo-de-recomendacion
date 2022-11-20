@@ -96,7 +96,6 @@ export default function ProfileComponent({
 						&nbsp;
 						Actualizar
 					</div>
-					<input hidden accept="image/*" type="file" />
 				</Button>
 			</div>
 		</FormGroup>

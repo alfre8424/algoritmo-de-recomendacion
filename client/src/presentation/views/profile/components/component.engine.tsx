@@ -1,11 +1,23 @@
+import {Update} from "@mui/icons-material";
+import Button from "@mui/material/Button";
 import {AppSlider} from "core/shared_components/component.slider";
 import type {ReactElement} from "react"
 
 export function EngineSettingsComponent(): ReactElement {
-	return <>
+	return <div
+		className="w-[500px] mx-auto bg-white rounded-md shadow-md p-4"
+	>
+		<h1 className="text-lg my-4 font-semibold text-gray-700">Preferencias del motor de búsqueda</h1>
+		<span className="text-md text-gray-500">
+			El motor de búsqueda es el encargado de buscar los resultados de las búsquedas que hagas en la aplicación. Puedes cambiar el motor de búsqueda por defecto o cambiar el motor de búsqueda de una búsqueda en concreto.
+		</span>
+		<br />
+		<br />
+
+
 		<AppSlider
 			label="Productos saludables"
-			infoText="¿Qué tan importante es para usted que los productos recomendados sean saludables?"
+			infoText="¿Qué tan importante es para usted que los productos recomendados sean saludables? Esto puede aumentar el precio de las canastas recomendadas."
 			valueLabelBuilder={(value: number) => {
 				if (value === 0) {
 					return "Me es indiferente";
@@ -60,5 +72,14 @@ export function EngineSettingsComponent(): ReactElement {
 				return "Es importante que sean populares";
 			}}
 		/>
-	</>;
+		<div className="flex flex-row justify-center my-4 mx-auto">
+			<Button
+				variant="contained"
+				component="label"
+				sx={{width: 160}}
+			>
+				Actualizar
+			</Button>
+		</div>
+	</div>;
 }
