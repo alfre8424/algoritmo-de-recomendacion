@@ -28,7 +28,6 @@ export default function ListView() {
 				<ListItemText primary="Galletas Oreo x6 (3 unidades)" secondary="precio: $4.00 c/u" />
 				<ListItemSecondaryAction>
 					<DeleteOutlined />
-					<EditOutlined />
 				</ListItemSecondaryAction>
 			</ListItem>
 		</List>
