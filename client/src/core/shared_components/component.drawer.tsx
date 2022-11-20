@@ -63,10 +63,10 @@ export default function DrawerComponent({
 							border: activeRoute === PrivateRoutes.Profile ? "8px 0 0 0 solid var(--accent-color)" : "",
 						}}
 					>
-						<Button onClick={() => onActiveRouteChange(PrivateRoutes.Profile)} sx={{padding: 0}}>
+						<Button onClick={() => onActiveRouteChange(PrivateRoutes.Profile)} >
 							<ListItemButton component="button">
 								<ListItemIcon>
-									<Person sx={{color: activeRoute === PrivateRoutes.Profile? "var(--accent-color)":""}}>
+									<Person sx={{color: activeRoute === PrivateRoutes.Profile ? "var(--accent-color)" : ""}}>
 									</Person>
 								</ListItemIcon>
 								<ListItemText
@@ -79,16 +79,18 @@ export default function DrawerComponent({
 					</ListItem>
 					<ListItem
 						disablePadding
+						component="div"
 						sx={{
 							border: activeRoute === PrivateRoutes.RecommendationEngine ? "8px 0 0 0 solid var(--accent-color)" : "",
 						}}
 					>
-						<Button onClick={() => onActiveRouteChange(PrivateRoutes.RecommendationEngine)} sx={{padding: 0}}>
-							<ListItemButton>
-								<ListItemIcon
-									sx={{color: activeRoute === PrivateRoutes.RecommendationEngine? "var(--accent-color)":""}}
-								>
-									<SettingsInputComposite></SettingsInputComposite>
+						<Button onClick={() => onActiveRouteChange(PrivateRoutes.RecommendationEngine)}>
+							<ListItemButton component="button">
+								<ListItemIcon>
+									<SettingsInputComposite
+										sx={{color: activeRoute === PrivateRoutes.RecommendationEngine ? "var(--accent-color)" : ""}}
+									>
+									</SettingsInputComposite>
 								</ListItemIcon>
 								<ListItemText
 									sx={{color: "var(--accent-color)"}}

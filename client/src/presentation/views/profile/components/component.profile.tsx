@@ -13,7 +13,7 @@ export default function ProfileComponent({
 	return <div
 		id="profile-form"
 		className={mergeClasses(
-			"mx-auto my-[5%]",
+			"mx-auto",
 			"px-4 py-6",
 			"rounded-md",
 			"shadow-md",

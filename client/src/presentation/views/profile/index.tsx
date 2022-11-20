@@ -8,7 +8,11 @@ export default function ProfileScreen(): ReactElement {
 	const [activeRoute, setActiveRoute] = useState<PrivateRoutes>(PrivateRoutes.Profile);
 
 	return <>
-		<div id="navbar">
+		<div 
+			id="navbar"
+			className="h-full bg-gray-200"
+			style={{boxSizing: "border-box"}}
+		>
 			<AppNavbar
 				showDrawerButton={true}
 				roundedBorders={false}
@@ -17,6 +21,7 @@ export default function ProfileScreen(): ReactElement {
 				activeRoute={activeRoute}
 				onActiveRouteChange={setActiveRoute}
 			/>
+			<div className="py-6">
 			{
 				activeRoute === PrivateRoutes.Profile &&
 				<ProfileComponent />
@@ -25,6 +30,7 @@ export default function ProfileScreen(): ReactElement {
 				activeRoute === PrivateRoutes.RecommendationEngine &&
 				<EngineSettingsComponent />
 			}
+			</div>
 		</div>
 	</>;
 }
