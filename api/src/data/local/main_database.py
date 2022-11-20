@@ -14,10 +14,9 @@ class MainDatabaseConn:
         if MainDatabaseConn.__instance != None:
             raise Exception("This class is a singleton!")
         else:
-            pass
-            # MainDatabaseConn.__instance = MySQLConn(
-            #     host=getEnv('DB_HOST'),
-            #     user=getEnv('DB_USERNAME'),
-            #     password=getEnv('DB_PASSWORD'),
-            #     database=getEnv('DB_DATABASE')
-            # )
+            MainDatabaseConn.__instance = MySQLConn(
+                host=getEnv('DB_HOST'),
+                user=getEnv('DB_USERNAME'),
+                password=getEnv('DB_PASSWORD'),
+                database=getEnv('DB_DATABASE')
+            )

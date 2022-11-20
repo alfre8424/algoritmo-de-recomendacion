@@ -8,11 +8,30 @@ import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
+import Button from '@mui/material/Button';
+import MenuIcon from '@mui/icons-material/Menu';
+import DrawerComponent from './component.drawer';
+import {Link} from 'react-router-dom';
+import PrivateRoutes from 'presentation/routes/private_routes';
+import GeneralRoutes from 'presentation/routes/general_routes';
+import {Home} from '@mui/icons-material';
 
-const settings = ['Perfil', 'Cerrar sesión'];
+interface AppNavbarProps {
+	roundedBorders?: boolean;
+	showDrawerButton?: boolean;
+	showHomeButton?: boolean;
+	title?: string;
+}
 
-function AppNavbar() {
+function AppNavbar({
+	roundedBorders = true,
+	showDrawerButton = false,
+	showHomeButton = false,
+	title = ""
+
+}: AppNavbarProps): JSX.Element {
 	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+	const [openDrawer, setOpenDrawer] = React.useState(false);
 
 	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElUser(event.currentTarget);
@@ -26,10 +45,36 @@ function AppNavbar() {
 		<AppBar position="static"
 			style={{
 				backgroundColor: "var(--accent-color)",
-				borderRadius: "var(--border-radius) 0 0 var(--border-radius)",
+				borderRadius: roundedBorders ? "var(--border-radius) 0 0 var(--border-radius)" : "",
 			}}
 		>
 			<div className="flex flex-row justify-end px-4">
+				{
+					showDrawerButton &&
+					<>
+						<div className="flex flex-row w-full justify-start items-center">
+							<Button onClick={() => setOpenDrawer(!openDrawer)}>
+								<MenuIcon
+									sx={{color: "white"}}
+								/>
+							</Button>
+							{
+								showHomeButton &&
+								<Link to={GeneralRoutes.Home}>
+									<Home></Home>
+								</Link>
+
+							}
+							<div id="title" className="mx-2">
+								<span>{title}</span>
+							</div>
+						</div>
+						<DrawerComponent
+							isOpen={openDrawer}
+							onClose={() => setOpenDrawer(false)}
+						/>
+					</>
+				}
 				<Toolbar disableGutters>
 					<span>Jean Carlos Zambrano</span>
 					&nbsp;
@@ -57,11 +102,15 @@ function AppNavbar() {
 							open={Boolean(anchorElUser)}
 							onClose={handleCloseUserMenu}
 						>
-							{settings.map((setting) => (
-								<MenuItem key={setting} onClick={handleCloseUserMenu}>
-									<Typography textAlign="center">{setting}</Typography>
-								</MenuItem>
-							))}
+							<Link
+								onClick={handleCloseUserMenu}
+								to={PrivateRoutes.Profile}
+							>
+								<Typography textAlign="center">Perfil</Typography>
+							</Link>
+							<MenuItem onClick={handleCloseUserMenu}>
+								<Typography textAlign="center">Cerrar Sesión</Typography>
+							</MenuItem>
 						</Menu>
 					</Box>
 				</Toolbar>

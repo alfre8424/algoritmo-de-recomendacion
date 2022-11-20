@@ -1,6 +1,9 @@
 from flask import Flask, jsonify
 from src.data.local.main_database import MainDatabaseConn
 
+# TODO: remove test code
+from src.core.equations import EngineEquations
+
 app = Flask(__name__)
 
 # routes
@@ -11,8 +14,10 @@ def login():
 
 @app.route('/', methods=['GET'])
 def index():
-    response = jsonify({'message': 'Hello, World!'})
-    response.status_code = 200
+    equations = EngineEquations()
+    result: float = equations.balance_impact(0.5, 100, 100, 100, 100)
+
+    response = jsonify({'message': result})
     return response
 
 if __name__ == '__main__':
