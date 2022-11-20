@@ -3,7 +3,7 @@ import type {ReactElement} from "react";
 
 export function RecommendSettings(): ReactElement {
 	return (
-		<div id="settings" className="w-full flex flex-col justify-start shadow-md rounded-md p-8">
+		<div id="settings" className="bg-white w-full flex flex-col justify-start shadow-md rounded-md p-8">
 			<AppSlider
 				label="Productos saludables"
 				infoText="¿Qué tan importante es para usted que los productos recomendados sean saludables?"

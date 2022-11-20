@@ -10,7 +10,7 @@ export default function ProfileScreen(): ReactElement {
 	return <>
 		<div 
 			id="navbar"
-			className="h-full bg-gray-200"
+			className="min-h-screen bg-gray-200"
 			style={{boxSizing: "border-box"}}
 		>
 			<AppNavbar

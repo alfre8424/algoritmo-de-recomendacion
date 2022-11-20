@@ -14,7 +14,7 @@ export function AppSearch({
 }: IAppSearchBarProps): ReactElement {
 	return (
 		<div
-			className="flex px-8 shadow-md rounded-md py-8 flex-col h-full w-full items-center justify-start"
+			className="bg-white flex px-8 shadow-md rounded-md py-8 flex-col h-full w-full items-center justify-start"
 		>
 			<SearchAppBar
 				label="Buscar producto"

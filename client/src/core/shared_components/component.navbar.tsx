@@ -67,7 +67,11 @@ function AppNavbar({
 							{
 								showHomeButton &&
 								<Link to={GeneralRoutes.Home}>
-									<Home></Home>
+									<img 
+									src="/assets/images/Logoclan2.png"
+									alt="logo"
+										className="w-[40px] h-[40px] ml-2"
+									/>
 								</Link>
 
 							}

@@ -11,7 +11,7 @@ export function Home(): ReactElement {
 	const [showAlert, setShowAlert] = React.useState(false);
 
 	return (
-		<div className="flex flex-col overflow-x-hidden">
+		<div className="flex flex-col overflow-x-hidden h-min-screen bg-gray-200">
 			<div
 				className="flex flex-col items-end h-[60vh]"
 				style={{
