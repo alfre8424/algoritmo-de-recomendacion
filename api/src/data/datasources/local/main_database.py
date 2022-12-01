@@ -1,5 +1,8 @@
-from src.data.local.mysql_connector import MySQLConn
-from src.core.utils.environment import getEnv
+import sys
+sys.path.insert(0, './src/data/datasources/local')
+from mysql_connector import MySQLConn
+sys.path.insert(0, './src/core/utils')
+from environment import getEnv
 
 class MainDatabaseConn:
     '''Singleton clase para la conexión a la base de datos principal'''

@@ -11,5 +11,3 @@ class Hasher:
         # y se deprima con la clave del hash, si no ya fue.
         self.hash_clave = genph("5-0koketa")
 
-    def 
-

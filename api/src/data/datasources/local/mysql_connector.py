@@ -1,5 +1,7 @@
 import mysql.connector
-from src.core.utils.environment import getEnv
+import sys
+sys.path.insert(0, './src/core/utils')
+from environment import getEnv
 
 class MySQLConn:
     def __init__(self, host, user, password, database):

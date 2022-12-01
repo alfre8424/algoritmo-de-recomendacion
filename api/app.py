@@ -1,8 +1,12 @@
 from flask import Flask, jsonify
-from src.data.datasources.local.main_database import MainDatabaseConn
+import sys
+sys.path.insert(0, './src/data/datasources/local')
+
+from main_database import MainDatabaseConn
 
 # TODO: remove test code
-from src.core.equations import EngineEquations
+sys.path.insert(0, './src/core')
+from equations import EngineEquations
 
 app = Flask(__name__)
 
