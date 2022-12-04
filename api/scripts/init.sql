@@ -102,4 +102,9 @@ CREATE TABLE IF NOT EXISTS cart_product(
 	FOREIGN KEY (product_id) REFERENCES product(id) on update cascade on delete no action
 )engine=InnoDB;
 
+CREATE TABLE IF NOT EXISTS session(
+	user_id char(36) NOT NULL,
+	token char(36) primary key,
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+)engine=InnoDB;
 

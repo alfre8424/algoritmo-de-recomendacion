@@ -1,4 +1,4 @@
-FROM python:3.9.14
+FROM node:19.2-alpine
 
 WORKDIR /backend
 
