@@ -49,6 +49,7 @@ services:
     depends_on:
       - clan_del_dragon_mysql
     environment:
+      API_PORT: 8000
       DB_HOST: clan_del_dragon_mysql
       DB_NAME: clan_del_dragon
       DB_PORT: 3306

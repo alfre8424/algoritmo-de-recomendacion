@@ -108,3 +108,5 @@ CREATE TABLE IF NOT EXISTS session(
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 )engine=InnoDB;
 
+alter table session add column is_active boolean not null default true;
+
