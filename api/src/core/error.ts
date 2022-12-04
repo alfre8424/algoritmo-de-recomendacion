@@ -1,10 +1,18 @@
-class AppError {
+interface IAppError {
 	message: string;
 	debugMessage?: string;
 	errorDate?: Date;
 	errCode?: string;
+}
 
-	constructor(intput: AppError) {
+export default class AppError implements IAppError {
+
+	message: string;
+	debugMessage?: string | undefined;
+	errorDate?: Date | undefined;
+	errCode?: string | undefined;
+
+	constructor(intput: IAppError) {
 		this.message = intput.message;
 		this.debugMessage = intput.debugMessage;
 		this.errCode = intput.errCode;

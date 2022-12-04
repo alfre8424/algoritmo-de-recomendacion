@@ -1,4 +1,5 @@
 import express from 'express';
+import AppError from '../../core/error';
 import SessionRepository from '../../data/repositories/repository.session';
 
 export default class AuthController {
@@ -16,7 +17,7 @@ export default class AuthController {
 	}
 
 	async login(req: any, res: any): Promise<void> {
-		const {email, password} = req.body;
+		const {email, password} = req.body ?? {};
 
 		if (!email || !password) {
 			res.status(400).json({

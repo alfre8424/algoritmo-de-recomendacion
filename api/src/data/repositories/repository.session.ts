@@ -2,6 +2,7 @@ import mysqlConnection, {MySQLConn} from "../../core/mysql_connection";
 import {LoginCredentials, SuccessLoginResponse} from "../../core/types/login";
 import UserMySQLModel from "../models/model.user_mysql";
 import AuthUtil from "../../core/utils/util.auth";
+import AppError from "../../core/error";
 
 export default class SessionRepository {
 	mysqlConnector: MySQLConn;
