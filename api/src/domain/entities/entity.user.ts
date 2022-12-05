@@ -1,10 +1,10 @@
 export default abstract class UserEntity {
-	id: string;
+	id: string|null;
 	email: string;
 	name: string;
-	enabled: boolean;
-	createdAt: Date;
-	updatedAt: Date;
+	enabled?: boolean;
+	createdAt?: Date;
+	updatedAt?: Date;
 
 	constructor({
 		id,

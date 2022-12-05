@@ -45,7 +45,9 @@ services:
     networks:
       - app-network
     volumes:
-      - ./api/:/backend/
+      - type: bind
+        source: ./api/
+        target: /backend/
     depends_on:
       - clan_del_dragon_mysql
     environment:

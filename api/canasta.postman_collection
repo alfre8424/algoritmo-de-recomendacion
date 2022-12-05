@@ -14,6 +14,27 @@
 					"request": {
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "kratos@olimpo.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Kratos2018.",
+									"type": "text"
+								},
+								{
+									"key": "hola",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
 						"url": {
 							"raw": "localhost:8000/auth/login",
 							"host": [
@@ -27,16 +48,97 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "regustro",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "kratos@olimpo.com",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Kratos",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Kratos2018.",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8000/auth/signup",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check session",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "48fc76ad-377d-4dff-ba0e-174e49eb1baa",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8000/auth/check",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"auth",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cerrar sesion",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "48fc76ad-377d-4dff-ba0e-174e49eb1baa",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8000/auth/signout",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"auth",
+								"signout"
+							]
+						}
+					},
+					"response": []
 				}
 			]
-		},
-		{
-			"name": "New Request",
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
 		}
 	]
 }

@@ -1,5 +1,6 @@
 import express from 'express';
 import AuthAPI from './presentation/api/auth';
+import bodyParser from 'body-parser';
 
 const app = express();
 
@@ -7,6 +8,8 @@ const app = express();
 const authAPI = new AuthAPI();
 
 // MIDDLEWARES
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(authAPI.router);
 
 app.listen(process.env.API_PORT, () => {

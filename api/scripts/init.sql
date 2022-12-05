@@ -109,4 +109,5 @@ CREATE TABLE IF NOT EXISTS session(
 )engine=InnoDB;
 
 alter table session add column is_active boolean not null default true;
-
+alter table users drop column email;
+alter table users add column email varchar(255) unique not null;
