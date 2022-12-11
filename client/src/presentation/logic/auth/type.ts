@@ -1,0 +1,19 @@
+import UserEntity from "domain/entities/entity.user";
+
+export enum AuthActionType {
+	login = "[auth] login",
+	logout = "[auth] logout",
+	signup = "[auth] signup",
+}
+
+export default interface AuthState {
+	/**
+	 * This user will also include the token
+	 */
+	user?: UserEntity;
+}
+
+export interface AuthAction {
+	type: AuthActionType;
+	payload: {user?: UserEntity};
+}

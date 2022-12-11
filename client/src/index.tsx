@@ -1,18 +1,19 @@
 import {AppRouter} from 'presentation/routes/Router';
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 
 import 'styles.css';
+import {Provider} from 'react-redux';
+import {store} from 'presentation/logic/redux_config';
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
 );
 
 root.render(
-	<React.StrictMode>
+	<Provider store={store}>
 		<AppRouter />
-	</React.StrictMode>
+	</Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
