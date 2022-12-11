@@ -37,6 +37,9 @@ export default class SessionDatasource {
 		// sending the request 
 		const response = await fetch(url, {
 			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
 			body: JSON.stringify(body),
 		});
 
@@ -56,6 +59,50 @@ export default class SessionDatasource {
 
 		return Either.right(user);
 	}
+
+	async checkSession(): Promise<Either<AppError, UserEntity>> {
+		// reading the user from the local storage 
+		const sessionUser = localStorage.getItem("sessionUser");
+		// decoding the json 
+		const user = JSON.parse(sessionUser ?? "{}") as UserEntity | undefined;
+
+		// target url to login
+		const url = `${Globals.API_URL}/auth/check`;
+
+		// sending the request 
+		const response = await fetch(url, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				"authorization": `${user?.token}`
+			},
+		});
+
+		// extracting the body
+		const responseBody = await response.json();
+
+		if (response.status === 400 || response.status === 500) {
+			return Either.left({
+				error: responseBody.message ?? "Ha ocurrido un error crítico",
+				errCode: responseBody.errCode ?? "ERR__DATASOURCES__SESSION__CHECK",
+				errorDate: new Date()
+			} as AppError);
+		}
+
+		if (response.status === 401) {
+			return Either.left({
+				error: "Sesión expirada",
+				errCode: "ERR__DATASOURCES__SESSION__CHECK",
+				errorDate: new Date()
+			} as AppError);
+		}
+
+		// if the response is ok then return the user
+		const newUser = new UserAPI(responseBody);
+
+		return Either.right(newUser);
+	}
+
 	async register(data: UserEntity): Promise<Either<AppError, UserEntity>> {
 		// target url to login
 		const url = `${Globals.API_URL}/auth/signup`;
@@ -81,6 +128,40 @@ export default class SessionDatasource {
 		const user = new UserAPI(responseBody.data);
 
 		return Either.right(user);
+	}
+
+	async logout(): Promise<Either<AppError, boolean>> {
+		// reading the user from the local storage 
+		const sessionUser = localStorage.getItem("sessionUser");
+		// decoding the json 
+		const user = JSON.parse(sessionUser ?? "{}") as UserEntity | undefined;
+
+		// target url to login
+		const url = `${Globals.API_URL}/auth/logout`;
+
+		// sending the request 
+		const response = await fetch(url, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application",
+				"authorization": `${user?.token}`
+			},
+		});
+
+		// extracting the body
+		const responseBody = await response.json();
+
+		if (response.status === 400 || response.status === 500) {
+			return Either.left({
+				error: responseBody.message ?? "Ha ocurrido un error crítico",
+				errCode: responseBody.errCode ?? "ERR__DATASOURCES__SESSION__LOGOUT",
+				errorDate: new Date()
+			} as AppError);
+		}
+
+		// updating the state 
+		return Either.right(true);
+
 	}
 }
 

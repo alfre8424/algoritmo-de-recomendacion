@@ -9,3 +9,5 @@
 7. Se considerará la distancia.  
 8. El perfil de cliente servirá para decodificar patrones.  
 
+
+hol

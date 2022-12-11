@@ -13,8 +13,7 @@ export const authReducer = (state = initialState, action: AuthAction): AuthState
 				token: user?.token,
 			};
 		case AuthActionType.logout:
-			// TODO:
-			break;
+			return {...state, user: undefined, token: undefined};
 		case AuthActionType.signup:
 			// TODO:
 			break;

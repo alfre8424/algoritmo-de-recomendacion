@@ -11,6 +11,7 @@ import PublicRoutes from "./public_routes";
 import PrivateRoutes from "./private_routes";
 import ProfileScreen from "presentation/views/profile";
 import {PrivateRoute} from "./components/component.private_routes";
+import {GeneralRoute} from "./components/component.general_routes";
 
 /**
  * Punto de inicio de la aplicacion, desde aqui se decide que componente 
@@ -21,8 +22,22 @@ export function AppRouter(): ReactElement {
 	return (
 		<BrowserRouter>
 			<Routes>
-				<Route path='/' element={<Home />} />
-				<Route path={GeneralRoutes.Home} element={<Home />} />
+				<Route path='/'
+					element={
+						<GeneralRoute
+							path={GeneralRoutes.Home}
+							child={<Home />}
+						/>
+					}
+				/>
+				<Route path={GeneralRoutes.Home}
+					element={
+						<GeneralRoute
+							path={GeneralRoutes.Home}
+							child={<Home />}
+						/>
+					}
+				/>
 				<Route
 					path={PublicRoutes.Login}
 					element={

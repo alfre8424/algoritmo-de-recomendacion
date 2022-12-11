@@ -4,6 +4,7 @@ export enum AuthActionType {
 	login = "[auth] login",
 	logout = "[auth] logout",
 	signup = "[auth] signup",
+	check = "[auth] check",
 }
 
 export default interface AuthState {

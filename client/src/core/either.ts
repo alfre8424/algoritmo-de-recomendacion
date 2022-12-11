@@ -9,11 +9,11 @@ class Either<T, K> {
 
 	isLeft(): boolean {
 		this.checked = true;
-		return this.left === true;
+		return this.left !== undefined;
 	}
 	isRight(): boolean {
 		this.checked = true;
-		return this.right === true;
+		return this.right !== undefined;
 	}
 
 	private constructor(left?: T, right?: K) {

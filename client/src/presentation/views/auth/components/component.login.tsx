@@ -6,10 +6,13 @@ import {mergeClasses} from "core/utils/util.classess";
 import {LoginParams} from "domain/usecases/auth/usecase.login";
 import AuthController from "presentation/logic/auth/controller";
 import {AppDispatch, RootState} from "presentation/logic/redux_config";
-import {ReactElement, useState} from "react"
+import {ReactElement, useEffect, useState} from "react"
 import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 import {SyncLoader} from "react-spinners";
+import {ToastContainer} from "react-toastify";
+
+import 'react-toastify/dist/ReactToastify.css';
 
 function LoginComponent(): ReactElement {
 	const authController = new AuthController();
@@ -23,12 +26,12 @@ function LoginComponent(): ReactElement {
 	});
 
 	const dispatch: AppDispatch = useDispatch();
-
 	const login = () => {
 		dispatch(authController.login(credentials));
 	}
 
 	return <>
+		<ToastContainer />
 		<div className={mergeClasses(
 			"flex flex-col",
 			"py-12 px-12",
@@ -46,6 +49,7 @@ function LoginComponent(): ReactElement {
 				<TextField
 					label="Email"
 					variant="filled"
+					disabled={showLoginLoader}
 					type="email"
 					onChange={(e) => setCredentials({
 						...credentials,
@@ -58,6 +62,7 @@ function LoginComponent(): ReactElement {
 					id="outlined-password-input"
 					label="Contraseña"
 					variant="filled"
+					disabled={showLoginLoader}
 					type="password"
 					onChange={(e) => setCredentials({
 						...credentials,

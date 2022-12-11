@@ -11,11 +11,14 @@ import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button';
 import MenuIcon from '@mui/icons-material/Menu';
 import DrawerComponent from './component.drawer';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import PrivateRoutes from 'presentation/routes/private_routes';
 import GeneralRoutes from 'presentation/routes/general_routes';
 import {ExitToApp, Home, Person} from '@mui/icons-material';
 import PublicRoutes from 'presentation/routes/public_routes';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from 'presentation/logic/redux_config';
+import AuthController from 'presentation/logic/auth/controller';
 
 interface AppNavbarProps {
 	roundedBorders?: boolean;
@@ -37,6 +40,9 @@ function AppNavbar({
 }: AppNavbarProps): JSX.Element {
 	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 	const [openDrawer, setOpenDrawer] = React.useState(false);
+	const {token} = useSelector((state: RootState) => state.auth);
+	const dispatch: AppDispatch = useDispatch();
+	const navigator = useNavigate();
 
 	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElUser(event.currentTarget);
@@ -48,6 +54,15 @@ function AppNavbar({
 
 	if (!activeRoute && showDrawerButton) {
 		throw new Error("activeRoute is required when showDrawerButton is true");
+	}
+
+	const authController = new AuthController();
+
+	const handleLogoutOrRedirect = () => {
+		if(token) {
+
+		}
+		dispatch(authController.logout());
 	}
 
 	return (
@@ -138,15 +153,14 @@ function AppNavbar({
 								</Link>
 								<br />
 
-								<Link
-									onClick={handleCloseUserMenu}
-									to={PublicRoutes.Login}
+								<button
+									onClick={handleLogoutOrRedirect}
 									className="flex flex-row items-center"
 								>
 									<ExitToApp />
 									&nbsp;
-									<Typography textAlign="center">Cerrar Sesión</Typography>
-								</Link>
+									<Typography textAlign="center">{token? "Cerrar":"Iniciar"} sesión</Typography>
+								</button>
 							</div>
 						</Menu>
 					</Box>
