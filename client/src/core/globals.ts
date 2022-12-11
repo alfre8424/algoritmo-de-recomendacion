@@ -1,5 +1,5 @@
 abstract class Globals {
-	static API_URL = process.env.REACT_APP_NG_API_HOST;
+	static API_URL = "http://localhost:8000";
 }
 
 export default Globals;

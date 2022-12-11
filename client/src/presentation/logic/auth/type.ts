@@ -11,6 +11,7 @@ export default interface AuthState {
 	 * This user will also include the token
 	 */
 	user?: UserEntity;
+	token?: string;
 }
 
 export interface AuthAction {

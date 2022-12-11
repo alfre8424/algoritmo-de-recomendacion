@@ -35,7 +35,8 @@ services:
     depends_on:
       - clan_del_dragon_api
     environment:
-      REACT_APP_NG_API_HOST: http://${clan_del_dragon_api}:8000
+      REACT_APP_NG_API_HOST: clan_del_dragon_api
+      WATCHPACK_POLLING: true
   clan_del_dragon_api:
     image: clan_del_dragon_api
     container_name: clan_del_dragon_api

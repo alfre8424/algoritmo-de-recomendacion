@@ -8,6 +8,7 @@ import UserEntity from "domain/entities/entity.user";
  * Datasource to comunicate this client with the session API
  */
 export default class SessionDatasource {
+
 	/**
 	 *
 	 */
@@ -37,6 +38,32 @@ export default class SessionDatasource {
 		const response = await fetch(url, {
 			method: "POST",
 			body: JSON.stringify(body),
+		});
+
+		// extracting the body 
+		const responseBody = await response.json();
+
+		if (response.status === 400 || response.status === 500) {
+			return Either.left({
+				error: responseBody.message ?? "Ha ocurrido un error crítico",
+				errCode: responseBody.errCode ?? "ERR__DATASOURCES__SESSION__LOGIN",
+				errorDate: new Date()
+			} as AppError);
+		}
+
+		// if the response is ok then return the user
+		const user = new UserAPI(responseBody.data);
+
+		return Either.right(user);
+	}
+	async register(data: UserEntity): Promise<Either<AppError, UserEntity>> {
+		// target url to login
+		const url = `${Globals.API_URL}/auth/signup`;
+
+		// sending the request 
+		const response = await fetch(url, {
+			method: "POST",
+			body: JSON.stringify(data),
 		});
 
 		// extracting the body 

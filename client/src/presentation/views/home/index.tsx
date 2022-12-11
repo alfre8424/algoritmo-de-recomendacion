@@ -4,11 +4,14 @@ import type {ReactElement} from "react"
 import AppNavbar from "core/shared_components/component.navbar";
 import {RecommendSettings} from "./components/component.recommend_settings";
 import {AppSearch} from "./components/component.search";
-import ListView from "core/shared_components/component.listview";
+import {useSelector} from "react-redux";
+import {RootState} from "presentation/logic/redux_config";
 
 export function Home(): ReactElement {
 
 	const [showAlert, setShowAlert] = React.useState(false);
+	const {token} = useSelector((state: RootState) => state.auth);
+
 
 	return (
 		<div className="flex flex-col overflow-x-hidden h-min-screen bg-gray-200">
@@ -26,7 +29,7 @@ export function Home(): ReactElement {
 			</div>
 			<div id="body" className="w-screen">
 				<h1 className="margin-auto my-4 text-center text-2xl font-bold">
-					Clan del Dragón
+					Clan del Dragón | token: {token}
 				</h1>
 				<div
 					className="m-2 flex flex-col items-center p-4 lg:flex-row lg:justify-between lg:items-stretch"

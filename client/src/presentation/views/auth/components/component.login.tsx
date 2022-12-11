@@ -3,12 +3,31 @@ import {Dialog, DialogContent, DialogContentText, DialogTitle} from "@mui/materi
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import {mergeClasses} from "core/utils/util.classess";
-import GeneralRoutes from "presentation/routes/general_routes";
+import {LoginParams} from "domain/usecases/auth/usecase.login";
+import AuthController from "presentation/logic/auth/controller";
+import {AppDispatch, RootState} from "presentation/logic/redux_config";
 import {ReactElement, useState} from "react"
+import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
+import {SyncLoader} from "react-spinners";
 
 function LoginComponent(): ReactElement {
+	const authController = new AuthController();
+
 	const [showRegisterDialog, setShowRegisterDialog] = useState(false);
+	const {showLoginLoader} = useSelector((state: RootState) => state.ui);
+
+	const [credentials, setCredentials] = useState<LoginParams>({
+		email: "",
+		password: ""
+	});
+
+	const dispatch: AppDispatch = useDispatch();
+
+	const login = () => {
+		dispatch(authController.login(credentials));
+	}
+
 	return <>
 		<div className={mergeClasses(
 			"flex flex-col",
@@ -24,7 +43,15 @@ function LoginComponent(): ReactElement {
 			<br />
 
 			<form className="flex flex-col items-center w-full">
-				<TextField label="Nombre de usuario" variant="filled" />
+				<TextField
+					label="Email"
+					variant="filled"
+					type="email"
+					onChange={(e) => setCredentials({
+						...credentials,
+						email: e.target.value
+					})}
+				/>
 				<br />
 
 				<TextField
@@ -32,21 +59,28 @@ function LoginComponent(): ReactElement {
 					label="Contraseña"
 					variant="filled"
 					type="password"
+					onChange={(e) => setCredentials({
+						...credentials,
+						password: e.target.value
+					})}
 					autoComplete="current-password"
 				/>
 			</form>
-			<div className="flex flex-col my-4">
-				<Button variant="contained">
-					<Link
-						to={GeneralRoutes.Home}
-					>
-						Iniciar sesión
-					</Link>
-				</Button>
-				<Button variant="outlined" style={{marginTop: 5}} onClick={() => setShowRegisterDialog(true)}>
-					Registrarse
-				</Button>
-			</div>
+			{
+				showLoginLoader ?
+					<SyncLoader /> :
+					<div className="flex flex-col my-4">
+						<Button
+							variant="contained"
+							onClick={login}
+						>
+							Iniciar sesión
+						</Button>
+						<Button variant="outlined" style={{marginTop: 5}} onClick={() => setShowRegisterDialog(true)}>
+							Registrarse
+						</Button>
+					</div>
+			}
 			<Link
 				to="/auth/password-recovery"
 				className="text-sm text-blue-500"
@@ -62,7 +96,7 @@ function LoginComponent(): ReactElement {
 				className="flex flex-row justify-between items-center"
 			>
 				Registro de cuenta
-				<Close 
+				<Close
 					className="cursor-pointer"
 					onClick={() => setShowRegisterDialog(false)}
 				/>
