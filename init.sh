@@ -31,3 +31,4 @@ echo "12345678" | docker exec -i clan_del_dragon_mysql mysql -u root -p -e "sour
 echo "12345678" | docker exec -i clan_del_dragon_mysql mysql -u root -p -e "source /scripts/respaldo_gonzalozambrano.sql"
 
 echo "12345678" | docker exec -i clan_del_dragon_mysql mysql -u root -p -e "source /scripts/respaldo_peralta.sql"
+

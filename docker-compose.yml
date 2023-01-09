@@ -1,5 +1,14 @@
 version: "3.7"
 services:
+  clan_del_dragon_etl:
+    image: python:3.8.16-alpine3.17
+    container_name: clan_del_dragon_etl 
+    restart: always 
+    tty: true
+    networks:
+      - app-network
+    volumes:
+      - ./etl/:/etl/
   clan_del_dragon_mysql:
     image: mysql:8.0.30-debian
     # NOTE: use of "mysql_native_password" is not recommended:
