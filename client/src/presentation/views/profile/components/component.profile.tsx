@@ -6,6 +6,7 @@ import AuthController from "presentation/logic/auth/controller";
 import {AppDispatch, RootState} from "presentation/logic/redux_config";
 import {ReactElement, useEffect, useState} from "react"
 import {useDispatch, useSelector} from "react-redux";
+import {toast} from "react-toastify";
 
 interface ProfileProps {
 
@@ -41,6 +42,10 @@ export default function ProfileComponent({
 	const [passwordConfirm, setPasswordConfirm] = useState<string|null>('');
 
 	const update = ()=>{
+		if(password !== passwordConfirm){
+			toast.error('Las contraseñas no coinciden');
+			return;
+		}
 		dispatch(controller.update({
 			...userData,
 			password,

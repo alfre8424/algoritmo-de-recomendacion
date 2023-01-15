@@ -3,6 +3,7 @@ import UserEntity from "../../../../domain/entities/entity.user";
 import AppError from "../../../../core/error";
 import UserMySQLModel from "../../../models/model.user_mysql";
 import AuthUtil from '../../../../core/utils/util.auth';
+import validator from "validator";
 
 const updateUsecase = async (user: UserEntity, password: string | null): Promise<AppError | UserEntity> => {
 
@@ -38,6 +39,16 @@ const updateUsecase = async (user: UserEntity, password: string | null): Promise
 	// Using the default password if it does not come in the request
 	let encryptedPassword: string | null = dbPassword;
 	if (password) {
+		// validating password 
+		const isStringPassword = validator.isStrongPassword(password);
+
+		if (!isStringPassword) {
+			return new AppError({
+				message: 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número',
+				errCode: 'UPDATE_USER_PASSWORD',
+				debugMessage: 'Password is not strong enough',
+			});
+		}
 		encryptedPassword = await AuthUtil.hashPassword(password!);
 	}
 
