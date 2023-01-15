@@ -47,7 +47,7 @@ function AppNavbar({
 	const {token} = auth;
 
 	// creating the user entity 
-	let userEntity: UserEntity|null = auth?.user? new UserAPI(auth):null;
+	let userEntity: UserEntity | null = auth?.user ? new UserAPI(auth) : null;
 
 	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElUser(event.currentTarget);
@@ -149,16 +149,21 @@ function AppNavbar({
 								</Link>
 								<br />
 
-								<Link
-									onClick={handleCloseUserMenu}
-									to={PrivateRoutes.Profile}
-									className="flex flex-row items-center"
-								>
-									<Person />
-									&nbsp;
-									<Typography textAlign="center">Perfil</Typography>
-								</Link>
-								<br />
+								{
+									token &&
+									<>
+										<Link
+											onClick={handleCloseUserMenu}
+											to={PrivateRoutes.Profile}
+											className="flex flex-row items-center"
+										>
+											<Person />
+											&nbsp;
+											<Typography textAlign="center">Perfil</Typography>
+										</Link>
+										<br />
+									</>
+								}
 
 								<button
 									onClick={handleLogoutOrRedirect}
