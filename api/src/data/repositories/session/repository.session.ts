@@ -6,6 +6,7 @@ import checkSessionUsecase from "./usecases/check_session";
 import loginUsecase from "./usecases/login_usecase";
 import signoutUsecase from "./usecases/signout_usecase";
 import signupUsecase from "./usecases/signup_usecase";
+import updateUsecase from "./usecases/update_usecase";
 
 export default class SessionRepository {
 	mysqlConnector: MySQLConn;
@@ -24,6 +25,10 @@ export default class SessionRepository {
 
 	async signup(user: UserEntity, password: string): Promise<AppError | UserEntity> {
 		return await signupUsecase(user, password);
+	}
+
+	async update(user: UserEntity, password: string|null): Promise<AppError | UserEntity> {
+		return await updateUsecase(user, password);
 	}
 
 	async checkSession(token: string): Promise<UserEntity|null> {

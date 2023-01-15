@@ -1,7 +1,10 @@
 import {PhotoCamera, Update} from "@mui/icons-material";
 import {Autocomplete, Avatar, Button, FormGroup, IconButton, TextField} from "@mui/material";
 import {mergeClasses} from "core/utils/util.classess";
-import type {ReactElement} from "react"
+import UserEntity from "domain/entities/entity.user";
+import {RootState} from "presentation/logic/redux_config";
+import {ReactElement, useState} from "react"
+import {useSelector} from "react-redux";
 
 interface ProfileProps {
 
@@ -10,6 +13,21 @@ interface ProfileProps {
 export default function ProfileComponent({
 
 }: ProfileProps): ReactElement {
+
+	const {user} = useSelector((state: RootState)=> state.auth);
+	const [userData, setUserData] = useState<UserEntity>({
+		id: user!.id,
+		name: user!.name,
+		email: user!.email,
+		enabled: user!.enabled,
+	});
+	const [password, setPassword] = useState<string|null>(null);
+	const [passwordConfirm, setPasswordConfirm] = useState<string|null>(null);
+
+	const update = ()=>{
+		alert("Preparing to update with data");
+	}
+
 	return <div
 		id="profile-form"
 		className={mergeClasses(
@@ -20,7 +38,7 @@ export default function ProfileComponent({
 			"bg-white",
 			"flex flex-col",
 			"items-center justify-center",
-			"w-[400px]"
+			"w-[450px]"
 		)}
 	>
 		<h1 className="text-md font-semibold text-gray-900">
@@ -29,34 +47,13 @@ export default function ProfileComponent({
 		<br />
 
 		<FormGroup>
-			<div
-				className="flex flex-col items-center justify-center"
-			>
-				<Avatar
-					alt="Foto de perfil"
-					src="https://i.imgur.com/0X0X0X0.png"
-					sx={{width: 100, height: 100}}
-					className="m-auto my-1"
-				/>
-				<Button
-					variant="outlined"
-					component="label"
-					sx={{width: 150}}
-				>
-					<div className="flex flex-row">
-						<PhotoCamera />
-						&nbsp;
-						Subir
-					</div>
-					<input hidden accept="image/*" type="file" />
-				</Button>
-			</div>
-			<br />
-
+			<div className="w-[400px]"></div>
 			<TextField
 				id="username"
 				label="Nombres y apellidos"
 				variant="filled"
+				value={userData.name}
+				onChange={(e) => setUserData({...userData, name: e.target.value})}
 			/>
 			<br />
 			<TextField
@@ -64,6 +61,8 @@ export default function ProfileComponent({
 				label="Correo electrónico"
 				variant="filled"
 				type="email"
+				disabled = {true}
+				value={userData.email}
 			/>
 			<br />
 
@@ -72,16 +71,20 @@ export default function ProfileComponent({
 				label="Contraseña"
 				variant="filled"
 				type="password"
+				placeholder="********"
+				value={password}
+				onChange={(e) => setPassword(e.target.value)}
 			/>
 			<br />
 
 			<TextField
-				error
-				helperText="La contraseña debe tener al menos 8 caracteres"
 				id="re-password"
 				label="Repetir contraseña"
 				variant="filled"
 				type="password"
+				placeholder="********"
+				value={passwordConfirm}
+				onChange={(e) => setPasswordConfirm(e.target.value)}
 			/>
 			<br />
 
@@ -90,6 +93,7 @@ export default function ProfileComponent({
 					variant="contained"
 					component="label"
 					sx={{width: 160}}
+					onClick={update}
 				>
 					<div className="flex flex-row">
 						<Update />

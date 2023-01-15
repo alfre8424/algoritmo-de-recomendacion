@@ -29,7 +29,7 @@ export function Home(): ReactElement {
 			</div>
 			<div id="body" className="w-screen">
 				<h1 className="margin-auto my-4 text-center text-2xl font-bold">
-					Clan del Dragón | token: {token}
+					Clan del Dragón
 				</h1>
 				<div
 					className="m-2 flex flex-col items-center p-4 lg:flex-row lg:justify-between lg:items-stretch"

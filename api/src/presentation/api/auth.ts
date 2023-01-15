@@ -2,6 +2,7 @@ import express, {Router} from 'express';
 import AppError from '../../core/error';
 import UserValidator from '../../core/validators/user';
 import SessionRepository from '../../data/repositories/session/repository.session';
+import checkSessionUsecase from '../../data/repositories/session/usecases/check_session';
 import UserEntity from '../../domain/entities/entity.user';
 
 export default class AuthController {
@@ -21,6 +22,7 @@ export default class AuthController {
 		this.router.post(this.path + '/signup', (req, res) => this.signup(req, res));
 		this.router.get(this.path + '/check', (req, res) => this.checkSession(req, res));
 		this.router.post(this.path + '/signout', (req, res) => this.signout(req, res));
+		this.router.put(this.path + '/update', (req, res) => this.update(req, res));
 	}
 
 	async signout(req: any, res: any): Promise<void> {
@@ -123,6 +125,56 @@ export default class AuthController {
 
 		res.json({
 			message: "Usuario creado exitosamente",
+			data: response
+		});
+	}
+
+	async update(req: any, res: any): Promise<void> {
+
+		const token = req.headers.authorization;
+
+		// checking the token exists
+		if (!token) {
+			res.status(400).json({
+				message: "Token no encontrado",
+				errCode: "CHECK_SESSION"
+			});
+			return;
+		}
+
+		const validSession = await checkSessionUsecase(token);
+
+		if(!validSession) {
+			res.status(400).json({
+				message: "Token no válido",
+				errCode: "INVALID_TOKEN"
+			});
+			return;
+		}
+
+		const {password, name, id} = req.body ?? {};
+
+		const user = {name, id} as UserEntity;
+
+		if (user.name?.length < 3) {
+			res.status(400).json({
+				message: 'El nombre debe tener al menos 3 caracteres',
+				errCode: 'UPDATE_INVALID_NAME',
+			});
+			return;
+		}
+
+		const response = await this.repository.update(user, password);
+
+		if (response instanceof AppError) {
+			res.status(400).json({
+				message: (response as AppError).message,
+			});
+			return;
+		}
+
+		res.json({
+			message: "Usuario actualizado exitosamente",
 			data: response
 		});
 	}
