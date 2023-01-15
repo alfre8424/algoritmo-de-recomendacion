@@ -6,7 +6,6 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
-import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import Button from '@mui/material/Button';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -15,10 +14,12 @@ import {Link, useNavigate} from 'react-router-dom';
 import PrivateRoutes from 'presentation/routes/private_routes';
 import GeneralRoutes from 'presentation/routes/general_routes';
 import {ExitToApp, Home, Person} from '@mui/icons-material';
-import PublicRoutes from 'presentation/routes/public_routes';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from 'presentation/logic/redux_config';
+import UserAPI from 'data/models/model.user_api';
 import AuthController from 'presentation/logic/auth/controller';
+import PublicRoutes from 'presentation/routes/public_routes';
+import UserEntity from 'domain/entities/entity.user';
 
 interface AppNavbarProps {
 	roundedBorders?: boolean;
@@ -40,9 +41,13 @@ function AppNavbar({
 }: AppNavbarProps): JSX.Element {
 	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 	const [openDrawer, setOpenDrawer] = React.useState(false);
-	const {token} = useSelector((state: RootState) => state.auth);
+	const {auth} = useSelector((state: RootState) => state);
 	const dispatch: AppDispatch = useDispatch();
 	const navigator = useNavigate();
+	const {token} = auth;
+
+	// creating the user entity 
+	let userEntity: UserEntity|null = auth?.user? new UserAPI(auth):null;
 
 	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElUser(event.currentTarget);
@@ -59,10 +64,12 @@ function AppNavbar({
 	const authController = new AuthController();
 
 	const handleLogoutOrRedirect = () => {
-		if(token) {
-
+		if (token) {
+			dispatch(authController.logout());
 		}
-		dispatch(authController.logout());
+		else {
+			navigator(PublicRoutes.Login);
+		}
 	}
 
 	return (
@@ -104,7 +111,7 @@ function AppNavbar({
 					</>
 				}
 				<Toolbar disableGutters>
-					<span>Jean Carlos Zambrano</span>
+					<span>{userEntity?.name ?? 'Bienvenido/a'}</span>
 					&nbsp;
 					&nbsp;
 					&nbsp;
@@ -159,7 +166,7 @@ function AppNavbar({
 								>
 									<ExitToApp />
 									&nbsp;
-									<Typography textAlign="center">{token? "Cerrar":"Iniciar"} sesión</Typography>
+									<Typography textAlign="center">{token ? "Cerrar" : "Iniciar"} sesión</Typography>
 								</button>
 							</div>
 						</Menu>

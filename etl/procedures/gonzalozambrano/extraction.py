@@ -24,6 +24,7 @@ main_database_commerce_table = 'commerce'
 main_database_product_table = 'product'
 
 try:
+    # connection to extract products from the commerce DB
     commerce_conx = mysql.connector.connect(
         user=user,
         password=password,
@@ -31,6 +32,7 @@ try:
         database=database
     )
 
+    # connection to insert products into the main DB
     main_conx = mysql.connector.connect(
         user=user,
         password=password,
@@ -102,6 +104,7 @@ try:
     print("Realizando commit")
     main_conx.commit()
     print("Carga de productos finalizada\n\n#--------------------------------------")
+    #---------------------------------------------------------------------------------------
     print("Iniciando proceso de enlace con el comercio: " + commerce[1])
     for product, index in zip(transformed_products, range(len(transformed_products))):
         print("Verificando si el producto {} no existe en la base de datos".format(product['name']))

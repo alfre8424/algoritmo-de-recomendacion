@@ -116,3 +116,7 @@ alter table users add column email varchar(255) unique not null;
 insert into commerce values('gonzalozambrano', 'Gonzalo Zambrano', '', '', 'Portoviejo', 1, 0.0, '', now(), now());
 
 alter table product modify unit text null;
+
+source ./respaldo_gonzalozambrano.sql;
+source ./respaldo_casanova.sql;
+source ./respaldo_peralta.sql;
