@@ -7,6 +7,7 @@ interface UserEntity {
 	email: string;
 	enabled: boolean;
 	token?: string;
+	password?: string;
 }
 
 export default UserEntity;

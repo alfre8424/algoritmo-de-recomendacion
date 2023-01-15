@@ -1,12 +1,15 @@
 import {toast} from "react-toastify";
 
 import loginUsecase, {LoginParams} from "domain/usecases/auth/usecase.login";
-import {AppDispatch} from "../redux_config";
+import {AppDispatch, RootState} from "../redux_config";
 import {AuthActionType} from "./type";
 import UIController from "../ui/controller";
 import checkSessionUsecase from "domain/usecases/auth/usecase.check_session";
 import RegisterUsecase, {RegisterParams} from "domain/usecases/auth/usecase.register";
 import AppError from "core/error";
+import UpdateUsecase, {UpdateUsecaseParams} from "domain/usecases/auth/usecase.update";
+import UserEntity from "domain/entities/entity.user";
+import {decodeUser} from "./reducer";
 
 export default class AuthController {
 	public login(params: LoginParams) {
@@ -36,8 +39,9 @@ export default class AuthController {
 			// triggering state update
 			dispatch(uiController.showLoginLoader(false));
 			dispatch({
-				type: AuthActionType.login, payload: {
-					user: sessionUser
+				type: AuthActionType.login,
+				payload: {
+					user: decodeUser(sessionUser),
 				},
 			});
 		};
@@ -97,6 +101,34 @@ export default class AuthController {
 						callback && callback();
 					}
 				},
+			);
+		}
+	}
+
+	public update(params: UpdateUsecaseParams) {
+		return async (dispatch: AppDispatch, state: any) => {
+			const response = await UpdateUsecase(params);
+			const user: UserEntity = state().auth.user;
+
+			response.fold(
+				(l: AppError) => {
+					console.error(l);
+					toast.error(l.error);
+				},
+				(r) => {
+					if (r) {
+						toast.success("Usuario actualizado correctamente");
+						dispatch({
+							type: AuthActionType.update,
+							payload: {
+								user: {
+									...user,
+									...params,
+								}
+							}
+						});
+					}
+				}
 			);
 		}
 	}

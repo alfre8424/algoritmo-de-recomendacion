@@ -116,8 +116,6 @@ export default class AuthController {
 
 		const response = await this.repository.signup(user, password);
 
-		console.log("Pass");
-
 		if (response instanceof AppError) {
 			res.status(400).json(response.getJSON());
 			return;

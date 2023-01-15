@@ -111,7 +111,7 @@ function AppNavbar({
 					</>
 				}
 				<Toolbar disableGutters>
-					<span>{userEntity?.name ?? 'Bienvenido/a'}</span>
+					<span className="min-w-[250px]">{userEntity?.name ?? 'Bienvenido/a'}</span>
 					&nbsp;
 					&nbsp;
 					&nbsp;

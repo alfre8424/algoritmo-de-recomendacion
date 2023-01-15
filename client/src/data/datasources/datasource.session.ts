@@ -107,7 +107,6 @@ export default class SessionDatasource {
 		// target url to login
 		const url = `${Globals.API_URL}/auth/signup`;
 
-		console.log("Data to register", JSON.stringify(data));
 		// sending the request 
 		const response = await fetch(url, {
 			method: "POST",
@@ -163,6 +162,34 @@ export default class SessionDatasource {
 		// updating the state 
 		return Either.right(true);
 
+	}
+
+	async update(data: UserEntity): Promise<Either<AppError, boolean>> {
+		// target url to login
+		const url = `${Globals.API_URL}/auth/update`;
+
+		// sending the request 
+		const response = await fetch(url, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+				'Authorization': `${data.token}`
+			},
+			body: JSON.stringify(data),
+		});
+
+		// extracting the body 
+		const responseBody = await response.json();
+
+		if (response.status === 400 || response.status === 500) {
+			return Either.left({
+				error: responseBody.message ?? "Ha ocurrido un error crítico",
+				errCode: responseBody.errCode ?? "ERR__DATASOURCES__SESSION__LOGIN",
+				errorDate: new Date()
+			} as AppError);
+		}
+
+		return Either.right(true);
 	}
 }
 

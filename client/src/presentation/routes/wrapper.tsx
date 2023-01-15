@@ -1,7 +1,6 @@
 import {RootState} from "presentation/logic/redux_config";
 import type {ReactElement} from "react"
 import {useSelector} from "react-redux";
-import PrivateRoutes from "./private_routes";
 import PublicRoutes from "./public_routes";
 
 interface WrapperProps {

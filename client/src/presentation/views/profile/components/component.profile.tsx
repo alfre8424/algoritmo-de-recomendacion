@@ -2,9 +2,10 @@ import {PhotoCamera, Update} from "@mui/icons-material";
 import {Autocomplete, Avatar, Button, FormGroup, IconButton, TextField} from "@mui/material";
 import {mergeClasses} from "core/utils/util.classess";
 import UserEntity from "domain/entities/entity.user";
-import {RootState} from "presentation/logic/redux_config";
-import {ReactElement, useState} from "react"
-import {useSelector} from "react-redux";
+import AuthController from "presentation/logic/auth/controller";
+import {AppDispatch, RootState} from "presentation/logic/redux_config";
+import {ReactElement, useEffect, useState} from "react"
+import {useDispatch, useSelector} from "react-redux";
 
 interface ProfileProps {
 
@@ -14,18 +15,40 @@ export default function ProfileComponent({
 
 }: ProfileProps): ReactElement {
 
-	const {user} = useSelector((state: RootState)=> state.auth);
+	const auth = useSelector((state: RootState)=> state.auth);
+	const dispatch: AppDispatch = useDispatch();
+	const controller = new AuthController();
+
 	const [userData, setUserData] = useState<UserEntity>({
-		id: user!.id,
-		name: user!.name,
-		email: user!.email,
-		enabled: user!.enabled,
+		id: auth?.user?.id ?? '',
+		name: auth?.user?.name ?? '',
+		email: auth?.user?.email ?? '',
+		enabled: auth?.user?.enabled ?? false,
+		token: auth?.user?.token ?? '',
 	});
-	const [password, setPassword] = useState<string|null>(null);
-	const [passwordConfirm, setPasswordConfirm] = useState<string|null>(null);
+
+	useEffect(()=>{
+		setUserData({
+			id: auth?.user?.id ?? '',
+			name: auth?.user?.name ?? '',
+			email: auth?.user?.email ?? '',
+			enabled: auth?.user?.enabled ?? false,
+			token: auth?.user?.token ?? '',
+		});
+	}, [auth?.user]);
+
+	const [password, setPassword] = useState<string|null>('');
+	const [passwordConfirm, setPasswordConfirm] = useState<string|null>('');
 
 	const update = ()=>{
-		alert("Preparing to update with data");
+		dispatch(controller.update({
+			...userData,
+			password,
+		}));
+	}
+
+	if(!auth?.user) {
+		return <>Cargando usuario...</>;
 	}
 
 	return <div

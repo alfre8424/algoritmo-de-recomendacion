@@ -9,13 +9,15 @@ class UserForm implements UserEntity {
 	password: string;
 	id: string;
 	enabled: boolean;
+	token?: string;
 
 	constructor(data: any) {
-		this.id = 'ya llevame diosito';
-		this.enabled = true;
+		this.id = data.id ?? 'ya llevame diosito';
+		this.enabled = data.enabled ?? true;
 		this.name = data.name;
 		this.email = data.email;
 		this.password = data.password;
+		this.token = data.token;
 	}
 }
 
