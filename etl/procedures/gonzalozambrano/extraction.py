@@ -68,7 +68,10 @@ try:
         transformed_products.append({
             'id': str(uuid.uuid4()),
             'name': product[1],
+            'price': product[2],
+            'product_id': product[0],
             'description': '',
+            'stock': product[4],
             'unit': product[3],
         })
     print("{} productos transformados".format(len(transformed_products)))
@@ -109,17 +112,32 @@ try:
         if product_from_db is None:
             print("El producto {} no existe en la base de datos, creando...".format(product['name']))
             product_query = "INSERT INTO {} (id, product_code, price, stock, product_id, commerce_id, created_at, updated_at) VALUES ('{}', '{}', {}, {}, '{}', '{}', '{}', '{}')".format(
+                    'commerce_product',
                     str(uuid.uuid4()),
-                    '',
+                    product['product_id'],
                     product['price'],
                     product['stock'],
-
-                'commerce_product',
-                product['id'],
-                target_commerce_id
+                    product['id'],
+                    target_commerce_id,
+                    '2020-01-01 00:00:00',
+                    '2020-01-01 00:00:00'
             )
             product_cursor = main_conx.cursor()
-            # product_cursor.execute(product
+            product_cursor.execute(product_query)
+        else:
+            print("El producto ya existe en la base de datos, actualizando...")
+            product_query = "UPDATE {} SET price = {}, stock = {} WHERE id = '{}'".format(
+                'commerce_product',
+                product['price'],
+                product['stock'],
+                product_from_db[0]
+            )
+            update_cursor = main_conx.cursor()
+            update_cursor.execute(product_query)
+    print("Realizando commit")
+    main_conx.commit()
+    print("Carga de productos en el comercio finalizada\n\n#--------------------------------------")
+
 
 
 except mysql.connector.Error as err:
