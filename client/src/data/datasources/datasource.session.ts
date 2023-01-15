@@ -103,13 +103,17 @@ export default class SessionDatasource {
 		return Either.right(newUser);
 	}
 
-	async register(data: UserEntity): Promise<Either<AppError, UserEntity>> {
+	async register(data: UserEntity): Promise<Either<AppError, boolean>> {
 		// target url to login
 		const url = `${Globals.API_URL}/auth/signup`;
 
+		console.log("Data to register", JSON.stringify(data));
 		// sending the request 
 		const response = await fetch(url, {
 			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
 			body: JSON.stringify(data),
 		});
 
@@ -124,10 +128,7 @@ export default class SessionDatasource {
 			} as AppError);
 		}
 
-		// if the response is ok then return the user
-		const user = new UserAPI(responseBody.data);
-
-		return Either.right(user);
+		return Either.right(true);
 	}
 
 	async logout(): Promise<Either<AppError, boolean>> {

@@ -4,13 +4,14 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import {mergeClasses} from "core/utils/util.classess";
 import {LoginParams} from "domain/usecases/auth/usecase.login";
+import {RegisterParams} from "domain/usecases/auth/usecase.register";
 import AuthController from "presentation/logic/auth/controller";
 import {AppDispatch, RootState} from "presentation/logic/redux_config";
 import {ReactElement, useEffect, useState} from "react"
 import {useDispatch, useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 import {SyncLoader} from "react-spinners";
-import {ToastContainer} from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -24,6 +25,25 @@ function LoginComponent(): ReactElement {
 		email: "",
 		password: ""
 	});
+	const [registerParams, setRegisterParams] = useState<RegisterParams>({
+		email: "",
+		password: "",
+		name: "",
+	});
+
+	const [confirmPassword, setConfirmPassword] = useState("");
+
+	const register = () => {
+		if (registerParams.password !== confirmPassword) {
+			toast.error("Las contraseñas no coinciden");
+			return;
+		}
+
+		dispatch(authController.register(registerParams, ()=>{
+			setShowRegisterDialog(false);
+		}));
+	}
+
 
 	const dispatch: AppDispatch = useDispatch();
 	const login = () => {
@@ -119,6 +139,12 @@ function LoginComponent(): ReactElement {
 					type="text"
 					fullWidth
 					variant="outlined"
+					value={registerParams.name}
+					error={registerParams.name.length < 3}
+					onChange={(e) => setRegisterParams({
+						...registerParams,
+						name: e.target.value
+					})}
 				/>
 				<TextField
 					autoFocus
@@ -128,6 +154,11 @@ function LoginComponent(): ReactElement {
 					type="email"
 					fullWidth
 					variant="outlined"
+					value={registerParams.email}
+					onChange={(e) => setRegisterParams({
+						...registerParams,
+						email: e.target.value
+					})}
 				/>
 				<TextField
 					autoFocus
@@ -137,6 +168,11 @@ function LoginComponent(): ReactElement {
 					type="password"
 					fullWidth
 					variant="outlined"
+					value={registerParams.password}
+					onChange={(e) => setRegisterParams({
+						...registerParams,
+						password: e.target.value
+					})}
 				/>
 				<TextField
 					autoFocus
@@ -146,6 +182,8 @@ function LoginComponent(): ReactElement {
 					type="password"
 					fullWidth
 					variant="outlined"
+					value={confirmPassword}
+					onChange={(e) => setConfirmPassword(e.target.value)}
 				/>
 				<br />
 
@@ -153,6 +191,7 @@ function LoginComponent(): ReactElement {
 					<Button
 						variant="contained"
 						className="mx-auto"
+						onClick={register}
 					>
 						Registrarse
 					</Button>

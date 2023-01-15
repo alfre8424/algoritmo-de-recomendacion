@@ -35,6 +35,13 @@ class Either<T, K> {
 		return this.right!;
 	}
 
+	fold<R>(left: (left: T) => R, right: (right: K) => R): R {
+		if (this.isLeft()) {
+			return left(this.left!);
+		}
+		return right(this.right!);
+	}
+
 	static left<T, K>(left: T): Either<T, K> {
 		return new Either<T, K>(left, undefined);
 	}
@@ -49,6 +56,8 @@ class Either<T, K> {
 	static cond<T, K>(condition: boolean, left: T, right: K): Either<T, K> {
 		return !condition ? Either.left(left) : Either.right(right);
 	}
+
+
 }
 
 export default Either;

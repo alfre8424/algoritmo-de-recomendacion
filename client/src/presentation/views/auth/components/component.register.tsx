@@ -1,8 +1,10 @@
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import type {ReactElement} from "react"
+import {ReactElement} from "react"
 
 function RegisterComponent(): ReactElement {
+
+
 	return <>
 		<div
 			className="flex flex-col bg-gray-200 p-4 h-screen justify-center w-full items-center"
@@ -14,11 +16,14 @@ function RegisterComponent(): ReactElement {
 				className="flex flex-col p-4 items-center w-full"
 			>
 				<div className="flex flex-col md:flex-row md:justify-evenly items-center w-full">
-					<TextField 
+					<TextField
 						label="Nombre de usuario"
-						variant="filled" 
+						variant="filled"
 					/>
-					<TextField label="Correo electronico" variant="filled" />
+					<TextField
+						label="Correo electronico"
+						variant="filled"
+					/>
 				</div>
 				<div className="flex flex-col md:flex-row md:justify-evenly items-center w-full">
 					<TextField
@@ -36,7 +41,11 @@ function RegisterComponent(): ReactElement {
 					/>
 				</div>
 			</form>
-			<Button variant="contained">Registrarse</Button>
+			<Button
+				variant="contained"
+			>
+				Registrarse
+			</Button>
 		</div>
 	</>;
 }

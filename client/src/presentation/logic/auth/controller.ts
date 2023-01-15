@@ -5,6 +5,8 @@ import {AppDispatch} from "../redux_config";
 import {AuthActionType} from "./type";
 import UIController from "../ui/controller";
 import checkSessionUsecase from "domain/usecases/auth/usecase.check_session";
+import RegisterUsecase, {RegisterParams} from "domain/usecases/auth/usecase.register";
+import AppError from "core/error";
 
 export default class AuthController {
 	public login(params: LoginParams) {
@@ -80,4 +82,23 @@ export default class AuthController {
 			});
 		};
 	}
+
+	public register(params: RegisterParams, callback?: () => void) {
+		return async () => {
+			const response = await RegisterUsecase(params);
+			response.fold(
+				(l: AppError) => {
+					console.error(l);
+					toast.error(l.error);
+				},
+				(r) => {
+					if (r) {
+						toast.success("Usuario registrado, ya puede iniciar sesión");
+						callback && callback();
+					}
+				},
+			);
+		}
+	}
 }
+
