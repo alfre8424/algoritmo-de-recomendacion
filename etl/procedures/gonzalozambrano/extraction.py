@@ -99,6 +99,27 @@ try:
     print("Realizando commit")
     main_conx.commit()
     print("Carga de productos finalizada\n\n#--------------------------------------")
+    print("Iniciando proceso de enlace con el comercio: " + commerce[1])
+    for product, index in zip(transformed_products, range(len(transformed_products))):
+        print("Verificando si el producto {} no existe en la base de datos".format(product['name']))
+        product_query = "SELECT * FROM {} where product_id = '{}' AND commerce_id = '{}'".format('commerce_product', product['id'], target_commerce_id)
+        product_cursor = main_conx.cursor()
+        product_cursor.execute(product_query)
+        product_from_db = product_cursor.fetchone()
+        if product_from_db is None:
+            print("El producto {} no existe en la base de datos, creando...".format(product['name']))
+            product_query = "INSERT INTO {} (id, product_code, price, stock, product_id, commerce_id, created_at, updated_at) VALUES ('{}', '{}', {}, {}, '{}', '{}', '{}', '{}')".format(
+                    str(uuid.uuid4()),
+                    '',
+                    product['price'],
+                    product['stock'],
+
+                'commerce_product',
+                product['id'],
+                target_commerce_id
+            )
+            product_cursor = main_conx.cursor()
+            # product_cursor.execute(product
 
 
 except mysql.connector.Error as err:
