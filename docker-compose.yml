@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   clan_del_dragon_etl:
-    image: python:3.8.16-alpine3.17
+    image: python:3.10.6-buster
     container_name: clan_del_dragon_etl 
     restart: always 
     tty: true
