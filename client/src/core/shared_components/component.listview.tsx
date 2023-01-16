@@ -1,35 +1,104 @@
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import ImageIcon from '@mui/icons-material/Image';
-import WorkIcon from '@mui/icons-material/Work';
-import {ListItemSecondaryAction} from '@mui/material';
-import {DeleteOutlined, EditOutlined} from '@mui/icons-material';
+import {Button} from '@mui/material';
+import {AddShoppingCartOutlined} from '@mui/icons-material';
+import {useEffect, useRef, useState} from 'react';
+import ProductsController, {LoadProductParams} from 'presentation/logic/products/controller';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from 'presentation/logic/redux_config';
+import {Audio, Circles, Puff, Rings, SpinningCircles, TailSpin, useLoading} from '@agney/react-loading';
 
 export default function ListView() {
+
+	const dispatch: AppDispatch = useDispatch();
+	const {products} = useSelector((state: RootState) => state.products);
+	const [loading, setLoading] = useState(false);
+
+	const limit = 10;
+	const [offset, setOffset] = useState(0);
+	const offRef = useRef<number | null>(null);
+
+	const {containerProps, indicatorEl} = useLoading({
+		loading: true,
+		indicator: <Puff width="50" />,
+	})
+
+	const loadMore = () => {
+		offRef.current = offset + limit;
+		setOffset(offset + limit);
+	}
+
+	const productsController = new ProductsController();
+	useEffect(() => {
+		offRef.current = offset;
+	}, []);
+
+	useEffect(() => {
+		setLoading(true);
+		dispatch(productsController.load({limit, offset}, (_) => {
+			setLoading(false);
+		}));
+	}, [offRef.current]);
+
 	return (
-		<List sx={{width: '100%', bgcolor: 'background.paper'}}>
-			<ListItem>
-				<ListItemAvatar>
-					<Avatar>
-						<ImageIcon />
-					</Avatar>
-				</ListItemAvatar>
-				<ListItemText primary="Aceite Oro 1L (3 unidades)" secondary="precio: $5.00 c/u" />
-			</ListItem>
-			<ListItem>
-				<ListItemAvatar>
-					<Avatar>
-						<WorkIcon />
-					</Avatar>
-				</ListItemAvatar>
-				<ListItemText primary="Galletas Oreo x6 (3 unidades)" secondary="precio: $4.00 c/u" />
-				<ListItemSecondaryAction>
-					<DeleteOutlined />
-				</ListItemSecondaryAction>
-			</ListItem>
-		</List>
+		<div className="w-[100%] h-[40vh] overflow-y-scroll flex flex-row flex-wrap p-4">
+			{
+				[(products ?? []).map((product, index) => {
+					return <div
+						className="w-[200px] flex flex-col p-4 m-2 shadow-md rounded-md bg-blue-50"
+						key={index}
+					>
+						<div className="mx-auto">
+							<Avatar>
+								<ImageIcon />
+							</Avatar>
+						</div>
+						<div className="mx-auto">
+							<h1 className="font-bold text-center">
+								{product.name}
+							</h1>
+						</div>
+						<div className="flex flex-col text-sm">
+							<span className="text-gray-500">
+								Popularidad: {product.popularity}
+							</span>
+							<span className="text-gray-500">
+								Cantidad: {product.unit}
+							</span>
+						</div>
+						<div
+							className="flex flex-row justify-center items-center my-2"
+							style={{bottom: 0}}
+						>
+							<Button
+								sx={{fontSize: '12px'}}
+								variant="outlined"
+								onClick={() => {
+									alert("Aun no implementado :'(")
+								}}
+							>
+								Agregar &nbsp;&nbsp;
+								<AddShoppingCartOutlined sx={{fontSize: '16px'}} />
+							</Button>
+						</div>
+					</div>;
+				}),
+				<div className="w-[200px] h-[200px] flex justify-center items-center">
+					{
+						loading ?
+							<section key='s' {...containerProps}>
+								{indicatorEl}
+							</section> : <Button
+								sx={{fontSize: '12px'}}
+								variant="contained"
+								onClick={loadMore}
+							>
+								Cargar más
+							</Button>
+					}
+				</div>,
+				]
+			}
+		</div>
 	);
 }

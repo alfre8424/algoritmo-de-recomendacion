@@ -3,7 +3,9 @@ import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import ListView from "core/shared_components/component.listview";
 import SearchAppBar from "core/shared_components/component.searchbar";
+import {RootState} from "presentation/logic/redux_config";
 import type {ReactElement} from "react"
+import {useSelector} from "react-redux";
 
 interface IAppSearchBarProps {
 	onSearch: () => void;
@@ -12,6 +14,7 @@ interface IAppSearchBarProps {
 export function AppSearch({
 	onSearch,
 }: IAppSearchBarProps): ReactElement {
+	const {products} = useSelector((state: RootState)=>state.products);
 	return (
 		<div
 			className="bg-white flex px-8 shadow-md rounded-md py-8 flex-col h-full w-full items-center justify-start"
@@ -33,7 +36,7 @@ export function AppSearch({
 			</div>
 			<div className="flex flex-col md:flex-row md:justify-between mt-8 md:items-center w-full h-full">
 				<InputLabel className="w-full text-center md:text-left">
-					Lista de productos en la canasta
+					Mostrando productos disponibles ({products?.length ?? 0})
 				</InputLabel>
 				<Button variant="outlined">Predecir</Button>
 			</div>

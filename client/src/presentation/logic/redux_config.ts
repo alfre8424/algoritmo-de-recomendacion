@@ -1,6 +1,8 @@
 import { AnyAction, configureStore, Reducer } from "@reduxjs/toolkit";
 import {authReducer} from "./auth/reducer";
 import AuthState from "./auth/type";
+import {productsReducer} from "./products/reducer";
+import ProductState from "./products/type";
 import {uiReducer} from "./ui/reducer";
 import UIState from "./ui/type";
 
@@ -8,6 +10,7 @@ export const store = configureStore({
 	reducer: {
 		auth: authReducer as Reducer<AuthState, AnyAction>,
 		ui: uiReducer as Reducer<UIState, AnyAction>,
+		products: productsReducer as Reducer<ProductState, AnyAction>,
 	},
 });
 
