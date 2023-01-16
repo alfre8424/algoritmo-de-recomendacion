@@ -15,11 +15,16 @@ export default class ProductController {
 	}
 
 	public initializeRoutes() {
-		this.router.get(this.path + '/', (_, res) => this.listPaginate(res));
+		this.router.get(this.path + '/', (req, res) => this.listPaginate(req, res));
 	}
 
-	async listPaginate(res: any): Promise<void> {
-		const response = await this.repository.queryProducts();
+	async listPaginate(req: any, res: any): Promise<void> {
+		const {limit, offset} = req.query;
+		const response = await this.repository.queryProducts({
+			limit: limit ?? 10, 
+			offset: offset ?? 0
+		});
+
 		if (response instanceof AppError) {
 			console.error(response.debugMessage);
 			res.status(400).json({
@@ -30,6 +35,8 @@ export default class ProductController {
 
 		res.status(200).json({
 			message: 'Productos cargados',
+			offset: offset,
+			limit: limit,
 			data: response,
 		});
 	}

@@ -3,14 +3,16 @@ import mysqlConnection from "../../../../core/mysql_connection";
 import ProductEntity from "../../../../domain/entities/entity.product";
 
 // Control for paination
-let page: number = 1;
-let limit: number = 10;
+export interface QueryProductParams {
+	limit: number;
+	offset: number;
+}
 
-const queryProductsUseCase = async (): Promise<AppError|ProductEntity[]> => {
+const queryProductsUseCase = async (params: QueryProductParams): Promise<AppError | ProductEntity[]> => {
 	const mysqlPool = mysqlConnection;
 
 	const [rows] = await mysqlPool.connection.execute(
-		"SELECT * FROM product LIMIT 10",
+		`SELECT * FROM product order by name ASC LIMIT ${params.limit} OFFSET ${params.offset}`,
 	);
 
 	const dboutput: any[] = JSON.parse(JSON.stringify(rows));
