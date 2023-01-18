@@ -19,10 +19,11 @@ export default class ProductController {
 	}
 
 	async listPaginate(req: any, res: any): Promise<void> {
-		const {limit, offset} = req.query;
+		const {limit, offset, q: query} = req.query;
 		const response = await this.repository.queryProducts({
 			limit: limit ?? 10, 
-			offset: offset ?? 0
+			offset: offset ?? 0,
+			query,
 		});
 
 		if (response instanceof AppError) {

@@ -23,7 +23,8 @@ docker-compose up -d
 
 # docker exec -d clan_del_dragon_client npm start
 
-docker exec clan_del_dragon_api npm i
+docker exec -it clan_del_dragon_api npm install
+docker exec -it clan_del_dragon_client npm install
 
 # creando bases de datos desde la fuente usando source
 echo "12345678" | docker exec -i clan_del_dragon_mysql mysql -u root -p -e "source /scripts/respaldo_casanova.sql"
@@ -32,5 +33,4 @@ echo "12345678" | docker exec -i clan_del_dragon_mysql mysql -u root -p -e "sour
 
 echo "12345678" | docker exec -i clan_del_dragon_mysql mysql -u root -p -e "source /scripts/respaldo_peralta.sql"
 
-# docker exec -it clan_del_dragon_etl pip install -r /etl/requirements.txt
-
+(docker exec -it clan_del_dragon_api npm run start:dev) & (docker exec -it clan_del_dragon_client npm start) ; fg ; wait

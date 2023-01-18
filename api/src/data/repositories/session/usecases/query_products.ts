@@ -6,13 +6,14 @@ import ProductEntity from "../../../../domain/entities/entity.product";
 export interface QueryProductParams {
 	limit: number;
 	offset: number;
+	query?: string;
 }
 
 const queryProductsUseCase = async (params: QueryProductParams): Promise<AppError | ProductEntity[]> => {
 	const mysqlPool = mysqlConnection;
 
 	const [rows] = await mysqlPool.connection.execute(
-		`SELECT * FROM product order by name ASC LIMIT ${params.limit} OFFSET ${params.offset}`,
+		`SELECT * FROM product ${(params.query && params.query.length > 0) ? `where upper(name) like "%${params.query.toLowerCase()}%"` : ""} order by name ASC LIMIT ${params.limit} OFFSET ${params.offset}`,
 	);
 
 	const dboutput: any[] = JSON.parse(JSON.stringify(rows));
