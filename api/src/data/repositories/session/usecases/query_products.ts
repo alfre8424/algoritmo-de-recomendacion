@@ -12,8 +12,13 @@ export interface QueryProductParams {
 const queryProductsUseCase = async (params: QueryProductParams): Promise<AppError | ProductEntity[]> => {
 	const mysqlPool = mysqlConnection;
 
+	console.log(params);
+	const query =
+		`SELECT * FROM product ${(params.query && params.query.length > 0) ? `where lower(name) like "%${params.query.toLowerCase()}%"` : ""} order by name ASC LIMIT ${params.limit} OFFSET ${params.offset}`;
+
+	console.log("Query", query);
 	const [rows] = await mysqlPool.connection.execute(
-		`SELECT * FROM product ${(params.query && params.query.length > 0) ? `where upper(name) like "%${params.query.toLowerCase()}%"` : ""} order by name ASC LIMIT ${params.limit} OFFSET ${params.offset}`,
+		query,
 	);
 
 	const dboutput: any[] = JSON.parse(JSON.stringify(rows));

@@ -14,6 +14,7 @@ export const productsReducer = (state = initialState, action: ProductsAction): A
 				],
 			};
 		case ProductsActionType.search:
+			console.log('Search query');
 			return {
 				...state,
 				searchedProducts: [
