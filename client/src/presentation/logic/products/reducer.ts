@@ -13,6 +13,14 @@ export const productsReducer = (state = initialState, action: ProductsAction): A
 					...action.payload.products ?? [],
 				],
 			};
+		case ProductsActionType.search:
+			return {
+				...state,
+				searchedProducts: [
+					...(action.flushSearchedProducts ? [] : state.searchedProducts ?? []),
+					...action.payload.searchedProducts ?? [],
+				],
+			}
 		default:
 			return state;
 	}

@@ -11,7 +11,7 @@ import {Audio, Circles, Puff, Rings, SpinningCircles, TailSpin, useLoading} from
 export default function ListView() {
 
 	const dispatch: AppDispatch = useDispatch();
-	const {products} = useSelector((state: RootState) => state.products);
+	const {products, searchedProducts} = useSelector((state: RootState) => state.products);
 	const [loading, setLoading] = useState(false);
 
 	const limit = 10;
@@ -43,7 +43,7 @@ export default function ListView() {
 	return (
 		<div className="w-[100%] h-[40vh] overflow-y-scroll flex flex-row flex-wrap p-4">
 			{
-				[(products ?? []).map((product, index) => {
+				[((searchedProducts && searchedProducts.length > 0) ? searchedProducts : (products ?? [])).map((product, index) => {
 					return <div
 						className="w-[200px] flex flex-col p-4 m-2 shadow-md rounded-md bg-blue-50"
 						key={index}

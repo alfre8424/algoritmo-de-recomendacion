@@ -8,6 +8,8 @@ import ProductEntity from "domain/entities/entity.product";
 export interface LoadProductParams {
 	limit: number;
 	offset: number;
+	query?: string;
+	flushSearchedProducts?: boolean;
 }
 
 export default class ProductsController {
@@ -30,13 +32,14 @@ export default class ProductsController {
 			// it means there is no error
 			const products = result.getRight();
 
+			console.log("Searched query: ", params.query);
+
 			// saving the user in the local storage
 			callback && callback(products);
 			dispatch({
-				type: ProductsActionType.load,
-				payload: {
-					products: products
-				},
+				type: params.query ? ProductsActionType.search : ProductsActionType.load,
+				payload: params.query ? {searchedProducts: products} : {products},
+				flushSearchedProducts: params.flushSearchedProducts,
 			});
 		};
 	}

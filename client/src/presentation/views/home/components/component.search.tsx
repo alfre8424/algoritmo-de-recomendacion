@@ -3,9 +3,10 @@ import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import ListView from "core/shared_components/component.listview";
 import SearchAppBar from "core/shared_components/component.searchbar";
-import {RootState} from "presentation/logic/redux_config";
-import type {ReactElement} from "react"
-import {useSelector} from "react-redux";
+import ProductsController from "presentation/logic/products/controller";
+import {AppDispatch, RootState} from "presentation/logic/redux_config";
+import {ReactElement, useState} from "react"
+import {useDispatch, useSelector} from "react-redux";
 
 interface IAppSearchBarProps {
 	onSearch: () => void;
@@ -14,7 +15,16 @@ interface IAppSearchBarProps {
 export function AppSearch({
 	onSearch,
 }: IAppSearchBarProps): ReactElement {
-	const {products} = useSelector((state: RootState)=>state.products);
+	const dispatch: AppDispatch = useDispatch();
+	const productController = new ProductsController();
+	const [paginatedData, setPaginatedData] = useState<any>({
+		limit: 20,
+		page: 0,
+	});
+
+	const [search, setSearch] = useState<string>("");
+
+	const {products, searchedProducts} = useSelector((state: RootState) => state.products);
 	return (
 		<div
 			className="bg-white flex px-8 shadow-md rounded-md py-8 flex-col h-full w-full items-center justify-start"
@@ -23,12 +33,27 @@ export function AppSearch({
 				label="Buscar producto"
 				value=''
 				placeholder="Ingrese el nombre de un producto"
-				onChange={() => {}}
+				onChange={(value) => {
+					setSearch(value);
+				}}
 			/>
 			<div className="my-1"></div>
-			<div onClick={onSearch}>
+			<div>
 				<Button
 					variant="contained"
+					onClick={() => {
+						dispatch(productController.load({
+							limit: paginatedData.limit,
+							offset: paginatedData.page,
+							query: search,
+							flushSearchedProducts: true,
+						}));
+
+						setPaginatedData({
+							...paginatedData,
+							page: paginatedData.page + 1,
+						});
+					}}
 				>
 
 					Buscar&nbsp;<SearchOutlined />
@@ -36,7 +61,7 @@ export function AppSearch({
 			</div>
 			<div className="flex flex-col md:flex-row md:justify-between mt-8 md:items-center w-full h-full">
 				<InputLabel className="w-full text-center md:text-left">
-					Mostrando productos disponibles ({products?.length ?? 0})
+					Mostrando productos {(searchedProducts?.length ?? 0) > 0?"buscados":"disponibles"} ({(searchedProducts?.length ?? 0) > 0? searchedProducts?.length:products?.length})
 				</InputLabel>
 				<Button variant="outlined">Predecir</Button>
 			</div>

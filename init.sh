@@ -33,4 +33,4 @@ echo "12345678" | docker exec -i clan_del_dragon_mysql mysql -u root -p -e "sour
 
 echo "12345678" | docker exec -i clan_del_dragon_mysql mysql -u root -p -e "source /scripts/respaldo_peralta.sql"
 
-(docker exec -it clan_del_dragon_api npm run start:dev) & (docker exec -it clan_del_dragon_client npm start) ; fg ; wait
+(docker exec -it clan_del_dragon_api npm run start:dev) & (docker exec -it clan_del_dragon_client npm start) ; fg

@@ -21,6 +21,7 @@ const SearchAppBar = ({
 			<Input
 				placeholder={placeholder}
 				className="w-full"
+				onChange={(e) => onChange(e.target.value)}
 				startAdornment={
 					<InputAdornment position="start">
 						<SearchOutlined />
