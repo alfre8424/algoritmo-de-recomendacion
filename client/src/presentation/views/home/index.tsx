@@ -21,7 +21,6 @@ export function Home(): ReactElement {
 
 	const limit = 10;
 	const [offset, setOffset] = useState(0);
-	const offRef = useRef<number | null>(null);
 
 	const {containerProps, indicatorEl} = useLoading({
 		loading: true,
@@ -29,21 +28,18 @@ export function Home(): ReactElement {
 	})
 
 	const loadMore = () => {
-		offRef.current = offset + limit;
 		setOffset(offset + limit);
 	}
 
 	const productsController = new ProductsController();
-	useEffect(() => {
-		offRef.current = offset;
-	}, []);
+
 
 	useEffect(() => {
 		setLoading(true);
-		dispatch(productsController.load({limit, offset, query}, (_) => {
+		dispatch(productsController.load({limit, offset, query: (query && query.length > 0) ? query : "5-0Koketa"}, (_) => {
 			setLoading(false);
 		}));
-	}, [offRef.current]);
+	}, []);
 
 	return (
 		<div className="flex flex-col overflow-x-hidden h-min-screen bg-gray-200">
@@ -82,26 +78,26 @@ export function Home(): ReactElement {
 				title="Resultado de la búsqueda"
 				content={
 					<div className="flex flex-row flex-wrap gap-[10px]">
-						{searchedProducts?.map((product) => {
+						{searchedProducts?.map((product, index) => {
 							return <ProductCard
-								key={product.id}
+								key={index}
 								product={product}
 							/>
 						})}
-				<div className="w-[200px] h-[200px] flex justify-center items-center">
-					{
-						loading ?
-							<section key='s' {...containerProps}>
-								{indicatorEl}
-							</section> : <Button
-								sx={{fontSize: '12px'}}
-								variant="contained"
-								onClick={loadMore}
-							>
-								Cargar más
-							</Button>
-					}
-				</div>,
+						<div className="w-[200px] h-[200px] flex justify-center items-center">
+							{
+								loading ?
+									<section key='s' {...containerProps}>
+										{indicatorEl}
+									</section> : <Button
+										sx={{fontSize: '12px'}}
+										variant="contained"
+										onClick={loadMore}
+									>
+										Cargar más
+									</Button>
+							}
+						</div>,
 					</div>
 				}
 				onClose={() => setShowAlert(false)}

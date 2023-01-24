@@ -58,7 +58,7 @@ export function AppSearch({
 			</div>
 			<div className="flex flex-col md:flex-row md:justify-between mt-8 md:items-center w-full h-full">
 				<InputLabel className="w-full text-center md:text-left">
-					Mostrando productos {(searchedProducts?.length ?? 0) > 0?"buscados":"disponibles"} ({(searchedProducts?.length ?? 0) > 0? searchedProducts?.length:products?.length})
+					Mostrando productos disponibles ({products?.length})
 				</InputLabel>
 				<Button variant="outlined">Predecir</Button>
 			</div>

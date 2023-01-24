@@ -25,25 +25,25 @@ export default function ListView() {
 		offRef.current = offset + limit;
 		setOffset(offset + limit);
 	}
+	offRef.current = offset;
 
 	const productsController = new ProductsController();
-	useEffect(() => {
-		offRef.current = offset;
-	}, []);
 
 	useEffect(() => {
 		setLoading(true);
-		dispatch(productsController.load({limit, offset}, (_) => {
-			setLoading(false);
-		}));
+		if (offRef.current !== null) {
+			dispatch(productsController.load({limit, offset}, (_) => {
+				setLoading(false);
+			}));
+		}
 	}, [offRef.current]);
 
 	return (
 		<div className="w-[100%] h-[40vh] overflow-y-scroll flex flex-row flex-wrap p-4">
 			{
-				[(products ?? []).map((product) => {
+				[(products ?? []).map((product, index) => {
 					return <ProductCard
-						key={product.id}
+						key={index}
 						product={product}
 					/>;
 				}),

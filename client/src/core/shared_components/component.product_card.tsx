@@ -5,16 +5,14 @@ import ImageIcon from '@mui/icons-material/Image';
 import type {ReactElement} from "react"
 
 interface ProductCardProps {
-	key: string;
 	product: ProductEntity;
 }
 
 export function ProductCard({
-	key, product,
+	product,
 }: ProductCardProps): ReactElement {
 	return <div
 		className="w-[200px] flex flex-col p-4 m-2 shadow-md rounded-md bg-blue-50"
-		key={key}
 	>
 		<div className="mx-auto">
 			<Avatar>
