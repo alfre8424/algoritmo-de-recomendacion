@@ -32,13 +32,13 @@ export default class ProductsController {
 			// it means there is no error
 			const products = result.getRight();
 
-			console.log('Products', products);
 			// saving the user in the local storage
 			callback && callback(products);
 			dispatch({
 				type: params.query ? ProductsActionType.search : ProductsActionType.load,
 				payload: params.query ? {searchedProducts: products} : {products},
 				flushSearchedProducts: params.flushSearchedProducts,
+				query: params.query,
 			});
 		};
 	}

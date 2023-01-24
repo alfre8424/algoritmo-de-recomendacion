@@ -49,10 +49,7 @@ export function AppSearch({
 							flushSearchedProducts: true,
 						}));
 
-						setPaginatedData({
-							...paginatedData,
-							page: paginatedData.page + 1,
-						});
+						onSearch();
 					}}
 				>
 

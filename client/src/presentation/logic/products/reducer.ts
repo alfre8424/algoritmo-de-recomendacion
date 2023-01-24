@@ -14,11 +14,12 @@ export const productsReducer = (state = initialState, action: ProductsAction): A
 				],
 			};
 		case ProductsActionType.search:
-			console.log('Search query');
+			console.log("searchedProducts", action.payload.searchedProducts);
 			return {
 				...state,
+				query: action.query,
 				searchedProducts: [
-					...(action.flushSearchedProducts ? [] : state.searchedProducts ?? []),
+					...(action.flushSearchedProducts===true ? [] : (state.searchedProducts ?? [])),
 					...action.payload.searchedProducts ?? [],
 				],
 			}

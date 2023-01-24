@@ -15,7 +15,7 @@ export default class ProductsDatasource {
 	async loadAll(params: LoadProductParams): Promise<Either<AppError, ProductEntity[]>> {
 
 		// target url to login
-		const url = `${Globals.API_URL}/products?limit=${params.limit}&offset=${params.offset}${params.query ? `&query=${params.query}` : ""}`;
+		const url = `${Globals.API_URL}/products?limit=${params.limit}&offset=${params.offset}${params.query ? `&q=${params.query}` : ""}`;
 
 		// sending the request 
 		const response = await fetch(url, {

@@ -1,17 +1,49 @@
 import AppSimpleDialog from "core/shared_components/component.dialog";
-import React from "react";
+import React, {useEffect, useRef, useState} from "react";
 import type {ReactElement} from "react"
 import AppNavbar from "core/shared_components/component.navbar";
 import {RecommendSettings} from "./components/component.recommend_settings";
 import {AppSearch} from "./components/component.search";
-import {useSelector} from "react-redux";
-import {RootState} from "presentation/logic/redux_config";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "presentation/logic/redux_config";
+import {ProductCard} from "core/shared_components/component.product_card";
+import {Puff, useLoading} from "@agney/react-loading";
+import {Button} from "@mui/material";
+import ProductsController from "presentation/logic/products/controller";
 
 export function Home(): ReactElement {
 
 	const [showAlert, setShowAlert] = React.useState(false);
-	const {token} = useSelector((state: RootState) => state.auth);
+	const {searchedProducts, query} = useSelector((state: RootState) => state.products);
 
+	const [loading, setLoading] = useState(false);
+	const dispatch = useDispatch<AppDispatch>();
+
+	const limit = 10;
+	const [offset, setOffset] = useState(0);
+	const offRef = useRef<number | null>(null);
+
+	const {containerProps, indicatorEl} = useLoading({
+		loading: true,
+		indicator: <Puff width="50" />,
+	})
+
+	const loadMore = () => {
+		offRef.current = offset + limit;
+		setOffset(offset + limit);
+	}
+
+	const productsController = new ProductsController();
+	useEffect(() => {
+		offRef.current = offset;
+	}, []);
+
+	useEffect(() => {
+		setLoading(true);
+		dispatch(productsController.load({limit, offset, query}, (_) => {
+			setLoading(false);
+		}));
+	}, [offRef.current]);
 
 	return (
 		<div className="flex flex-col overflow-x-hidden h-min-screen bg-gray-200">
@@ -39,16 +71,39 @@ export function Home(): ReactElement {
 					</div>
 					<div className="lg:w-[1rem]"></div>
 					<div className="w-full h-full">
-						<AppSearch 
+						<AppSearch
 							onSearch={() => setShowAlert(true)}
 						/>
 					</div>
 				</div>
 			</div>
-			<AppSimpleDialog 
+			<AppSimpleDialog
 				isOpen={showAlert}
-				title="Funcionalidad no disponible"
-				content={<p>Esta funcionalidad aún no está disponible.</p>}
+				title="Resultado de la búsqueda"
+				content={
+					<div className="flex flex-row flex-wrap gap-[10px]">
+						{searchedProducts?.map((product) => {
+							return <ProductCard
+								key={product.id}
+								product={product}
+							/>
+						})}
+				<div className="w-[200px] h-[200px] flex justify-center items-center">
+					{
+						loading ?
+							<section key='s' {...containerProps}>
+								{indicatorEl}
+							</section> : <Button
+								sx={{fontSize: '12px'}}
+								variant="contained"
+								onClick={loadMore}
+							>
+								Cargar más
+							</Button>
+					}
+				</div>,
+					</div>
+				}
 				onClose={() => setShowAlert(false)}
 			/>
 		</div>

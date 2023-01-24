@@ -28,7 +28,8 @@ function AppSimpleDialog({
 	const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
 	return <Dialog
-		fullScreen={fullScreen}
+		fullScreen={false}
+		maxWidth="lg"
 		open={isOpen}
 	>
 		<DialogTitle id="responsive-dialog-title">

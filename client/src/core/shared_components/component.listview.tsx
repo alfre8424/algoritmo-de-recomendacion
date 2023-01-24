@@ -1,12 +1,10 @@
-import Avatar from '@mui/material/Avatar';
-import ImageIcon from '@mui/icons-material/Image';
 import {Button} from '@mui/material';
-import {AddShoppingCartOutlined} from '@mui/icons-material';
 import {useEffect, useRef, useState} from 'react';
-import ProductsController, {LoadProductParams} from 'presentation/logic/products/controller';
+import ProductsController from 'presentation/logic/products/controller';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from 'presentation/logic/redux_config';
-import {Audio, Circles, Puff, Rings, SpinningCircles, TailSpin, useLoading} from '@agney/react-loading';
+import {Puff, useLoading} from '@agney/react-loading';
+import {ProductCard} from './component.product_card';
 
 export default function ListView() {
 
@@ -43,45 +41,11 @@ export default function ListView() {
 	return (
 		<div className="w-[100%] h-[40vh] overflow-y-scroll flex flex-row flex-wrap p-4">
 			{
-				[((searchedProducts && searchedProducts.length > 0) ? searchedProducts : (products ?? [])).map((product, index) => {
-					return <div
-						className="w-[200px] flex flex-col p-4 m-2 shadow-md rounded-md bg-blue-50"
-						key={index}
-					>
-						<div className="mx-auto">
-							<Avatar>
-								<ImageIcon />
-							</Avatar>
-						</div>
-						<div className="mx-auto">
-							<h1 className="font-bold text-center">
-								{product.name}
-							</h1>
-						</div>
-						<div className="flex flex-col text-sm">
-							<span className="text-gray-500">
-								Popularidad: {product.popularity}
-							</span>
-							<span className="text-gray-500">
-								Cantidad: {product.unit}
-							</span>
-						</div>
-						<div
-							className="flex flex-row justify-center items-center my-2"
-							style={{bottom: 0}}
-						>
-							<Button
-								sx={{fontSize: '12px'}}
-								variant="outlined"
-								onClick={() => {
-									alert("Aun no implementado :'(")
-								}}
-							>
-								Agregar &nbsp;&nbsp;
-								<AddShoppingCartOutlined sx={{fontSize: '16px'}} />
-							</Button>
-						</div>
-					</div>;
+				[(products ?? []).map((product) => {
+					return <ProductCard
+						key={product.id}
+						product={product}
+					/>;
 				}),
 				<div className="w-[200px] h-[200px] flex justify-center items-center">
 					{
