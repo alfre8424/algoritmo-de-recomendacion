@@ -9,7 +9,7 @@ import {ProductCard} from './component.product_card';
 export default function ListView() {
 
 	const dispatch: AppDispatch = useDispatch();
-	const {products, searchedProducts} = useSelector((state: RootState) => state.products);
+	const {products} = useSelector((state: RootState) => state.products);
 	const [loading, setLoading] = useState(false);
 
 	const limit = 10;
@@ -36,6 +36,7 @@ export default function ListView() {
 				setLoading(false);
 			}));
 		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [offRef.current]);
 
 	return (

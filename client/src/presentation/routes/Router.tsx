@@ -1,7 +1,6 @@
 import type {ReactElement} from "react"
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 
-import {NotFound} from "presentation/views/404";
 import {Home} from "presentation/views/home";
 
 import GeneralRoutes from "./general_routes";
@@ -12,6 +11,7 @@ import PrivateRoutes from "./private_routes";
 import ProfileScreen from "presentation/views/profile";
 import {PrivateRoute} from "./components/component.private_routes";
 import {GeneralRoute} from "./components/component.general_routes";
+import { NotFound } from "presentation/views/404";
 
 /**
  * Punto de inicio de la aplicacion, desde aqui se decide que componente 
