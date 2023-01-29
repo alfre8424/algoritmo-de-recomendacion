@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 
 import 'styles.css';
-import {Provider} from 'react-redux';
 import {store} from 'presentation/logic/redux_config';
+import { Provider } from 'react-redux';
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement

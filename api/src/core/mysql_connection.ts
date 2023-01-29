@@ -2,6 +2,7 @@ import mysql from 'mysql2/promise';
 
 class MySQLConnection {
   public connection: mysql.Pool;
+  public transaction: mysql.Connection|null;
 
   constructor() {
 	this.connection = mysql.createPool({
@@ -13,9 +14,19 @@ class MySQLConnection {
 	  connectionLimit: 10,
 	  queueLimit: 0
 	});
+
+    this.transaction = null;
+  }
+
+  async stablishConnection() {
+    // TODO: implement it
+    this.transaction = await (mysql.createConnection(
+      ""
+    ));
   }
 }
 
 const mysqlConnection = new MySQLConnection();
+
 export type MySQLConn = MySQLConnection;
 export default mysqlConnection;

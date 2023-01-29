@@ -116,6 +116,12 @@ alter table users add column email varchar(255) unique not null;
 insert into commerce values('gonzalozambrano', 'Gonzalo Zambrano', '', '', 'Portoviejo', 1, 0.0, '', now(), now());
 
 alter table product modify unit text null;
+alter table cart modify user_id char(36) null;
+alter table cart modify commerce_id char(36) null;
+-- removing the user foreign key
+alter table cart drop foreign key cart_ibfk_1;
+-- removing the commerce_id foreign key
+alter table cart drop foreign key cart_ibfk_2;
 
 source ./respaldo_gonzalozambrano.sql;
 source ./respaldo_casanova.sql;
