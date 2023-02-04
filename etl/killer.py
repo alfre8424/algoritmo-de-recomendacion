@@ -1,6 +1,6 @@
 from crontab import CronTab
 
-cron = CronTab(user="joel")
+cron = CronTab(user="root")
 
 for job in cron:
     if job.comment == "cdd-etl":

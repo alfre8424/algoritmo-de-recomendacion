@@ -1,3 +1,7 @@
+CREATE DATABASE IF NOT EXISTS clan_del_dragon;
+
+use clan_del_dragon;
+
 CREATE TABLE IF NOT EXISTS users (
 	id char(36) PRIMARY KEY,
 	email VARCHAR(255) NOT NULL,

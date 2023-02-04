@@ -11,5 +11,6 @@ RUN echo "Executing Gonzalo Zambrano's ETL"
 WORKDIR /etl/procedures/gonzalozambrano
 RUN python3 ./extraction.py
 
-# RUN apt-get update && apt-get install 
+WORKDIR /etl
+RUN apt-get update && apt-get install cron -y
 
