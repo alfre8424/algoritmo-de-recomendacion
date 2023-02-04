@@ -7,7 +7,7 @@ import CartController from './presentation/api/cart';
 
 const app = express();
 app.use(cors());
-
+app.use(bodyParser.json());
 // APIS
 const authAPI = new AuthAPI();
 const productAPI = new ProductController();

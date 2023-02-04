@@ -130,7 +130,7 @@ try:
     # extracting data from the commerce datasource to add it to
     # the main database
     print(
-        "\n\nIniciando proceso de extraccion para el comercio: " + commerce[1])
+        "\n\nIniciando proceso de extraccion para el comercio: ", commerce[1])
     commerce_cursor = commerce_conx.cursor()
     commerce_product_query = commerce_cursor.execute(
         "SELECT * FROM {}".format(table))
@@ -195,7 +195,7 @@ try:
     main_conx.commit()
     print("Carga de productos finalizada\n\n#--------------------------------------")
     # ---------------------------------------------------------------------------------------
-    print("Iniciando proceso de enlace con el comercio: " + commerce[1])
+    print("Iniciando proceso de enlace con el comercio: ", commerce[1])
     for product, index in zip(transformed_products, range(len(transformed_products))):
         print("Verificando si el producto {} no existe en la base de datos".format(
             product['name']))
@@ -242,5 +242,5 @@ except mysql.connector.Error as err:
         print("Database does not exist")
     else:
         print(err)
-    commerce_conx.close()
-    main_conx.close()
+    # commerce_conx.close()
+    # main_conx.close()

@@ -17,6 +17,10 @@ cd $CURR_DIR/client
 # building frontend image
 docker build -t clan_del_dragon_client .
 
+# building ETL image
+cd $CURR_DIR/etl
+docker build -t clan_del_dragon_etl .
+
 cd $CURR_DIR
 echo "Starting images"
 docker-compose up -d

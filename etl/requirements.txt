@@ -3,3 +3,5 @@ unicode==2.9
 spacy==3.5.0
 quantulum3==0.8.1
 numpy==1.24.1
+python-crontab==2.7.1
+crontab==1.0.0
