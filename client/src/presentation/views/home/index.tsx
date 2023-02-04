@@ -62,15 +62,12 @@ export function Home(): ReactElement {
 				<div
 					className="m-2 flex flex-col items-center p-4 lg:flex-row lg:justify-between lg:items-stretch"
 				>
-					<div className="w-full lg:w-[40vw] h-full">
-						<RecommendSettings />
-					</div>
-					<div className="lg:w-[1rem]"></div>
 					<div className="w-full h-full">
 						<AppSearch
 							onSearch={() => setShowAlert(true)}
 						/>
 					</div>
+					<div className="lg:w-[1rem]"></div>
 				</div>
 			</div>
 			<AppSimpleDialog

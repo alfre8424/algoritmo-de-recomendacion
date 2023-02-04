@@ -112,12 +112,25 @@ CREATE TABLE IF NOT EXISTS session(
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 )engine=InnoDB;
 
+CREATE TABLE IF NOT EXISTS commerce_surveys(
+	commerce_id char(36) NOT NULL,
+	user_id char(36) NULL,
+	question varchar(255) NOT NULL,
+	rating int NOT NULL, -- the rating range between 0 and 5
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY (commerce_id) REFERENCES commerce(id) on update cascade on delete no action,
+	FOREIGN KEY (user_id) REFERENCES users(id) on update cascade on delete no action
+)engine=InnoDB;
+
 alter table session add column is_active boolean not null default true;
 alter table users drop column email;
 alter table users add column email varchar(255) unique not null;
 
 -- injecting data 
 insert into commerce values('gonzalozambrano', 'Gonzalo Zambrano', '', '', 'Portoviejo', 1, 0.0, '', now(), now());
+
+insert into commerce_surveys values('gonzalozambrano', null, '¿Como calificas el servicio?', 5, now(), now());
 
 alter table product modify unit text null;
 alter table cart modify user_id char(36) null;

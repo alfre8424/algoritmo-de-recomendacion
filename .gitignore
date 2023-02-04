@@ -2,4 +2,4 @@ db/
 .git/
 **/node_modules/
 **/**/.Trash*
-
+**/**/*.log

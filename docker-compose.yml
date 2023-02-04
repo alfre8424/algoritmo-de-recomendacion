@@ -2,7 +2,7 @@ version: "3.7"
 services:
   clan_del_dragon_etl:
     image: clan_del_dragon_etl
-    container_name: clan_del_dragon_etl 
+    container_name: etl_clan_del_dragon
     restart: always 
     tty: true
     networks:
@@ -17,7 +17,7 @@ services:
     # https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
     # (this is just an example, not intended to be a production configuration)
     command: --default-authentication-plugin=mysql_native_password
-    container_name: clan_del_dragon_mysql
+    container_name: mysql_clan_del_dragon
     restart: always
     networks:
       - app-network
@@ -35,7 +35,7 @@ services:
       MYSQL_DATABASE: clan_del_dragon
   clan_del_dragon_client:
     image: clan_del_dragon_client
-    container_name: clan_del_dragon_client
+    container_name: client_clan_del_dragon
     tty: true
     ports:
       - 3000:3000
@@ -49,7 +49,7 @@ services:
       REACT_APP_NG_API_HOST: clan_del_dragon_api
   clan_del_dragon_api:
     image: clan_del_dragon_api
-    container_name: clan_del_dragon_api
+    container_name: api_clan_del_dragon
     tty: true
     ports:
       - 8000:8000

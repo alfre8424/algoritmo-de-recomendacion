@@ -1,7 +1,3 @@
-with open('/etl/feedback.txt', 'w') as f:
-    f.write('starting qweqweqweqw')
-f.close()
-
 import pandas as pd
 import numpy as np
 import mysql.connector
@@ -31,11 +27,6 @@ try:
 
     # writing a csv file with the data
     df.to_csv('/etl/products.csv', index=False)
-
-    # writting a feedback file
-    with open('/etl/feedback.txt', 'w') as f:
-        f.write('success')
-    f.close()
 
 
 except mysql.connector.Error as err:
