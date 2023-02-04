@@ -3,11 +3,11 @@ Extraction stage for Casanova ETL
 '''
 # information about where to query the data
 import mysql.connector
+from mysql.connector import errorcode
 import uuid
 
 import numpy as np
 
-from mysql.connector import errorcode
 
 # reading host from environment variable
 import os
