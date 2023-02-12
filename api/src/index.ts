@@ -15,11 +15,11 @@ const cartAPI = new CartController();
 
 // MIDDLEWARES
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(authAPI.router);
 app.use(productAPI.router);
 app.use(cartAPI.router);
 
 app.listen(process.env.API_PORT, () => {
-	console.log(`Server started on port ${process.env.API_PORT}`);
+  console.log(`Server started on port ${process.env.API_PORT}`);
 });

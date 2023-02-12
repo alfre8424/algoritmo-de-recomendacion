@@ -12,7 +12,7 @@ import numpy as np
 # reading host from environment variable
 import os
 
-host = 'clan_del_dragon_mysql'
+host = 'mysql_clan_del_dragon'
 user = 'root'
 password = '12345678'
 database = 'gonzalozambrano'
@@ -63,6 +63,10 @@ replacements = {
     'agu': 'agua',
     'higie': 'higienico',
     'det': 'detergente',
+    'cabel': 'cabello',
+    'hari': 'harina',
+    'trig': 'trigo',
+    'jab': 'jabon',
     '  ': ' ',
 
     # measures

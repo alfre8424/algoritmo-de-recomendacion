@@ -1,11 +1,9 @@
 import pandas as pd
-import numpy as np
 import mysql.connector
-from mysql.connector import errorcode
 
 try:
 
-    host = 'clan_del_dragon_mysql'
+    host = 'mysql_clan_del_dragon'
     user = 'root'
     password = '12345678'
     database = 'clan_del_dragon'
@@ -18,12 +16,29 @@ try:
     )
 
     cursor = conx.cursor()
-    query = "SELECT p.id, p.name, p.popularity, p.unit, c.id as commerce_id, c.name as commerce_name, c.popularity as commerce_popularity from product p join commerce_product cp on(p.id = cp.product_id) join commerce c on (c.id = cp.commerce_id) where p.enabled = 1 and c.enabled = 1;"
+    query = "SELECT p.id, p.name, p.popularity, p.unit, c.id as commerce_id,\
+    c.name as commerce_name, cp.price as price, cp.id as id_pro_com, c.popularity as \
+    commerce_popularity from product p join commerce_product cp on(\
+    p.id = cp.product_id) join commerce c on (c.id = cp.commerce_id)\
+    where p.enabled = 1 and c.enabled = 1;"
 
     cursor.execute(query)
     products = cursor.fetchall()
 
-    df = pd.DataFrame(products, columns=['id', 'name', 'popularity', 'unit', 'commerce_id', 'commerce_name', 'commerce_popularity'])
+    df = pd.DataFrame(
+        products,
+        columns=[
+            'id',
+            'name',
+            'popularity',
+            'unit',
+            'commerce_id',
+            'commerce_name',
+            'price',
+            'id_producto_comercio',
+            'commerce_popularity'
+        ],
+    )
 
     # writing a csv file with the data
     df.to_csv('/etl/products.csv', index=False)
@@ -39,11 +54,5 @@ except Exception as err:
     # write the rror in a file (create if not exists)
     with open('/etl/error.txt', 'w') as f:
         f.write(str(err))
-
-    f.close()
-except:
-    # write the rror in a file (create if not exists)
-    with open('/etl/error.txt', 'w') as f:
-        f.write('Unknown error')
 
     f.close()

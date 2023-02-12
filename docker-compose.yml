@@ -1,7 +1,7 @@
 version: "3.7"
 services:
-  clan_del_dragon_etl:
-    image: clan_del_dragon_etl
+  etl_clan_del_dragon:
+    image: etl_clan_del_dragon
     container_name: etl_clan_del_dragon
     restart: always 
     tty: true
@@ -10,8 +10,8 @@ services:
     volumes:
       - ./etl/:/etl/
     depends_on:
-      - clan_del_dragon_mysql
-  clan_del_dragon_mysql:
+      - mysql_clan_del_dragon
+  mysql_clan_del_dragon:
     image: mysql:8.0.30-debian
     # NOTE: use of "mysql_native_password" is not recommended:
     # https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
@@ -33,8 +33,8 @@ services:
       # Password for the root user
       MYSQL_ROOT_PASSWORD: 12345678
       MYSQL_DATABASE: clan_del_dragon
-  clan_del_dragon_client:
-    image: clan_del_dragon_client
+  client_clan_del_dragon:
+    image: client_clan_del_dragon
     container_name: client_clan_del_dragon
     tty: true
     ports:
@@ -44,11 +44,11 @@ services:
     volumes:
       - ./client/:/frontend/
     depends_on:
-      - clan_del_dragon_api
+      - api_clan_del_dragon
     environment:
-      REACT_APP_NG_API_HOST: clan_del_dragon_api
-  clan_del_dragon_api:
-    image: clan_del_dragon_api
+      REACT_APP_NG_API_HOST: api_clan_del_dragon
+  api_clan_del_dragon:
+    image: api_clan_del_dragon
     container_name: api_clan_del_dragon
     tty: true
     ports:
@@ -60,10 +60,10 @@ services:
         source: ./api/
         target: /backend/
     depends_on:
-      - clan_del_dragon_mysql
+      - mysql_clan_del_dragon
     environment:
       API_PORT: 8000
-      DB_HOST: clan_del_dragon_mysql
+      DB_HOST: mysql_clan_del_dragon
       DB_NAME: clan_del_dragon
       DB_PORT: 3306
       DB_USERNAME: root

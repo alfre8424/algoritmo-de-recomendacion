@@ -10,16 +10,16 @@ CURR_DIR=$(pwd)
 cd $CURR_DIR/api
 
 # building backend image
-docker build -t clan_del_dragon_api .
+docker build -t api_clan_del_dragon .
 
 cd $CURR_DIR/client
 
 # building frontend image
-docker build -t clan_del_dragon_client .
+docker build -t client_clan_del_dragon .
 
 # building ETL image
 cd $CURR_DIR/etl
-docker build -t clan_del_dragon_etl .
+docker build -t etl_clan_del_dragon .
 
 cd $CURR_DIR
 echo "Starting images"
@@ -27,14 +27,21 @@ docker-compose up -d
 
 # docker exec -d clan_del_dragon_client npm start
 
-docker exec -it clan_del_dragon_api npm install
-docker exec -it clan_del_dragon_client npm install
+docker exec -it api_clan_del_dragon npm install
+docker exec -it client_clan_del_dragon npm install
 
 # creando bases de datos desde la fuente usando source
-echo "12345678" | docker exec -i clan_del_dragon_mysql mysql -u root -p -e "source /scripts/respaldo_casanova.sql"
+echo "12345678" | docker exec -i mysql_clan_del_dragon mysql -u root -p -e "source /scripts/respaldo_casanova.sql"
 
-echo "12345678" | docker exec -i clan_del_dragon_mysql mysql -u root -p -e "source /scripts/respaldo_gonzalozambrano.sql"
+echo "12345678" | docker exec -i mysql_clan_del_dragon mysql -u root -p -e "source /scripts/respaldo_gonzalozambrano.sql"
 
-echo "12345678" | docker exec -i clan_del_dragon_mysql mysql -u root -p -e "source /scripts/respaldo_peralta.sql"
+echo "12345678" | docker exec -i mysql_clan_del_dragon mysql -u root -p -e "source /scripts/respaldo_peralta.sql"
 
-(docker exec -it clan_del_dragon_api npm run start:dev) & (docker exec -it clan_del_dragon_client npm start) ; fg
+# inicializando los ETL
+docker exec etl_clan_del_dragon bash init_etl.sh
+echo "Corriendo cron job"
+docker exec etl_clan_del_dragon python3 worker.py
+
+echo "Montando contenedores..."
+(docker exec -it api_clan_del_dragon npm run start:dev) & (docker exec -it client_clan_del_dragon npm start) ; fg
+
