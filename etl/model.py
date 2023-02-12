@@ -72,7 +72,7 @@ class PredictorModel:
         Calcula el score final del local
         '''
         a = self.__popularidad() * self.__quality()
-        b = self.pl/self.pp
+        b = self.pl/(self.pp + 1e-16) if self.pl != 0 and self.pp != 0 else 1e10
         dr = len(self.m)
 
         f = a/((b*(dr + 1) + 1e-16))
