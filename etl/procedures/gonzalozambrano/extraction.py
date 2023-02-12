@@ -10,7 +10,6 @@ import numpy as np
 
 
 # reading host from environment variable
-import os
 
 host = 'mysql_clan_del_dragon'
 user = 'root'
