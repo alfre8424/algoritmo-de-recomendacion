@@ -22,7 +22,7 @@ class PredictorModel:
         q: np.array matriz de calidad obtenido del sistema
         eta: int valor maximo con que un usuario puede calificar la calidad
         beta: int valor minimo con que un usuario puede calificar la popularidad
-        s: np.array reivews de calidad recibida en el sistema
+        s: np.array reivews de popularidad recibida en el sistema
         sk: float impacto de la popularidad recibida en el sistema
         bk: flaot impacto de la popularidad recibida por encuestas
         pp: precio promedio de la canasta en otros locales
