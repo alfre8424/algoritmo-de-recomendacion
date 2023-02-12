@@ -1,6 +1,10 @@
 import pandas as pd
 import mysql.connector
 
+with open('/etl/error.txt', 'w') as f:
+    f.write(str("enter"))
+
+    f.close()
 try:
 
     host = 'mysql_clan_del_dragon'

@@ -38,6 +38,7 @@ echo "12345678" | docker exec -i mysql_clan_del_dragon mysql -u root -p -e "sour
 echo "12345678" | docker exec -i mysql_clan_del_dragon mysql -u root -p -e "source /scripts/respaldo_peralta.sql"
 
 # inicializando los ETL
+docker exec etl_clan_del_dragon service cron start
 docker exec etl_clan_del_dragon bash init_etl.sh
 echo "Corriendo cron job"
 docker exec etl_clan_del_dragon python3 worker.py

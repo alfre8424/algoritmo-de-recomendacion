@@ -10,4 +10,9 @@
 8. El perfil de cliente servirá para decodificar patrones.  
 
 
-hol
+# Comandos
+- Iniciar sistema: ```bash init.sh```  
+- Iniciar Frontend: Se realiza automaticamente, sin embargo, para hacerlo manual es: 
+```docker exec -it client_clan_del_dragon npm start```  
+- Iniciar API administrativa: ```docker exec -it api_clan_del_dragon npm run start:dev```  
+- Iniciar API modelo: ```docker exec -it etl_clan_del_dragon python3 server.py```

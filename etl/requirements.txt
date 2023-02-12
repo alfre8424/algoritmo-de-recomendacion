@@ -5,3 +5,4 @@ quantulum3==0.8.1
 numpy==1.24.1
 python-crontab==2.7.1
 pandas==1.5.3
+flask==2.2.2
