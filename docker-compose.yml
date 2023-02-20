@@ -47,8 +47,10 @@ services:
       - ./client/:/frontend/
     depends_on:
       - api_clan_del_dragon
+      - etl_clan_del_dragon
     environment:
-      REACT_APP_NG_API_HOST: api_clan_del_dragon
+      REACT_APP_ADMINISTRATIVE_API: api_clan_del_dragon
+      REACT_APP_MODEL_API: etl_clan_del_dragon
   api_clan_del_dragon:
     image: api_clan_del_dragon
     container_name: api_clan_del_dragon

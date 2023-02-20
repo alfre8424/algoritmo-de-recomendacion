@@ -35,8 +35,8 @@ export function ProductCard({
     dispatch(cartController.addToCart({ product, quantity: 1 }));
   }
 
-  const removeFromCart = ()=> {
-  dispatch(cartController.removeFromCart(product));
+  const removeFromCart = () => {
+    dispatch(cartController.removeFromCart(product));
   }
 
   return <div
@@ -54,11 +54,13 @@ export function ProductCard({
     </div>
     <div className="flex flex-col text-sm">
       <span className="text-gray-500">
-        Popularidad: {product.popularity}
+        Contenido: {product.unit}
       </span>
-      <span className="text-gray-500">
-        Cantidad: {product.unit}
-      </span>
+      {
+        product.price && <span className="text-gray-500">
+          Precio: ${product.price.toFixed(2)}
+        </span>
+      }
     </div>
     <div
       className="flex flex-row justify-center items-center my-2"

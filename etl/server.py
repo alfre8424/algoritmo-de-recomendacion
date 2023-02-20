@@ -1,11 +1,13 @@
 import numpy as np
 import pandas as pd
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 from model import PredictorModel
 from preprocessor import Commerce, Preprocessor
 
 app = Flask(__name__)
+CORS(app)
 
 
 # definiendo rutas
@@ -55,8 +57,23 @@ def recomendar():
 
         score = model.score()
 
+        basket_products = [
+            ({
+                "id": x[0],
+                "name": x[1],
+                "unit": x[3] if x[3] is not np.nan else '-',
+                "price": x[4] if x[4] is not np.nan else 1e10
+            }
+                if x[0] in canasta else None
+            )
+            for x in gz_data.values
+        ]
+
+        # removing all the None values
+        basket_products = [x for x in basket_products if x is not None]
+
         return jsonify({
-            'canasta': canasta,
+            'canasta': basket_products,
             'mejor_local': 'Gonzalo Zambrano',
             'score': score,
             'precio': precio_global_gz,
