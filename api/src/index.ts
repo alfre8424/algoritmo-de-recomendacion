@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import ProductController from './presentation/api/products';
 import CartController from './presentation/api/cart';
+import SurveyController from './presentation/api/survey';
 
 const app = express();
 app.use(cors());
@@ -12,6 +13,7 @@ app.use(bodyParser.json());
 const authAPI = new AuthAPI();
 const productAPI = new ProductController();
 const cartAPI = new CartController();
+const surveyAPI = new SurveyController();
 
 // MIDDLEWARES
 app.use(bodyParser.json());
@@ -19,6 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(authAPI.router);
 app.use(productAPI.router);
 app.use(cartAPI.router);
+app.use(surveyAPI.router);
 
 app.listen(process.env.API_PORT, () => {
   console.log(`Server started on port ${process.env.API_PORT}`);

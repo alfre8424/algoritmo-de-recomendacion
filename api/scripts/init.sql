@@ -126,6 +126,7 @@ CREATE TABLE IF NOT EXISTS commerce_surveys(
 alter table session add column is_active boolean not null default true;
 alter table users drop column email;
 alter table users add column email varchar(255) unique not null;
+alter table commerce modify location text null;
 
 -- injecting data 
 insert into commerce values('gonzalozambrano', 'Gonzalo Zambrano', '', '', 'Portoviejo', 1, 0.0, '', now(), now());
