@@ -20,10 +20,14 @@ try:
     )
 
     cursor = conx.cursor()
-    query = "SELECT p.id, p.name, p.popularity, p.unit, c.id as commerce_id,\
-    c.name as commerce_name, cp.price as price, cp.id as id_pro_com, c.popularity as \
+    query = "SELECT p.id, p.name, p.popularity, s.quality, p.unit, c.id \
+    as commerce_id,\
+    c.name as commerce_name, cp.price as price, cp.id as id_pro_com, \
+    c.popularity as \
     commerce_popularity from product p join commerce_product cp on(\
-    p.id = cp.product_id) join commerce c on (c.id = cp.commerce_id)\
+    p.id = cp.product_id) join commerce c on (c.id = cp.commerce_id) \
+    join (select avg(rating) as quality, commerce_id from commerce_surveys \
+    group by commerce_id) as s on (s.commerce_id = c.id) \
     where p.enabled = 1 and c.enabled = 1;"
 
     cursor.execute(query)
@@ -35,6 +39,7 @@ try:
             'id',
             'name',
             'popularity',
+            'quality',
             'unit',
             'commerce_id',
             'commerce_name',

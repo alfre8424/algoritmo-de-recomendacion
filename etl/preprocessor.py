@@ -29,8 +29,3 @@ class Preprocessor:
         gz_data = self.gonzalozambrano.data
         gz_popularity = gz_data.loc[0, ['commerce_popularity']].values[0]
         self.gonzalozambrano.popularity = gz_popularity
-        self.gonzalozambrano.data = self.gonzalozambrano.data.drop([
-            'commerce_id',
-            'commerce_name',
-            'commerce_popularity',
-        ], axis=1)

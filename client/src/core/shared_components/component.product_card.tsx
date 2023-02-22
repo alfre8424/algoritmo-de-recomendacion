@@ -39,6 +39,8 @@ export function ProductCard({
     dispatch(cartController.removeFromCart(product));
   }
 
+  console.log(product);
+
   return <div
     className="w-[200px] flex flex-col p-4 m-2 shadow-md rounded-md bg-blue-50"
   >
@@ -49,16 +51,16 @@ export function ProductCard({
     </div>
     <div className="mx-auto">
       <h1 className="font-bold text-center">
-        {product.name}
+        {product?.name}
       </h1>
     </div>
     <div className="flex flex-col text-sm">
       <span className="text-gray-500">
-        Contenido: {product.unit}
+        Contenido: {product?.unit}
       </span>
       {
-        product.price && <span className="text-gray-500">
-          Precio: ${product.price.toFixed(2)}
+        product?.price && <span className="text-gray-500">
+          Precio: ${product.price?.toFixed(2)}
         </span>
       }
     </div>

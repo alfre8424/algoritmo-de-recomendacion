@@ -1,20 +1,14 @@
 import { SearchOutlined } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
-import Rating from "@mui/material/Rating";
-import Typography from "@mui/material/Typography";
 import AppSimpleDialog from "core/shared_components/component.dialog";
 import ListView from "core/shared_components/component.listview";
-import { ProductCard } from "core/shared_components/component.product_card";
 import SearchAppBar from "core/shared_components/component.searchbar";
-import { mergeClasses } from "core/utils/util.classess";
-import RecommenderDatasource from "data/datasources/datasource.recommender";
-import ProductEntity from "domain/entities/entity.product";
-import RecommendationEntity from "domain/entities/entity.recommendation";
 import ProductsController from "presentation/logic/products/controller";
 import { AppDispatch, RootState } from "presentation/logic/redux_config";
-import { ReactElement, useState } from "react"
+import { ReactElement, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { RecommendComponent } from "./component.recommend";
 
 interface IAppSearchBarProps {
   onSearch: () => void;
@@ -32,29 +26,11 @@ export function AppSearch({
 
   const [search, setSearch] = useState<string>("");
   const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [surveyRatings, setSurveyRatings] = useState<number[]>([0, 0, 0]);
 
   const { products } = useSelector((state: RootState) => state.products);
-  const { cartProducts } = useSelector((state: RootState) => state.cart);
-
-  const parsedBasketProducts = cartProducts.map((product) => {
-    return product.product.id;
-  });
-
-  // loading to show the process of prediction
-  const [preLoading, setPreLoading] = useState<boolean>(false);
-  const [basketResponse, setBasketResponse] = useState<RecommendationEntity | null>(null);
 
   const predict = async () => {
     setShowAlert(true);
-    setPreLoading(true);
-    const recommendationDS = new RecommenderDatasource();
-    const response = await recommendationDS.recommend(parsedBasketProducts);
-
-    if (response.isRight()) {
-      setBasketResponse(response.getRight());
-    }
-    setPreLoading(false);
   }
 
   return (
@@ -104,79 +80,14 @@ export function AppSearch({
         isOpen={showAlert}
         title=""
         content={
-          (preLoading) ? (
-            <span>Cargando...</span>
-          ) :
-            <div>
-              <h1 className="font-bold text-center text-xl">¡Te recomendamos {basketResponse?.commerce.name}!</h1>
-              <br />
-
-              <div
-                className={
-                  mergeClasses(
-                    "flex flex-row flex-wrap gap-2 justify-center"
-                  )
-                }
-              >
-                {
-                  basketResponse?.basket?.map((product: ProductEntity, index: number) => {
-                    return <ProductCard key={index} product={product} />;
-                  })
-                }
-              </div>
-              <br />
-              <span className="text-gray-500">
-                ¡En {basketResponse?.commerce.name} puedes encontrar
-                {
-                  basketResponse?.basket.length !== cartProducts.length ?
-                    `${basketResponse?.basket.length} de los ${cartProducts.length} productos de tu canasta!`
-                    : "todos los productos de tu canasta! "
-                }
-                Por un precio de solo ${basketResponse?.basketPrice.toFixed(2).replace('.', ',')}.
-                {
-                  basketResponse?.commerce.webpage && `Puedes visitar su página web en ${basketResponse?.commerce.webpage}.`
-                }
-              </span>
-
-              <br />
-              <br />
-              <h2
-                className="text-lg font-semibold"
-              >
-                Encuesta de calidad
-              </h2>
-              <span>
-                Por favor, indiquenos la calidad de los siguientes apartados en el local 'local'
-              </span>
-              <br /><br />
-              <Typography component="legend">¿Qué tan buena fue la atención brindada?</Typography>
-              <Rating
-                name="survey1"
-                value={surveyRatings[0]}
-                onChange={(_, newValue) => {
-                  setSurveyRatings([newValue ?? 0, surveyRatings[1], surveyRatings[2]]);
-                }}
-              />
-              <br />
-              <Typography component="legend">¿Qué tanta variedad de productos hay en el local?</Typography>
-              <Rating
-                name="suervey2"
-                value={surveyRatings[1]}
-                onChange={(_, newValue) => {
-                  setSurveyRatings([surveyRatings[0], newValue ?? 0, surveyRatings[2]]);
-                }}
-              />
-              <Typography component="legend">¿Qué tan probable es que recomiende el local?</Typography>
-              <Rating
-                name="suervey2"
-                value={surveyRatings[2]}
-                onChange={(_, newValue) => {
-                  setSurveyRatings([surveyRatings[0], surveyRatings[1], newValue ?? 0]);
-                }}
-              />
-            </div>
+          <RecommendComponent
+            onDone={() => setShowAlert(false)}
+          />
         }
         onClose={() => setShowAlert(false)}
+        actionButtons={[
+          <></>
+        ]}
       />
     </div>
   );

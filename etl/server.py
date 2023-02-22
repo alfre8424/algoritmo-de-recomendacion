@@ -61,8 +61,8 @@ def recomendar():
             ({
                 "id": x[0],
                 "name": x[1],
-                "unit": x[3] if x[3] is not np.nan else '-',
-                "price": x[4] if x[4] is not np.nan else 1e10
+                "unit": x[4] if x[4] is not np.nan else '-',
+                "price": x[7] if x[7] is not np.nan else 1e10
             }
                 if x[0] in canasta else None
             )
@@ -72,9 +72,13 @@ def recomendar():
         # removing all the None values
         basket_products = [x for x in basket_products if x is not None]
 
+        best_commerce = gz_data
+
         return jsonify({
             'canasta': basket_products,
-            'mejor_local': 'Gonzalo Zambrano',
+            'mejor_local': best_commerce['commerce_name'].values[0],
+            'comercio_id': best_commerce['commerce_id'].values[0],
+            'comercio_calidad': best_commerce['quality'].values[0],
             'score': score,
             'precio': precio_global_gz,
             'mensaje': f'Hay {len(productos_no_disponibles)} productos no \

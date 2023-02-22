@@ -34,10 +34,10 @@ export default class RecommenderDatasource {
     return Either.right({
       basket: responseBody.canasta,
       commerce: {
-        "id": "5-0 coqueta",
+        "id": responseBody.comercio_id,
         "location": "",
         "popularity": -1,
-        "quality": -1,
+        "quality": responseBody.comercio_calidad,
         "name": responseBody.mejor_local,
       },
       basketPrice: responseBody.precio,
