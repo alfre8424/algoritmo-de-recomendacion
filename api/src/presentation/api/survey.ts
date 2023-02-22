@@ -34,6 +34,13 @@ export default class SurveyController {
       });
     }
 
+    // the [survey] must match the SurveyEntity interface
+    if (!survey.commerceId || !survey.question || !survey.rating) {
+      return res.status(400).json({
+        message: 'La encuesta no es válida',
+      });
+    }
+
     const response = await this.repository.createSurvey(survey)
 
     if (response instanceof AppError) {
