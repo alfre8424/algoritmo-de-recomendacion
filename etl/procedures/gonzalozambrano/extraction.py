@@ -1,5 +1,5 @@
 '''
-Extraction stage for Casanova ETL
+Extraction stage for Gonzalo Zambrano ETL
 '''
 # information about where to query the data
 import mysql.connector

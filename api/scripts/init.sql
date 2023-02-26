@@ -130,6 +130,7 @@ alter table commerce modify location text null;
 
 -- injecting data 
 insert into commerce values('gonzalozambrano', 'Gonzalo Zambrano', '', '', 'Portoviejo', 1, 0.0, '', now(), now());
+insert into commerce values('casanova', 'Casanova', '', '', 'Portoviejo', 1, 0.0, '', now(), now());
 
 insert into commerce_surveys values('gonzalozambrano', null, '¿Como calificas el servicio?', 5, now(), now());
 

@@ -20,6 +20,10 @@ class Preprocessor:
     def __init__(self):
         self.data = pd.read_csv('products.csv')
 
+        print("Printing data\n")
+        print(self.data.columns)
+        print("\n\n\n")
+
         # GONZALO ZAMBRANO
         self.gonzalozambrano = Commerce(key='gonzalozambrano')
         self.gonzalozambrano.data = self.data[
@@ -29,3 +33,18 @@ class Preprocessor:
         gz_data = self.gonzalozambrano.data
         gz_popularity = gz_data.loc[0, ['commerce_popularity']].values[0]
         self.gonzalozambrano.popularity = gz_popularity
+
+        print("sdasdsadasdsa\n\n\n\n")
+        # Casanova
+        self.casanova = Commerce(key='casanova')
+        self.casanova.data = self.data[
+            self.data['commerce_id'] == self.casanova.key
+        ]
+
+        c_data = self.casanova.data
+
+        try:
+            casanova_popularity = c_data.loc[0, ['commerce_popularity']].values[0]
+            self.casanova.popularity = casanova_popularity
+        except:
+            self.casanova.popularity = 0
