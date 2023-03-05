@@ -141,6 +141,8 @@ alter table cart modify commerce_id char(36) null;
 alter table cart drop foreign key cart_ibfk_1;
 -- removing the commerce_id foreign key
 alter table cart drop foreign key cart_ibfk_2;
+alter table commerce modify image_url text null;
+alter table commerce modify location text null;
 
 update commerce set image_url = 'https://userscontent2.emaze.com/images/2f21b55a-8971-4daa-87e5-ee2e78c7b085/87fa302ba5bb4894efc0ff51fad9d9d9.jpg' where id = 'gonzalozambrano';
 update commerce set image_url = 'https://scontent.fpvo2-1.fna.fbcdn.net/v/t39.30808-6/276992393_1541940962859792_7717293046667290271_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=730e14&_nc_ohc=cIVAQOxkBSQAX9xJYP-&_nc_ht=scontent.fpvo2-1.fna&oh=00_AfB9NZtlbos0L3REGSwmpkTkyo19feKGVP-pgT1d6EDrSA&oe=640A2A61' where id = 'casanova';

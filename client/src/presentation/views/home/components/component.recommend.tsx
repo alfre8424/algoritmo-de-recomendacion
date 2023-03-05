@@ -117,18 +117,37 @@ export const RecommendComponent = ({ onDone }: IRecommendCompoentProps) => {
         }
       </div>
       <br />
-      <div className="flex flex-row justify-center w-full items-center">
+      <div className="flex flex-row justify-center w-full items-start">
         <div
-          className="mt-[2rem] w-full flex flex-row justify-center items-center"
-          dangerouslySetInnerHTML={{ __html: commerce['location'] }}
+          className=" w-full flex flex-col justify-center items-center"
         >
+          <h2 className="font-bold text-xl my-2">
+            Ubicación
+          </h2>
+          <div
+            dangerouslySetInnerHTML={{ __html: commerce['location'] }}
+          >
+          </div>
         </div>
-        <div className="flex flex-row justify-center items-center">
+        <div className="w-[2rem]"></div>
+        <div className="px-[2rem] text-justify flex flex-col justify-start items-center">
+          <h2 className="font-bold text-xl my-2">
+            {commerce['name']}
+          </h2>
           <img
             src={commerce['image_url']}
             alt="imagen de casanova"
-            className="w-full h-full"
+            width="500"
+            height="500"
+            style={{ clipPath: "circle()" }}
           />
+          <span>
+            Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
+            Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
+            Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
+            Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
+            Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
+          </span>
         </div>
 
       </div>
