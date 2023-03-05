@@ -81,7 +81,7 @@ class PredictorModel:
         # entre mas alta sean las canastas en otros locales entonces mayor sera
         # el score para el local actual
         b = (self.pp/(1 + self.pl)) if (self.pl != 0 and self.pp != 0)\
-            else 1
+            else 0
 
         f = a*b*(1 + self.n) / (1 + self.m + self.n)
 
