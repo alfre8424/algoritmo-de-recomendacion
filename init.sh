@@ -1,6 +1,11 @@
 # exit on error
 set -e
 
+# reading a variable to force reconstructing the images 
+FORCE_REBUILD=$1
+# (if the variable is not set, then it will be set to 0)
+FORCE_REBUILD=${FORCE_REBUILD:-0}
+
 echo "Killing previous containers"
 docker-compose down
 
@@ -9,17 +14,33 @@ CURR_DIR=$(pwd)
 
 cd $CURR_DIR/api
 
-# building backend image
-docker build -t api_clan_del_dragon .
+# building backend image consideting [FORCE_REBUILD] variable and if the contianer 
+# does not exist yet
+if [ "$(docker ps -aq -f name=api_clan_del_dragon)" ] && [ $FORCE_REBUILD -eq 0 ]; then
+    echo "Container client_clan_del_dragon already exists"
+else
+    echo "Container client_clan_del_dragon doesn't exist, building it"
+    docker build -t api_clan_del_dragon .
 
 cd $CURR_DIR/client
 
-# building frontend image
-docker build -t client_clan_del_dragon .
+# checking if a container with the name 'client_clan_del_dragon' exists, if it doesn't 
+# then it will be built
+if [ "$(docker ps -aq -f name=client_clan_del_dragon)" ]; then
+    echo "Container client_clan_del_dragon already exists"
+else
+    echo "Container client_clan_del_dragon doesn't exist, building it"
+    # building frontend image
+    docker build -t client_clan_del_dragon .
 
 # building ETL image
 cd $CURR_DIR/etl
-docker build -t etl_clan_del_dragon .
+
+if [ "$(docker ps -aq -f name=etl_clan_del_dragon)" ]; then
+    echo "Container etl_clan_del_dragon already exists"
+else
+    echo "Container etl_clan_del_dragon doesn't exist, building it"
+    docker build -t etl_clan_del_dragon .
 
 cd $CURR_DIR
 echo "Starting images"
