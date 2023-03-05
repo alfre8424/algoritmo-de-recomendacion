@@ -1,10 +1,12 @@
 '''
-Extraction stage for Casanova ETL
+Extraction stage for Gonzalo Zambrano ETL
 '''
 # information about where to query the data
 import mysql.connector
 from mysql.connector import errorcode
 import uuid
+from replacements import transform_only_text
+
 
 import numpy as np
 
@@ -14,99 +16,16 @@ import numpy as np
 host = 'mysql_clan_del_dragon'
 user = 'root'
 password = '12345678'
-database = 'casanova'
-table = 'producto2'
+database = 'gonzalozambrano'
+table = 'producto1'
 
 # the ID of the commerce on DB
-target_commerce_id = 'casanova'
+target_commerce_id = 'gonzalozambrano'
 
 # the name of the main database of the system
 main_database_name = 'clan_del_dragon'
 main_database_commerce_table = 'commerce'
 main_database_product_table = 'product'
-
-# List of words to be replaced
-replacements = {
-    'acei': 'aceite',
-    'descrem': 'descremada',
-    'galletas': 'galleta',
-    'azu': 'azucar',
-    'chan': 'chanchito',
-    'cerv': 'cerveza',
-    'choc': 'chocolate',
-    'coc': 'coca',
-    'col': 'cola',
-    'comp': 'completa',
-    'crio': 'criollo',
-    'fav': 'favorita',
-    'fior': 'fioravanti',
-    'gall': 'galleta',
-    'gel': 'gelatina',
-    'gira': 'girasol',
-    'gatora': 'gatorade',
-    'lec': 'leche',
-    'mante': 'mantequilla',
-    'mons': 'monster',
-    'more': 'morena',
-    'pas': 'pasta',
-    'pep': 'pepsi',
-    'power': 'powerade',
-    'spri': 'sprite',
-    'unive': 'universal',
-    'viv': 'vive',
-    'spora': 'sporade',
-    'mag': 'maggi',
-    'malt': 'malta',
-    'most': 'mostaza',
-    'pimi': 'pimienta',
-    'sals': 'salsa',
-    'sazon': 'sazonador',
-    'agu': 'agua',
-    'higie': 'higienico',
-    'det': 'detergente',
-    'cabel': 'cabello',
-    'hari': 'harina',
-    'trig': 'trigo',
-    'jab': 'jabon',
-    '  ': ' ',
-
-    # measures
-    'gr': 'g',
-    'lts': 'l',
-    'lt': 'l',
-    'mls': 'ml',
-    'k': 'kg',
-    'mt': 'm',
-    'mts': 'm'
-}
-
-# list of the words to be deleted from the string
-stopwords = ['c/u']
-
-
-def transform_only_text(x):
-    '''
-    Transforms a string to lowercase and complete broken words
-    '''
-    if x is None or x is np.nan:
-        return (np.nan, np.nan,)
-    # estandarizando todo en minusculas
-    example_text = str(x).lower()
-
-    new_sentence = []
-    # replacing the non complete text
-    for word in example_text.split(' '):
-        new_word = word
-        new_word = word.replace(',', '.')
-        if word in replacements.keys():
-            new_word = replacements[word]
-        if word in stopwords:
-            new_word = ''
-        new_sentence.append(new_word)
-
-    return ' '.join(new_sentence)
-# ----------------------------------------------------------------------------------
-
 
 try:
     # connection to extract products from the commerce DB
@@ -173,7 +92,7 @@ try:
     for product, index in zip(transformed_products, range(len(transformed_products))):
         print("Verificando si el producto {} no existe en la base de datos".format(
             product['name']))
-        product_query = "SELECT * FROM {} where name = '{}' AND unit = '{}'".format(
+        product_query = "SELECT * FROM {} where LOWER(name) = LOWER('{}') AND unit = '{}'".format(
             main_database_product_table, product['name'], product['unit'], end='\r')
         product_cursor = main_conx.cursor()
         product_cursor.execute(product_query)

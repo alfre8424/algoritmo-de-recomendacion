@@ -9,10 +9,12 @@ import CartController from "presentation/logic/cart/controller";
 
 interface ProductCardProps {
   product: ProductEntity;
+  showAddBtn?: boolean;
 }
 
 export function ProductCard({
   product,
+  showAddBtn = true,
 }: ProductCardProps): ReactElement {
 
   const dispatch: AppDispatch = useDispatch();
@@ -64,22 +66,25 @@ export function ProductCard({
         </span>
       }
     </div>
-    <div
-      className="flex flex-row justify-center items-center my-2"
-      style={{ bottom: 0 }}
-    >
-      <Button
-        sx={{ fontSize: '12px' }}
-        variant="outlined"
-        onClick={() => {
-          if (isOnCart) removeFromCart();
-          else addToCart();
-        }}
+    {
+      showAddBtn &&
+      <div
+        className="flex flex-row justify-center items-center my-2"
+        style={{ bottom: 0 }}
       >
-        {!isOnCart ? "Agregar" : "Eliminar"}
-        &nbsp;&nbsp;
-        {!isOnCart && <AddShoppingCartOutlined sx={{ fontSize: '16px' }} />}
-      </Button>
-    </div>
+        <Button
+          sx={{ fontSize: '12px' }}
+          variant="outlined"
+          onClick={() => {
+            if (isOnCart) removeFromCart();
+            else addToCart();
+          }}
+        >
+          {!isOnCart ? "Agregar" : "Eliminar"}
+          &nbsp;&nbsp;
+          {!isOnCart && <AddShoppingCartOutlined sx={{ fontSize: '16px' }} />}
+        </Button>
+      </div>
+    }
   </div>;
 }

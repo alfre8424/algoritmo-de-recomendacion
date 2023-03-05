@@ -83,7 +83,11 @@ export const RecommendComponent = ({ onDone }: IRecommendCompoentProps) => {
       >
         {
           basketResponse?.basket?.map((product: ProductEntity, index: number) => {
-            return <ProductCard key={index} product={product} />;
+            return <ProductCard
+              showAddBtn={false}
+              key={index}
+              product={product}
+            />;
           })
         }
       </div>
