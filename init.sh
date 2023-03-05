@@ -16,11 +16,12 @@ cd $CURR_DIR/api
 
 # building backend image consideting [FORCE_REBUILD] variable and if the contianer 
 # does not exist yet
-if [ "$(docker ps -aq -f name=api_clan_del_dragon)" ] && [ $FORCE_REBUILD -eq 0 ]; then
+if [ "$(docker images -aq -f name=api_clan_del_dragon)" ] && [ $FORCE_REBUILD -eq 0 ]; then
     echo "Container client_clan_del_dragon already exists"
 else
     echo "Container client_clan_del_dragon doesn't exist, building it"
     docker build -t api_clan_del_dragon .
+fi
 
 cd $CURR_DIR/client
 
@@ -32,7 +33,7 @@ else
     echo "Container client_clan_del_dragon doesn't exist, building it"
     # building frontend image
     docker build -t client_clan_del_dragon .
-
+fi
 # building ETL image
 cd $CURR_DIR/etl
 
@@ -41,7 +42,7 @@ if [ "$(docker ps -aq -f name=etl_clan_del_dragon)" ]; then
 else
     echo "Container etl_clan_del_dragon doesn't exist, building it"
     docker build -t etl_clan_del_dragon .
-
+fi
 cd $CURR_DIR
 echo "Starting images"
 docker-compose up -d

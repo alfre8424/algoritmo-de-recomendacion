@@ -49,7 +49,7 @@ def recomendar():
             s=np.array([3] * 10),
             sk=0.8,
             bk=0.2,
-            pp=precio_global_gz,  # TODO: change it
+            pp=sum([precio_global_gz, precio_global_gz])/2,
             pl=precio_global_gz,
             m=len(productos_no_disponibles_gz),
             n=len(productos_disponibles_gz)
@@ -100,7 +100,7 @@ def recomendar():
             s=np.array([3] * 10),
             sk=0.8,
             bk=0.2,
-            pp=precio_global_cn,  # TODO: change it
+            pp=sum([precio_global_gz, precio_global_cn])/2,  # TODO: change it
             pl=precio_global_cn,
             m=len(productos_no_disponibles_cn),
             n=len(productos_disponibles_cn)
@@ -122,6 +122,9 @@ def recomendar():
 
         # removing all the None values
         cn_available_pro = [x for x in cn_available_pro if x is not None]
+
+        print("Commerce prices: ", precio_global_gz, precio_global_cn)
+        print("Commerce scores: ", score_gz, score_cn)
 
         # ----------------- MEJOR COMERCIO -------------------
         best_commerce_index = [score_gz, score_cn].index(

@@ -26,7 +26,7 @@ try:
     c.popularity as \
     commerce_popularity from product p join commerce_product cp on(\
     p.id = cp.product_id) join commerce c on (c.id = cp.commerce_id) \
-    join (select avg(rating) as quality, commerce_id from commerce_surveys \
+    left join (select avg(rating) as quality, commerce_id from commerce_surveys \
     group by commerce_id) as s on (s.commerce_id = c.id) \
     where p.enabled = 1 and c.enabled = 1;"
 
@@ -48,6 +48,10 @@ try:
             'commerce_popularity'
         ],
     )
+
+    # replacing all the NaN popularity  & quality with 0
+    df['popularity'] = df['popularity'].fillna(0)
+    df['quality'] = df['quality'].fillna(0)
 
     # writing a csv file with the data
     df.to_csv('/etl/products.csv', index=False)

@@ -34,7 +34,6 @@ class Preprocessor:
         gz_popularity = gz_data.loc[0, ['commerce_popularity']].values[0]
         self.gonzalozambrano.popularity = gz_popularity
 
-        print("sdasdsadasdsa\n\n\n\n")
         # Casanova
         self.casanova = Commerce(key='casanova')
         self.casanova.data = self.data[

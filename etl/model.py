@@ -76,7 +76,7 @@ class PredictorModel:
         '''
         Calcula el score final del local
         '''
-        a = self.__popularidad() * self.__quality()
+        a = 1 + 0 * self.__popularidad() * self.__quality()
 
         # entre mas alta sean las canastas en otros locales entonces mayor sera
         # el score para el local actual

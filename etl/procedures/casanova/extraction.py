@@ -28,6 +28,8 @@ main_database_product_table = 'product'
 # List of words to be replaced
 replacements = {
     'acei': 'aceite',
+    'descrem': 'descremada',
+    'galletas': 'galleta',
     'azu': 'azucar',
     'chan': 'chanchito',
     'cerv': 'cerveza',
