@@ -41,36 +41,6 @@ def recomendar():
         print(productos_disponibles_gz)
         precio_global_gz = sum([x['price'] for x in productos_disponibles_gz])
 
-        model = PredictorModel(
-            k=np.array([0.2, 0.7, 0.1]),
-            q=np.array([[5, 5, 5], [5, 5, 5], [5, 5, 5]]),
-            eta=5,
-            beta=3,
-            s=np.array([3] * 10),
-            sk=0.8,
-            bk=0.2,
-            pp=sum([precio_global_gz, precio_global_gz])/2,
-            pl=precio_global_gz,
-            m=len(productos_no_disponibles_gz),
-            n=len(productos_disponibles_gz)
-        )
-
-        score_gz = model.score()
-
-        gz_available_pro = [
-            ({
-                "id": x[0],
-                "name": x[1],
-                "unit": x[4] if x[4] is not np.nan else '-',
-                "price": x[7] if x[7] is not np.nan else 1e10
-            }
-                if x[0] in canasta else None
-            )
-            for x in gz_data.values
-        ]
-
-        # removing all the None values
-        gz_available_pro = [x for x in gz_available_pro if x is not None]
 
         # --------------------- CASANOVA ---------------------
         cn: Commerce = processor.casanova
@@ -92,7 +62,7 @@ def recomendar():
         print(productos_disponibles_cn)
         precio_global_cn = sum([x['price'] for x in productos_disponibles_cn])
 
-        model = PredictorModel(
+        model_cn = PredictorModel(
             k=np.array([0.2, 0.7, 0.1]),
             q=np.array([[5, 5, 5], [5, 5, 5], [5, 5, 5]]),
             eta=5,
@@ -106,7 +76,39 @@ def recomendar():
             n=len(productos_disponibles_cn)
         )
 
-        score_cn = model.score()
+        model_gz = PredictorModel(
+            k=np.array([0.2, 0.7, 0.1]),
+            q=np.array([[5, 5, 5], [5, 5, 5], [5, 5, 5]]),
+            eta=5,
+            beta=3,
+            s=np.array([3] * 10),
+            sk=0.8,
+            bk=0.2,
+            pp=sum([precio_global_cn, precio_global_gz])/2,
+            pl=precio_global_gz,
+            m=len(productos_no_disponibles_gz),
+            n=len(productos_disponibles_gz)
+        )
+
+        score_gz = model_gz.score()
+
+        gz_available_pro = [
+            ({
+                "id": x[0],
+                "name": x[1],
+                "unit": x[4] if x[4] is not np.nan else '-',
+                "price": x[7] if x[7] is not np.nan else 1e10
+            }
+                if x[0] in canasta else None
+            )
+            for x in gz_data.values
+        ]
+
+        # removing all the None values
+        gz_available_pro = [x for x in gz_available_pro if x is not None]
+
+
+        score_cn = model_cn.score()
 
         cn_available_pro = [
             ({
