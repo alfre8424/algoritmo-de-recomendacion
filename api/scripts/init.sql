@@ -142,6 +142,11 @@ alter table cart drop foreign key cart_ibfk_1;
 -- removing the commerce_id foreign key
 alter table cart drop foreign key cart_ibfk_2;
 
+update commerce set image_url = 'https://userscontent2.emaze.com/images/2f21b55a-8971-4daa-87e5-ee2e78c7b085/87fa302ba5bb4894efc0ff51fad9d9d9.jpg' where id = 'gonzalozambrano';
+update commerce set image_url = 'https://scontent.fpvo2-1.fna.fbcdn.net/v/t39.30808-6/276992393_1541940962859792_7717293046667290271_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=730e14&_nc_ohc=cIVAQOxkBSQAX9xJYP-&_nc_ht=scontent.fpvo2-1.fna&oh=00_AfB9NZtlbos0L3REGSwmpkTkyo19feKGVP-pgT1d6EDrSA&oe=640A2A61' where id = 'casanova';
+
+update commerce set location = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d798.8472412077028!2d-80.45941523555395!3d-1.0575100088295626!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x902bf2b3ee734fa1%3A0x3993aeac9df0f10d!2sComercial%20Casanova!5e1!3m2!1ses-419!2sec!4v1677430217173!5m2!1ses-419!2sec" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' where id='casanova';
+update commerce set location = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2468.7303086642405!2d-80.4571726742054!3d-1.0580475155010312!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x902bf2b30ab1f599%3A0x11df59ba30633b9e!2sComisariato%20Gonzalo%20Zambrano!5e1!3m2!1ses-419!2sec!4v1677430710061!5m2!1ses-419!2sec" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' where id = 'gonzalozambrano';
+
 source ./respaldo_gonzalozambrano.sql;
 source ./respaldo_casanova.sql;
-source ./respaldo_peralta.sql;

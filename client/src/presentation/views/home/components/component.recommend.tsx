@@ -1,6 +1,7 @@
 import { Button, Rating, Typography } from "@mui/material";
 import { ProductCard } from "core/shared_components/component.product_card";
 import { mergeClasses } from "core/utils/util.classess";
+import CommerceDatasource from "data/datasources/datasource.commerce";
 import RecommenderDatasource from "data/datasources/datasource.recommender";
 import SurveyDatasource from "data/datasources/datasource.survey";
 import SurveyModel from "data/models/model.survey";
@@ -21,6 +22,7 @@ export const RecommendComponent = ({ onDone }: IRecommendCompoentProps) => {
   const [basketResponse, setBasketResponse] = useState<RecommendationEntity | null>(null);
   const [surveyRatings, setSurveyRatings] = useState<SurveyModel[] | null>(null);
   const { cartProducts } = useSelector((state: RootState) => state.cart);
+  const [loadedCommerces, setLoadedCommerces] = useState<any[] | undefined>(undefined);
 
   const parsedBasketProducts = cartProducts.map((product) => {
     return product.product.id;
@@ -34,6 +36,13 @@ export const RecommendComponent = ({ onDone }: IRecommendCompoentProps) => {
         setBasketResponse(response.getRight());
       }
       setPreLoading(false);
+    });
+
+    const commerceDS = new CommerceDatasource();
+    commerceDS.loadAll().then((response) => {
+      if (response.isRight()) {
+        setLoadedCommerces(response.getRight());
+      }
     });
   }, []);
 
@@ -67,12 +76,28 @@ export const RecommendComponent = ({ onDone }: IRecommendCompoentProps) => {
     surveyDS.save(survey);
   }
 
-  if (!surveyRatings || !basketResponse) return (<span>Cargando...</span>);
+  if (!surveyRatings || !basketResponse || loadedCommerces === undefined) return (<span>Cargando...</span>);
+
+  let commerce = loadedCommerces?.filter((commerce) => {
+    return commerce['id'] === basketResponse?.commerce.id;
+  })[0];
 
   return (
     <div>
       <h1 className="font-bold text-center text-xl">¡Te recomendamos {basketResponse?.commerce.name}!</h1>
       <br />
+      <div className="text-gray-500 text-center p-[2rem]">
+        ¡En {basketResponse?.commerce.name} puedes encontrar&nbsp;
+        {
+          basketResponse?.basket.length !== cartProducts.length ?
+            `${basketResponse?.basket.length} de los ${cartProducts.length} productos de tu canasta!`
+            : "todos los productos de tu canasta "
+        }
+        por un precio de solo ${basketResponse?.basketPrice.toFixed(2).replace('.', ',')}!
+        {
+          basketResponse?.commerce.webpage && `Puedes visitar su página web en ${basketResponse?.commerce.webpage}.`
+        }
+      </div>
 
       <div
         className={
@@ -92,18 +117,21 @@ export const RecommendComponent = ({ onDone }: IRecommendCompoentProps) => {
         }
       </div>
       <br />
-      <span className="text-gray-500">
-        ¡En {basketResponse?.commerce.name} puedes encontrar&nbsp;
-        {
-          basketResponse?.basket.length !== cartProducts.length ?
-            `${basketResponse?.basket.length} de los ${cartProducts.length} productos de tu canasta!`
-            : "todos los productos de tu canasta "
-        }
-        por un precio de solo ${basketResponse?.basketPrice.toFixed(2).replace('.', ',')}!
-        {
-          basketResponse?.commerce.webpage && `Puedes visitar su página web en ${basketResponse?.commerce.webpage}.`
-        }
-      </span>
+      <div className="flex flex-row justify-center w-full items-center">
+        <div
+          className="mt-[2rem] w-full flex flex-row justify-center items-center"
+          dangerouslySetInnerHTML={{ __html: commerce['location'] }}
+        >
+        </div>
+        <div className="flex flex-row justify-center items-center">
+          <img
+            src={commerce['image_url']}
+            alt="imagen de casanova"
+            className="w-full h-full"
+          />
+        </div>
+
+      </div>
 
       <br />
       <br />
