@@ -117,9 +117,9 @@ export const RecommendComponent = ({ onDone }: IRecommendCompoentProps) => {
         }
       </div>
       <br />
-      <div className="flex flex-row justify-center w-full items-start">
+      <div className="flex flex-row flex-wrap justify-center w-full items-start">
         <div
-          className=" w-full flex flex-col justify-center items-center"
+          className=" w-1/2 flex flex-col justify-center items-center"
         >
           <h2 className="font-bold text-xl my-2">
             Ubicación
@@ -130,7 +130,7 @@ export const RecommendComponent = ({ onDone }: IRecommendCompoentProps) => {
           </div>
         </div>
         <div className="w-[2rem]"></div>
-        <div className="px-[2rem] text-justify flex flex-col justify-start items-center">
+        <div className="w-2/5 px-[2rem] min-w-[500px] text-justify flex flex-col justify-start items-center">
           <h2 className="font-bold text-xl my-2">
             {commerce['name']}
           </h2>
@@ -141,12 +141,10 @@ export const RecommendComponent = ({ onDone }: IRecommendCompoentProps) => {
             height="500"
             style={{ clipPath: "circle()" }}
           />
+          <br />
+
           <span>
-            Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
-            Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
-            Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
-            Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
-            Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
+            {commerce['description']}
           </span>
         </div>
 

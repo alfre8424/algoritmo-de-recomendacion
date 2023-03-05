@@ -150,5 +150,9 @@ update commerce set image_url = 'https://scontent.fpvo2-1.fna.fbcdn.net/v/t39.30
 update commerce set location = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d798.8472412077028!2d-80.45941523555395!3d-1.0575100088295626!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x902bf2b3ee734fa1%3A0x3993aeac9df0f10d!2sComercial%20Casanova!5e1!3m2!1ses-419!2sec!4v1677430217173!5m2!1ses-419!2sec" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' where id='casanova';
 update commerce set location = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2468.7303086642405!2d-80.4571726742054!3d-1.0580475155010312!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x902bf2b30ab1f599%3A0x11df59ba30633b9e!2sComisariato%20Gonzalo%20Zambrano!5e1!3m2!1ses-419!2sec!4v1677430710061!5m2!1ses-419!2sec" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' where id = 'gonzalozambrano';
 
+alter table commerce add column description text null;
+update commerce set description = 'Comercial Casanova nació en junio de 1988. Es una empresa donde se ofrecen productos de consumo masivo, bebidas alcohólicas y no alcohólicas al por mayor y menor; cuenta con estrategias innovadoras y es reconocida por su servicio de calidad, diversas ofertas y excelentes precios.' where id = 'casanova';
+update commerce set description = 'Comisariato Gonzalo Zambrano nacio en el año 1981 brindando una atención personalizada, entregando productos de calidad con pesos justos; ni más ni menos. Enfocados en el crecimiento de los tenderos y en la economía de las familias manabitas' where id = 'gonzalozambrano';
+
 source ./respaldo_gonzalozambrano.sql;
 source ./respaldo_casanova.sql;
