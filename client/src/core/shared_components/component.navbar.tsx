@@ -82,6 +82,7 @@ function AppNavbar({
     <AppBar position="static"
       style={{
         backgroundColor: "var(--accent-color)",
+        minWidth: "200px",
         borderRadius: roundedBorders ? "var(--border-radius) 0 0 var(--border-radius)" : "",
       }}
     >
@@ -90,7 +91,7 @@ function AppNavbar({
           isOpen={showCart}
           title="Resultado de la búsqueda"
           content={
-            <div className="flex flex-row flex-wrap gap-[10px]">
+            <div className="p-[2rem] flex flex-row flex-wrap gap-[10px]">
               {cart.cartProducts.map((product, index) => {
                 return <ProductCard
                   key={index}
@@ -122,7 +123,7 @@ function AppNavbar({
                 </Link>
 
               }
-              <div id="title" className="mx-2">
+              <div id="title" className="px-2">
                 <span>{title}</span>
               </div>
             </div>
@@ -135,12 +136,12 @@ function AppNavbar({
           </>
         }
         <Toolbar disableGutters>
-          <span className="min-w-[250px]">{userEntity?.name ?? 'Bienvenido/a'}</span>
-          &nbsp;
-          <button onClick={()=>setShowCart(!showCart)}>
+          <div className="pl-[2rem] min-w-[250px]">
+            {userEntity?.name ?? 'Bienvenido/a'}
+          </div>
+          <button onClick={() => setShowCart(!showCart)}>
             <AddShoppingCartOutlined sx={{ fontSize: '16px' }} />
           </button>
-          &nbsp;
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Mostrar opciones">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

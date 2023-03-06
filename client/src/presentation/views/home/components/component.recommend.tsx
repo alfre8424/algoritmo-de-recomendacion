@@ -83,20 +83,20 @@ export const RecommendComponent = ({ onDone }: IRecommendCompoentProps) => {
   })[0];
 
   return (
-    <div>
+    <div className="px-[2rem] py-[3rem] bg-amber-50 p-0">
       <h1 className="font-bold text-center text-xl">¡Te recomendamos {basketResponse?.commerce.name}!</h1>
       <br />
       <div className="text-gray-500 text-center p-[2rem]">
-        ¡En {basketResponse?.commerce.name} puedes encontrar&nbsp;
+        En {basketResponse?.commerce.name} puedes encontrar&nbsp;
         {
           basketResponse?.basket.length !== cartProducts.length ?
             `${basketResponse?.basket.length} de los ${cartProducts.length} productos de tu canasta!`
             : "todos los productos de tu canasta "
         }
-        por un precio de solo ${basketResponse?.basketPrice.toFixed(2).replace('.', ',')}!
-        {
-          basketResponse?.commerce.webpage && `Puedes visitar su página web en ${basketResponse?.commerce.webpage}.`
-        }
+        por un precio de solo <br />
+        <span className="text-red-500 text-4xl font-bold">
+          ${basketResponse?.basketPrice.toFixed(2).replace('.', ',')}
+        </span>
       </div>
 
       <div
@@ -217,7 +217,7 @@ export const RecommendComponent = ({ onDone }: IRecommendCompoentProps) => {
       <br />
       <div className="flex flex-row justify-center items-center">
         <Button
-          variant="outlined"
+          variant="contained"
           onClick={() => {
             saveSurvey();
           }}

@@ -1,56 +1,62 @@
 import React from 'react';
 import {
-	Button,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogTitle,
-	useTheme
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
 } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 interface IAppDialogProps {
-	isOpen: boolean;
-	title?: string;
-	content?: React.ReactNode;
-	actionButtons?: React.ReactNode[];
-	onClose: () => void;
+  isOpen: boolean;
+  title?: string;
+  content?: React.ReactNode;
+  actionButtons?: React.ReactNode[];
+  useCloseButton?: boolean;
+  onClose: () => void;
 }
 
 function AppSimpleDialog({
-	isOpen,
-	title,
-	content,
-	actionButtons,
-	onClose
+  isOpen,
+  title,
+  content,
+  actionButtons,
+  useCloseButton = true,
+  onClose
 }: IAppDialogProps) {
-	const theme = useTheme();
-	const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-	return <Dialog
-		fullScreen={false}
-		maxWidth="lg"
-		open={isOpen}
-	>
-		<DialogTitle id="responsive-dialog-title">
-			{title}
-		</DialogTitle>
-		<DialogContent>
-			{content}
-		</DialogContent>
-		<DialogActions>
-			{
-				actionButtons ? actionButtons.map((actionButton, index) => {
-					return <React.Fragment key={index}>
-						{actionButton}
-					</React.Fragment>
-				}) :
-					<Button autoFocus onClick={onClose}>
-						Aceptar
-					</Button>
-			}
-		</DialogActions>
-	</Dialog >
+  return <Dialog
+    fullScreen={false}
+    maxWidth="lg"
+    open={isOpen}
+  >
+    {
+      title &&
+      <DialogTitle id="responsive-dialog-title">
+        {title}
+      </DialogTitle>
+    }
+    <DialogContent
+      sx={{ padding: '0px' }}
+    >
+      {content}
+    </DialogContent>
+    {
+      useCloseButton &&
+      <DialogActions>
+        {
+          actionButtons ? actionButtons.map((actionButton, index) => {
+            return <React.Fragment key={index}>
+              {actionButton}
+            </React.Fragment>
+          }) :
+            <Button autoFocus onClick={onClose}>
+              Aceptar
+            </Button>
+        }
+      </DialogActions>
+    }
+  </Dialog >
 }
 
 export default AppSimpleDialog;

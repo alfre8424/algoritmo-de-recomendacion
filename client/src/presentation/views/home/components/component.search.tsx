@@ -85,9 +85,6 @@ export function AppSearch({
           />
         }
         onClose={() => setShowAlert(false)}
-        actionButtons={[
-          <></>
-        ]}
       />
     </div>
   );
