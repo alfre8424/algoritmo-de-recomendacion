@@ -158,29 +158,38 @@ export const PasswordRecovery = () => {
           <div
             className="flex flex-col justify-center items-center"
           >
-            <TextField
-              sx={{ minWidth: "300px" }}
-              id="filled-basic"
-              label={securityQuestion}
-              variant="filled"
-              title='Escriba su respuesta'
-              value={securityAnswer}
-              onChange={(e) => setSecurityAnswer(e.target.value)}
-              placeholder="Escriba su respuesta"
-              helperText="Escriba su respuesta"
-            />
-            <br />
             {
-              isLoading &&
-              <Box sx={{ display: 'flex' }}>
-                <CircularProgress />
-              </Box> ||
-              <Button
-                variant="contained"
-                onClick={onSecurityAnswer}
-              >
-                Responder pregunta
-              </Button>
+              securityQuestion && <>
+                <TextField
+                  sx={{ minWidth: "300px" }}
+                  id="filled-basic"
+                  label={securityQuestion}
+                  variant="filled"
+                  title='Escriba su respuesta'
+                  value={securityAnswer}
+                  onChange={(e) => setSecurityAnswer(e.target.value)}
+                  placeholder="Escriba su respuesta"
+                  helperText="Escriba su respuesta"
+                />
+                <br />
+                {
+                  isLoading &&
+                  <Box sx={{ display: 'flex' }}>
+                    <CircularProgress />
+                  </Box> ||
+                  <Button
+                    variant="contained"
+                    onClick={onSecurityAnswer}
+                  >
+                    Responder pregunta
+                  </Button>
+                }
+              </>
+              ||
+              <div className="flex flex-col justify-center items-center text-slate-500">
+                <span>Vaya... parece que este usuario no tiene preguntas de seguridad</span>
+                <span>No se puede recuperar esta cuenta bajo ningún medio</span>
+              </div>
             }
           </div>
         }
