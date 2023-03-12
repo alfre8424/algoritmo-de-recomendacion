@@ -1,6 +1,7 @@
 import { Button, Rating, Typography } from "@mui/material";
 import { ProductCard } from "core/shared_components/component.product_card";
 import { mergeClasses } from "core/utils/util.classess";
+import CategoryIcon from '@mui/icons-material/Category';
 import CommerceDatasource from "data/datasources/datasource.commerce";
 import RecommenderDatasource from "data/datasources/datasource.recommender";
 import SurveyDatasource from "data/datasources/datasource.survey";
@@ -81,6 +82,21 @@ export const RecommendComponent = ({ onDone }: IRecommendCompoentProps) => {
   let commerce = loadedCommerces?.filter((commerce) => {
     return commerce['id'] === basketResponse?.commerce.id;
   })[0];
+
+
+  if (!cartProducts || cartProducts.length < 1) {
+    // renering an icon with the text about no products selected
+    return <h1
+      className="flex-col w-[300px] h-[300px] flex justify-center items-center"
+    >
+      <div className="text-lg flex flex-col justify-center items-center font-bold p-10 text-center">
+        <CategoryIcon
+          sx={{ fontSize: 100, color: "gray", marginBottom: "0.5rem" }}
+        />
+        No hay productos seleccionados
+      </div>
+    </h1>;
+  }
 
   return (
     <div className="px-[2rem] py-[3rem] bg-amber-50 p-0">
