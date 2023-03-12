@@ -79,6 +79,7 @@ export function AppSearch({
       <AppSimpleDialog
         isOpen={showAlert}
         title=""
+        useCloseButton={false}
         content={
           <RecommendComponent
             onDone={() => setShowAlert(false)}

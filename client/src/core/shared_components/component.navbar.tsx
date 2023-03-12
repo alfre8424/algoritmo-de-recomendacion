@@ -139,9 +139,13 @@ function AppNavbar({
           <div className="pl-[2rem] min-w-[250px]">
             {userEntity?.name ?? 'Bienvenido/a'}
           </div>
-          <button onClick={() => setShowCart(!showCart)}>
-            <AddShoppingCartOutlined sx={{ fontSize: '16px' }} />
-          </button>
+          {
+            cart.cartProducts.length > 0 &&
+            <button onClick={() => setShowCart(!showCart)}>
+              <AddShoppingCartOutlined sx={{ fontSize: '16px' }} />
+            </button>
+          }
+          <div className="w-[10px]"></div>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Mostrar opciones">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

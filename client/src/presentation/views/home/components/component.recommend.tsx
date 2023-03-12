@@ -152,9 +152,9 @@ export const RecommendComponent = ({ onDone }: IRecommendCompoentProps) => {
           </h2>
           <img
             src={commerce['image_url']}
-            alt="imagen de casanova"
-            width="500"
-            height="500"
+            alt="imagen del local"
+            width="300"
+            height="300"
             style={{ clipPath: "circle()" }}
           />
           <br />
