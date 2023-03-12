@@ -32,9 +32,17 @@ function AppSimpleDialog({
   >
     {
       title &&
-      <DialogTitle id="responsive-dialog-title">
-        {title}
-      </DialogTitle>
+      <div className="flex flex-row justify-between">
+        <DialogTitle id="responsive-dialog-title">
+          {title}
+        </DialogTitle>
+        <button
+          className='mr-[1rem]'
+          onClick={onClose}
+        >
+          X
+        </button>
+      </div>
     }
     <DialogContent
       sx={{ padding: '0px' }}

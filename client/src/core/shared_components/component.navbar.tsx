@@ -23,6 +23,7 @@ import UserEntity from 'domain/entities/entity.user';
 import AppSimpleDialog from './component.dialog';
 import { ProductCard } from './component.product_card';
 import { useState } from 'react';
+import { RecommendComponent } from 'presentation/views/home/components/component.recommend';
 
 interface AppNavbarProps {
   roundedBorders?: boolean;
@@ -52,6 +53,7 @@ function AppNavbar({
   // determines if show the alert with all the products on cart or not
   const [showCart, setShowCart] = useState(false);
 
+  const [showPredictions, setShowPredictions] = useState(false);
   // creating the user entity 
   let userEntity: UserEntity | null = auth?.user ? new UserAPI(auth) : null;
 
@@ -86,19 +88,41 @@ function AppNavbar({
         borderRadius: roundedBorders ? "var(--border-radius) 0 0 var(--border-radius)" : "",
       }}
     >
+      <AppSimpleDialog
+        isOpen={showPredictions}
+        title=""
+        useCloseButton={false}
+        content={
+          <RecommendComponent
+            onDone={() => setShowPredictions(false)}
+          />
+        }
+        onClose={() => setShowPredictions(false)}
+      />
       {
         <AppSimpleDialog
           isOpen={showCart}
-          title="Resultado de la búsqueda"
+          title="Productos en el carrito"
+          useCloseButton={false}
           content={
-            <div className="p-[2rem] flex flex-row flex-wrap gap-[10px]">
-              {cart.cartProducts.map((product, index) => {
-                return <ProductCard
-                  key={index}
-                  product={product.product}
-                />
-              })}
-              {cart.cartProducts.length === 0 && "No hay productos"}
+            <div className="flex flex-col items-center py-[3rem]">
+              <div className="p-[2rem] flex flex-row flex-wrap gap-[10px]">
+                {cart.cartProducts.map((product, index) => {
+                  return <ProductCard
+                    key={index}
+                    product={product.product}
+                  />
+                })}
+                {cart.cartProducts.length === 0 && "No hay productos"}
+              </div>
+              <Button
+                variant="outlined"
+                sx={{ width: "200px" }}
+                onClick={() => {
+                  setShowCart(false);
+                  setShowPredictions(true);
+                }}
+              >Sugerir local</Button>
             </div>
           }
           onClose={() => setShowCart(false)}

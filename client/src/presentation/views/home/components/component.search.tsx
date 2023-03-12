@@ -29,10 +29,6 @@ export function AppSearch({
 
   const { products } = useSelector((state: RootState) => state.products);
 
-  const predict = async () => {
-    setShowAlert(true);
-  }
-
   return (
     <div
       className="bg-white flex px-8 shadow-md rounded-md py-8 flex-col h-full w-full items-center justify-start"
@@ -68,12 +64,6 @@ export function AppSearch({
         <InputLabel className="w-full text-center md:text-left">
           Mostrando productos disponibles ({products?.length})
         </InputLabel>
-        <Button
-          variant="outlined"
-          onClick={() => {
-            predict();
-          }}
-        >Buscar</Button>
       </div>
       <ListView />
       <AppSimpleDialog
