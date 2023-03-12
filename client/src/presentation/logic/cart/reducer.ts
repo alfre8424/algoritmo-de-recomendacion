@@ -26,6 +26,12 @@ export const cartReducer = (state = initialState, action: CartAction): CartState
         ...state,
         cartProducts: products,
       }
+    case CartActionType.clear:
+      return {
+        ...state,
+        cartProducts: [],
+      }
+
     case CartActionType.dismiss:
       return {
         ...state,

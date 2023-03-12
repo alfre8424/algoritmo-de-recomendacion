@@ -8,9 +8,10 @@ import SurveyDatasource from "data/datasources/datasource.survey";
 import SurveyModel from "data/models/model.survey";
 import ProductEntity from "domain/entities/entity.product";
 import RecommendationEntity from "domain/entities/entity.recommendation";
-import { RootState } from "presentation/logic/redux_config";
+import { AppDispatch, RootState } from "presentation/logic/redux_config";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import CartController from "presentation/logic/cart/controller";
 
 interface IRecommendCompoentProps {
   onDone: () => void;
@@ -22,8 +23,11 @@ export const RecommendComponent = ({ onDone }: IRecommendCompoentProps) => {
   const [preLoading, setPreLoading] = useState<boolean>(false);
   const [basketResponse, setBasketResponse] = useState<RecommendationEntity | null>(null);
   const [surveyRatings, setSurveyRatings] = useState<SurveyModel[] | null>(null);
-  const { cartProducts } = useSelector((state: RootState) => state.cart);
+  const { cartProducts: cart } = useSelector((state: RootState) => state.cart);
+  const [cartProducts, _] = useState(cart);
   const [loadedCommerces, setLoadedCommerces] = useState<any[] | undefined>(undefined);
+  const cartController = new CartController();
+  const dispatch = useDispatch<AppDispatch>();
 
   const parsedBasketProducts = cartProducts.map((product) => {
     return product.product.id;
@@ -37,6 +41,8 @@ export const RecommendComponent = ({ onDone }: IRecommendCompoentProps) => {
         setBasketResponse(response.getRight());
       }
       setPreLoading(false);
+
+      dispatch(cartController.clearCart());
     });
 
     const commerceDS = new CommerceDatasource();
@@ -95,6 +101,13 @@ export const RecommendComponent = ({ onDone }: IRecommendCompoentProps) => {
         />
         No hay productos seleccionados
       </div>
+
+      <Button
+        onClick={onDone}
+        variant="outlined"
+      >
+        Aceptar
+      </Button>
     </h1>;
   }
 

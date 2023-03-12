@@ -3,6 +3,7 @@ import CartProductEntity from "domain/entities/entity.cart_product";
 export enum CartActionType {
   add = "[cart] add", // adds a new product to the cart
   remove = "[cart] remove", // removes a product from the cart
+  clear = "[cart] clear", // removes all products from the cart
   dismiss = "[cart] dismiss", // removes the whole cart
 }
 

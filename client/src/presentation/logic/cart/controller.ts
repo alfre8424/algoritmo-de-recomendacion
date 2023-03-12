@@ -24,12 +24,21 @@ export default class CartController {
     }
   }
 
+  public clearCart() {
+    return async (dispatch: AppDispatch) => {
+      dispatch({
+        type: CartActionType.clear,
+        payload: {}
+      });
+    }
+  }
+
   public removeFromCart(product: ProductEntity) {
-    return async(dispatch: AppDispatch) => {
+    return async (dispatch: AppDispatch) => {
       dispatch({
         type: CartActionType.remove,
         payload: {
-          cartProduct: {product, quantity: 0}
+          cartProduct: { product, quantity: 0 }
         }
       });
     }

@@ -24,6 +24,7 @@ import AppSimpleDialog from './component.dialog';
 import { ProductCard } from './component.product_card';
 import { useState } from 'react';
 import { RecommendComponent } from 'presentation/views/home/components/component.recommend';
+import CartController from 'presentation/logic/cart/controller';
 
 interface AppNavbarProps {
   roundedBorders?: boolean;
@@ -49,6 +50,7 @@ function AppNavbar({
   const dispatch: AppDispatch = useDispatch();
   const navigator = useNavigate();
   const { token } = auth;
+  const cartController = new CartController();
 
   // determines if show the alert with all the products on cart or not
   const [showCart, setShowCart] = useState(false);
@@ -115,14 +117,24 @@ function AppNavbar({
                 })}
                 {cart.cartProducts.length === 0 && "No hay productos"}
               </div>
-              <Button
-                variant="outlined"
-                sx={{ width: "200px" }}
-                onClick={() => {
-                  setShowCart(false);
-                  setShowPredictions(true);
-                }}
-              >Sugerir local</Button>
+              <div className="flex flex-row gap-10">
+                <Button
+                  variant="outlined"
+                  sx={{ width: "200px" }}
+                  onClick={() => {
+                    setShowCart(false);
+                    dispatch(cartController.clearCart())
+                  }}
+                >Vaciar carrito</Button>
+                <Button
+                  variant="contained"
+                  sx={{ width: "200px" }}
+                  onClick={() => {
+                    setShowCart(false);
+                    setShowPredictions(true);
+                  }}
+                >Sugerir local</Button>
+              </div>
             </div>
           }
           onClose={() => setShowCart(false)}
