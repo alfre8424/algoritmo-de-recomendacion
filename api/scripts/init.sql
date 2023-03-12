@@ -154,5 +154,8 @@ alter table commerce add column description text null;
 update commerce set description = 'Comercial Casanova nació en junio de 1988. Es una empresa donde se ofrecen productos de consumo masivo, bebidas alcohólicas y no alcohólicas al por mayor y menor; cuenta con estrategias innovadoras y es reconocida por su servicio de calidad, diversas ofertas y excelentes precios.' where id = 'casanova';
 update commerce set description = 'Comisariato Gonzalo Zambrano nacio en el año 1981 brindando una atención personalizada, entregando productos de calidad con pesos justos; ni más ni menos. Enfocados en el crecimiento de los tenderos y en la economía de las familias manabitas' where id = 'gonzalozambrano';
 
+alter table users add column securityAnswer text null;
+alter table users add column securityQuestion text null;
+
 source ./respaldo_gonzalozambrano.sql;
 source ./respaldo_casanova.sql;

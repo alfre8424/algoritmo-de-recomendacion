@@ -6,14 +6,17 @@ import UserForm from "data/models/model.user_form";
 const datasource = new SessionDatasource();
 
 export interface UpdateUsecaseParams {
-	id: string;
-	password: string|null;
-	name: string|null;
+  id: string;
+  password: string | null;
+  name: string | null;
+  securityQuestion: string | null;
+  securityAnswer: string | null;
 }
 
 async function UpdateUsecase(params: UpdateUsecaseParams): Promise<Either<AppError, boolean>> {
-	const user = new UserForm(params)
-	return await datasource.update(user);
+  const user = new UserForm(params)
+  console.log("user", user)
+  return await datasource.update(user);
 }
 
 export default UpdateUsecase;
