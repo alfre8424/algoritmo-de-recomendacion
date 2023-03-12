@@ -15,8 +15,6 @@ export default class ProductsDatasource {
   async loadAll(params: LoadProductParams): Promise<Either<AppError, ProductEntity[]>> {
 
     // target url to login
-    console.log("Loading products");
-    console.log(Globals.TRANSACTIONAL_API);
     const url = `${Globals.TRANSACTIONAL_API}/products?limit=${params.limit}&offset=${params.offset}${params.query ? `&q=${params.query}` : ""}`;
 
     // sending the request 

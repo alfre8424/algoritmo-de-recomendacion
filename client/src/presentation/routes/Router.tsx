@@ -12,6 +12,7 @@ import ProfileScreen from "presentation/views/profile";
 import { PrivateRoute } from "./components/component.private_routes";
 import { GeneralRoute } from "./components/component.general_routes";
 import { NotFound } from "presentation/views/404";
+import { PasswordRecovery } from "presentation/views/auth/components/component.password-recovery";
 
 /**
  * Punto de inicio de la aplicacion, desde aqui se decide que componente 
@@ -47,7 +48,6 @@ export function AppRouter(): ReactElement {
             />
           }
         />
-        <Route path='*' element={<NotFound />} />
         <Route
           path={PrivateRoutes.Profile}
           element={
@@ -57,6 +57,15 @@ export function AppRouter(): ReactElement {
             />
           }
         />
+        <Route path={PublicRoutes.RecoverPassword}
+          element={
+            <PublicRoute
+              path={PublicRoutes.RecoverPassword}
+              child={<PasswordRecovery />}
+            />
+          }
+        />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

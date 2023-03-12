@@ -15,7 +15,6 @@ export interface UpdateUsecaseParams {
 
 async function UpdateUsecase(params: UpdateUsecaseParams): Promise<Either<AppError, boolean>> {
   const user = new UserForm(params)
-  console.log("user", user)
   return await datasource.update(user);
 }
 

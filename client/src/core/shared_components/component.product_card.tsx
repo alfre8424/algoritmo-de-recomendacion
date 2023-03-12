@@ -41,8 +41,6 @@ export function ProductCard({
     dispatch(cartController.removeFromCart(product));
   }
 
-  console.log(product);
-
   return <div
     className="w-[200px] flex flex-col p-4 m-2 shadow-md rounded-md bg-blue-50"
   >

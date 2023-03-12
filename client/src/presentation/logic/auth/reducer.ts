@@ -18,7 +18,6 @@ export const authReducer = (state = initialState, action: AuthAction): AuthState
   switch (action.type) {
     case AuthActionType.login:
       const { user: usr } = action.payload;
-      console.log("Coming user: ", usr)
       // if the user is not present then preserve the old state
       if (!usr) return state;
       return {

@@ -1,9 +1,13 @@
 import express, { Router } from 'express';
 import AppError from '../../core/error';
+import mysqlConnection from '../../core/mysql_connection';
 import UserValidator from '../../core/validators/user';
+import UserMySQLModel from '../../data/models/model.user_mysql';
 import SessionRepository from '../../data/repositories/session/repository.session';
 import checkSessionUsecase from '../../data/repositories/session/usecases/check_session';
 import UserEntity from '../../domain/entities/entity.user';
+import bcrypt from 'bcrypt';
+import validator from "validator";
 
 export default class AuthController {
   public path = '/auth';
@@ -23,6 +27,9 @@ export default class AuthController {
     this.router.get(this.path + '/check', (req, res) => this.checkSession(req, res));
     this.router.post(this.path + '/signout', (req, res) => this.signout(req, res));
     this.router.put(this.path + '/update', (req, res) => this.update(req, res));
+    this.router.get(this.path + '/getSecurityAnswer', (req, res) => this.getSecurityAnswer(req, res));
+    this.router.get(this.path + '/validateSecurityAnswer', (req, res) => this.validateSecurityAnswer(req, res));
+    this.router.post(this.path + '/resetPassword', (req, res) => this.resetPassword(req, res));
   }
 
   async signout(req: any, res: any): Promise<void> {
@@ -40,6 +47,183 @@ export default class AuthController {
 
     res.json({
       message: 'Sesión cerrada exitosamente',
+    });
+  }
+
+  async getSecurityAnswer(req: any, res: any): Promise<void> {
+    const { email } = req.query ?? {};
+
+    if (!email) {
+      res.status(400).json({
+        message: 'Debe proporcionar un email',
+        errCode: 'EMAIL_REQUIRED',
+      });
+      return;
+    }
+
+    const mysqlConn = mysqlConnection.connection;
+
+    const [rows] = await mysqlConn.execute(
+      'select * from users where email = ?',
+      [email]
+    );
+
+    if (!rows) {
+      res.status(400).json({
+        message: 'El email no existe',
+        errCode: 'EMAIL_NOT_FOUND',
+      });
+      return;
+    }
+
+    const dboutput: any[] = JSON.parse(JSON.stringify(rows));
+
+    if (dboutput.length === 0) {
+      res.status(400).json({
+        message: 'El email no existe',
+        errCode: 'EMAIL_NOT_FOUND',
+      });
+      return;
+    }
+
+    const session = new UserMySQLModel(dboutput[0]);
+
+    res.json({
+      message: 'Respuesta de seguridad recuperada',
+      data: session.securityQuestion,
+    });
+  }
+
+  async validateSecurityAnswer(req: any, res: any): Promise<void> {
+    const { email, securityAnswer } = req.query ?? {};
+
+    if (!email || !securityAnswer) {
+      res.status(400).json({
+        message: 'Debe proporcionar un email y una respuesta de seguridad',
+        errCode: 'EMAIL_AND_SECURITY_ANSWER_REQUIRED',
+      });
+      return;
+    }
+
+    const mysqlConn = mysqlConnection.connection;
+
+    const [rows] = await mysqlConn.execute(
+      'select * from users where email = ?',
+      [email]
+    );
+
+    if (!rows) {
+      res.status(400).json({
+        message: 'El email no existe',
+        errCode: 'EMAIL_NOT_FOUND',
+      });
+      return;
+    }
+
+    const dboutput: any[] = JSON.parse(JSON.stringify(rows));
+
+    if (dboutput.length === 0) {
+      res.status(400).json({
+        message: 'El email no existe',
+        errCode: 'EMAIL_NOT_FOUND',
+      });
+      return;
+    }
+
+    const session = new UserMySQLModel(dboutput[0]);
+
+    if (!session.securityAnswer) {
+      res.status(400).json({
+        message: 'El usuario no tiene una respuesta de seguridad guardada. La cuenta no se puede recuperar.',
+        errCode: 'USER_HAS_NO_SECURITY_ANSWER',
+      });
+      return;
+    }
+
+    if (session.securityAnswer?.toLowerCase() !== securityAnswer?.toLowerCase()) {
+      res.status(400).json({
+        message: 'La respuesta de seguridad no es válida',
+        errCode: 'INVALID_SECURITY_ANSWER',
+      });
+      return;
+    }
+
+    res.json({
+      message: 'Respuesta de seguridad válida',
+    });
+  }
+
+  async resetPassword(req: any, res: any): Promise<void> {
+    const { email, answer, password } = req.body ?? {};
+
+    if (!email || !answer || !password) {
+      res.status(400).json({
+        message: 'Debe proporcionar un email, una respuesta de seguridad y una nueva contraseña',
+        errCode: 'EMAIL_AND_SECURITY_ANSWER_AND_PASSWORD_REQUIRED',
+      });
+      return;
+    }
+
+    const mysqlConn = mysqlConnection.connection;
+
+    const [rows] = await mysqlConn.execute(
+      'select * from users where email = ?',
+      [email]
+    );
+
+    if (!rows) {
+      res.status(400).json({
+        message: 'El email no existe',
+        errCode: 'EMAIL_NOT_FOUND',
+      });
+
+      return;
+    }
+
+    const dboutput: any[] = JSON.parse(JSON.stringify(rows));
+
+    if (dboutput.length === 0) {
+      res.status(400).json({
+        message: 'El email no existe',
+        errCode: 'EMAIL_NOT_FOUND',
+      });
+      return;
+    }
+
+    const session = new UserMySQLModel(dboutput[0]);
+
+    if (!session.securityAnswer) {
+      res.status(400).json({
+        message: 'El usuario no tiene una respuesta de seguridad guardada. La cuenta no se puede recuperar.',
+        errCode: 'USER_HAS_NO_SECURITY_ANSWER',
+      });
+      return;
+    }
+
+    if (session.securityAnswer?.toLowerCase() !== answer?.toLowerCase()) {
+      res.status(400).json({
+        message: 'La respuesta de seguridad no es válida',
+        errCode: 'INVALID_SECURITY_ANSWER',
+      });
+      return;
+    }
+
+    if (!validator.isStrongPassword(password ?? '')) {
+      res.status(400).json({
+        message: 'La contraseña no es segura, debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número',
+        errCode: 'INVALID_PASSWORD',
+      });
+      return;
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await mysqlConn.execute(
+      'update users set password = ? where email = ?',
+      [hashedPassword, email]
+    );
+
+    res.json({
+      message: 'Contraseña actualizada',
     });
   }
 

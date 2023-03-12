@@ -67,7 +67,6 @@ export default class AuthController {
 
       // saving the user in the local storage
       localStorage.setItem("sessionUser", JSON.stringify(sessionUser));
-      console.log("called here", sessionUser);
 
       // triggering state update
       dispatch({
