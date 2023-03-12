@@ -149,7 +149,11 @@ function AppNavbar({
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Mostrar opciones">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <div
+                  className="bg-white w-[40px] h-[40px] rounded-full flex flex-row justify-center items-center text-[20px]"
+                >
+                  {auth.user?.name[0]}
+                </div>
               </IconButton>
             </Tooltip>
             <Menu

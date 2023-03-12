@@ -73,7 +73,7 @@ export function AppSearch({
           onClick={() => {
             predict();
           }}
-        >Predecir</Button>
+        >Buscar</Button>
       </div>
       <ListView />
       <AppSimpleDialog
