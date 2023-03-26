@@ -1,4 +1,4 @@
-import { SearchOutlined } from "@mui/icons-material";
+import { AddShoppingCartOutlined, SearchOutlined } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import AppSimpleDialog from "core/shared_components/component.dialog";
@@ -9,6 +9,8 @@ import { AppDispatch, RootState } from "presentation/logic/redux_config";
 import { ReactElement, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RecommendComponent } from "./component.recommend";
+import CartController from 'presentation/logic/cart/controller';
+import { ProductCard } from "core/shared_components/component.product_card";
 
 interface IAppSearchBarProps {
   onSearch: () => void;
@@ -26,8 +28,14 @@ export function AppSearch({
 
   const [search, setSearch] = useState<string>("");
   const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [showPredictions, setShowPredictions] = useState(false);
+  const { cart } = useSelector((state: RootState) => state);
+  const cartController = new CartController();
 
   const { products } = useSelector((state: RootState) => state.products);
+
+  // determines if show the alert with all the products on cart or not
+  const [showCart, setShowCart] = useState(false);
 
   return (
     <div
@@ -64,7 +72,66 @@ export function AppSearch({
         <InputLabel className="w-full text-center md:text-left">
           Mostrando productos disponibles ({products?.length})
         </InputLabel>
+        {
+          cart.cartProducts.length > 0 &&
+          <Button
+            onClick={() => setShowCart(!showCart)}
+            variant="contained"
+          >
+            <AddShoppingCartOutlined sx={{ fontSize: '16px' }} />
+          </Button>
+        }
       </div>
+      {
+        <AppSimpleDialog
+          isOpen={showCart}
+          title="Productos en el carrito"
+          useCloseButton={false}
+          content={
+            <div className="flex flex-col items-center py-[3rem]">
+              <div className="p-[2rem] flex flex-row justify-center flex-wrap gap-[10px]">
+                {cart.cartProducts.map((product, index) => {
+                  return <ProductCard
+                    key={index}
+                    product={product.product}
+                  />
+                })}
+                {cart.cartProducts.length === 0 && "No hay productos"}
+              </div>
+              <div className="flex flex-row gap-10">
+                <Button
+                  variant="outlined"
+                  sx={{ width: "200px" }}
+                  onClick={() => {
+                    setShowCart(false);
+                    dispatch(cartController.clearCart())
+                  }}
+                >Vaciar carrito</Button>
+                <Button
+                  variant="contained"
+                  sx={{ width: "200px" }}
+                  onClick={() => {
+                    setShowCart(false);
+                    setShowPredictions(true);
+                  }}
+                >Sugerir local</Button>
+              </div>
+            </div>
+          }
+          onClose={() => setShowCart(false)}
+        />
+      }
+      <AppSimpleDialog
+        isOpen={showPredictions}
+        title=""
+        useCloseButton={false}
+        content={
+          <RecommendComponent
+            onDone={() => setShowPredictions(false)}
+          />
+        }
+        onClose={() => setShowPredictions(false)}
+      />
       <ListView />
       <AppSimpleDialog
         isOpen={showAlert}
