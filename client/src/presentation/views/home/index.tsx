@@ -118,7 +118,7 @@ export function Home(): ReactElement {
         isOpen={showAlert}
         title="Resultado de la búsqueda"
         content={
-          <div className="flex flex-row flex-wrap gap-[10px]">
+          <div className="flex flex-row justify-center flex-wrap gap-[10px]">
             {searchedProducts?.map((product, index) => {
               return <ProductCard
                 key={index}

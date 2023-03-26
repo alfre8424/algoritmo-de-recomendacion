@@ -108,7 +108,7 @@ function AppNavbar({
           useCloseButton={false}
           content={
             <div className="flex flex-col items-center py-[3rem]">
-              <div className="p-[2rem] flex flex-row flex-wrap gap-[10px]">
+              <div className="p-[2rem] flex flex-row justify-center flex-wrap gap-[10px]">
                 {cart.cartProducts.map((product, index) => {
                   return <ProductCard
                     key={index}
